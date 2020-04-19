@@ -15,7 +15,7 @@ var json2 = {
             "html": "<h3>Thank you for your feedback.</h3> <h5> We are glad that you share with us your ideas.We highly value all suggestions from our customers. We do our best to improve the product and reach your expectation.</h5>\n"
         }
      ]
-}
+};
 
 var json = {
     "title": "Covid19 App Development Questionnaire",
@@ -44,6 +44,7 @@ var json = {
                     "hideNumber": true,
                     "choices": ["Yes", "No"]
                 }
+
             ]
         }, {
             "name": "page2",
@@ -185,7 +186,6 @@ var json = {
         }
     ]
 };
-
 
 window.survey = new Survey.Model(json);
 
