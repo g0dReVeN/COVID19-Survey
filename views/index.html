@@ -1,51 +1,30 @@
- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>Cough Test Online</title>
+    <title>COVID-19 Cough Survey</title>
+
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://surveyjs.azureedge.net/1.7.2/survey.jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.4.3/jspdf.plugin.autotable.min.js"></script>
+
+    <link rel="stylesheet" href="../css/survey.css" />
+    <link
+      href="https://surveyjs.azureedge.net/1.7.2/modern.css"
+      type="text/css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-<a href="#" id="download">Download</a>
-<button id="stop">Stop</button>
-<script>
-  let shouldStop = false;
-  let stopped = false;
-  const downloadLink = document.getElementById('download');
-  const stopButton = document.getElementById('stop');
+    <div id="surveyElement" style="display: inline-block; width: 100%;"></div>
+    <div id="surveyResult"></div>
 
-  stopButton.addEventListener('onclick', function() {
-    shouldStop = true;
-  });
-
-  const handleSuccess = function(stream) {
-    const options = {mimeType: 'audio/webm'};
-    const recordedChunks = [];
-    const mediaRecorder = new MediaRecorder(stream, options);
-
-    mediaRecorder.addEventListener('dataavailable', function(e) {
-      if (e.data.size > 0) {
-        recordedChunks.push(e.data);
-      }
-
-      if(shouldStop === true && stopped === false) {
-        mediaRecorder.stop();
-        stopped = true;
-      }
-    });
-
-    mediaRecorder.addEventListener('stop', function() {
-      downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-      downloadLink.download = 'acetest.wav';
-    });
-
-    mediaRecorder.start();
-  };
-
-  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-      .then(handleSuccess);
-
-</script>
- 
+    <script>
+      var recorderResult = null;
+    </script>
+    <script type="text/javascript" src="../js/survey.js"></script>
+    <script type="text/javascript" src="../js/RecordRTC.js"></script>
+    <script type="text/javascript" src="../js/recorder.js"></script>
   </body>
 </html>
-

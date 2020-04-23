@@ -1,0 +1,36 @@
+.notRec {
+	background-color: darkred;
+}
+
+.Rec {
+	animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+[title=Record],
+[title=Save] {
+	margin-top: 50px;
+	width: 50px;
+	height: 50px;
+	font-size: 0;
+	background-image: radial-gradient(red 47%, white 53%);
+	border: 1,9px solid black;
+	border-radius: 50px;
+	outline: none;
+	position: absolute;
+	left: 42%;
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, .3);
+	}
+	65% {
+		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, .3);
+	}
+	90% {
+		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+	}
+}
