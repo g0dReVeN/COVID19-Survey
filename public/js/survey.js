@@ -5,16 +5,17 @@ Survey
 
 function appendMicrophoneToResults(results) {
     if (!recorderResult)
-        return JSON.stringify(results)
+        return results;
+
     let micJSON = {
         "Microphone": recorderResult
-    }
-    const finalResult = { ...results, ...micJSON }
-    return JSON.stringify(finalResult);
+    };
+
+    return { ...results, ...micJSON };
 }
 
 let json = {
-    "title": "Covid19 App Development Questionnaire",
+    "title": "COVID-19 App Development Questionnaire",
     "completedHtml": "<h4>Thank you for completing the survey and stay safe!</h4>",
     "pages": [
         {
@@ -23,7 +24,7 @@ let json = {
                 {
                     "type": "html",
                     "name": "survey_intro",
-                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to help save the world from the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. Once it is rolled out, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='pdfs/Online-survey-information-leaflet-and-consent-form-COVID-project_TS_mk-converted.pdf'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='pdfs/FAQ-converted.pdf'>here</a> for typical questions asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
+                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to help save the world from the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. Once it is rolled out, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf'>here</a> for common questions asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
                 }
             ]
         },
@@ -243,31 +244,45 @@ let json = {
     "startSurveyText": "Start survey",
     "completeText": "Complete survey",
     "firstPageIsStarted": true
-}
+};
 
 window.survey = new Survey.Model(json);
 
-var doc = new jsPDF();
-var col = ["Questions", "Your Answers"];
-var row = [];
+const doc = new jsPDF();
+let col = ["Questions", "Your Answers"];
+let row = [];
 
 survey
     .onComplete
     .add(function (result) {
-        $.post("https://coughtest.online/",
-            appendMicrophoneToResults(result.data),
-            function (data, textStatus) {
-                alert("Data: " + data + "\nStatus: " + status);
-                if (textStatus === 'success') {
-                    for (var key in result.data) {
-                        var temp = [key[0].toUpperCase() + key.slice(1).replace('_', ' '), result.data[key]];
-                        row.push(temp);
-                    }
+        const form = new FormData();
 
-                    doc.autoTable(col, row);
-                    doc.save('Results.pdf');
+        Object.keys(result.data).forEach(key => {
+            form.append(key, result.data[key]);
+        })
+
+        form.append('sample', new File());
+
+        $.ajax({
+            url: 'https://coughtest.online/',
+            method: 'POST',
+            data: form,
+            processData: false,
+            contentType: 'multipart/form-data',
+            success: function (data) {
+                alert(data);
+                for (let key in result.data) {
+                    let temp = [key[0].toUpperCase() + key.slice(1).replace('_', ' '), result.data[key]];
+                    row.push(temp);
                 }
-            });
+
+                doc.autoTable(col, row);
+                doc.save('Results.pdf');
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
     });
 
 $("#surveyElement").Survey({ model: survey });
