@@ -465,17 +465,6 @@ let json = {
             "name": "page5",
             "elements": [
                 {
-                    "type": "radiogroup",
-                    "name": "smoker",
-                    "title": "Are you a smoker?",
-                    "isRequired": true,
-                    "choices": [
-                        "No, I have never smoked.",
-                        "Yes, I am a current smoker.",
-                        "I have smoked in the past, but I don't smoke anymore."
-                    ]
-                },
-                {
                     "type": "checkbox",
                     "name": "lung_problems",
                     "title": "Which, if any, other lung problems do you have? (check all that apply)",
@@ -496,13 +485,19 @@ let json = {
                     "title": "Tick off all the symptoms that apply to you. I am experiencing:",
                     "choices": [
                         "A cold",
+                        "A fever",
                         "Diarrhoea",
                         "Sore throat",
                         "Body aches",
                         "Headaches",
                         "Fatigue",
-                        "Difficulty breathing",
-                        "A fever"
+                        "Difficulty in breathing",
+                        "Redness of eyes",
+                        "Loss of smell",
+                        "Loss of taste",
+                        "Nausea",
+                        "Vomiting",
+                        "Weakness"
                     ]
                 },
                 {
@@ -523,6 +518,17 @@ let json = {
         {
             "name": "page6",
             "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "smoker",
+                    "title": "Are you a smoker?",
+                    "isRequired": true,
+                    "choices": [
+                        "No, I have never smoked.",
+                        "Yes, I am a current smoker.",
+                        "I have smoked in the past, but I don't smoke anymore."
+                    ]
+                },
                 {
                     "type": "radiogroup",
                     "name": "have_a_cough",
