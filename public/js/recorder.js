@@ -1,13 +1,10 @@
-var observer = new MutationObserver(function (mutations) {
+let observer = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (!mutation.addedNodes) return
 
-		document.body.scrollTop = 0;
-		document.documentElement.scrollTop = 0;
-
-		for (var i = 0; i < mutation.addedNodes.length; i++) {
-			var node = mutation.addedNodes[i];
-			var c = node.childNodes;
+		for (let i = 0; i < mutation.addedNodes.length; i++) {
+			let node = mutation.addedNodes[i];
+			let c = node.childNodes;
 
 			for (i = 0; i < c.length; i++) {
 				if (c[i].title == "Record") {
@@ -43,65 +40,15 @@ var observer = new MutationObserver(function (mutations) {
 						newBtnParent.appendChild(btnReleaseMicrophone);
 						otherParentNode.appendChild(newBtnParent)
 
-						$("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
 						$(".sv-description").css('color', 'rgb(64, 64, 64)');
+						$("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
 
 						replaceAudio();
 					}
 
-					/** Start of soundmeter implementation */
-
-					var instantMeter = document.querySelector('#instant meter');
-					// var slowMeter = document.querySelector('#slow meter');
-					// var clipMeter = document.querySelector('#clip meter');
-
-					// var instantValueDisplay = document.querySelector('#instant .value');
-					// var slowValueDisplay = document.querySelector('#slow .value');
-					// var clipValueDisplay = document.querySelector('#clip .value');
-
-					try {
-						window.AudioContext = window.AudioContext || window.webkitAudioContext;
-						window.audioContext = new AudioContext();
-					} catch (e) {
-						alert('Web Audio API not supported.');
-					}
-
-					window.constraints = {
-						audio: true,
-						video: false
-					};
-
-					function handleSuccess(stream) {
-						window.stream = stream;
-						var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
-						soundMeter.connectToSource(stream, function (e) {
-							if (e) {
-								alert(e);
-								return;
-							}
-							setInterval(() => {
-								// instantMeter.value = instantValueDisplay.innerText =
-								//   soundMeter.instant.toFixed(2);
-								// slowMeter.value = slowValueDisplay.innerText =
-								//   soundMeter.slow.toFixed(2);
-								// clipMeter.value = clipValueDisplay.innerText =
-								//   soundMeter.clip;
-								var soundmeterResult = soundMeter.instant.toFixed(2);
-								if (coughSoundLevel < soundmeterResult)
-									coughSoundLevel = soundmeterResult;
-							}, 200);
-						});
-					}
-
-					function handleError(error) {
-						alert('navigator.MediaDevices.getUserMedia error: ', error.message, error.name)
-						console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
-					}
-
-					/** End of soundmeter implementation */
-
-
 					function captureMicrophone(callback) {
+						$("#sq_119_ariaTitle").css('background-color', '');
+
 						btnReleaseMicrophone.disabled = false;
 
 						if (microphone) {
@@ -119,14 +66,12 @@ var observer = new MutationObserver(function (mutations) {
 
 						navigator.mediaDevices.getUserMedia({
 							audio: isEdge ? true : {
-								echoCancellation: true
+								echoCancellation: false
 							}
 						}).then(function (mic) {
 							callback(mic);
-							handleSuccess(mic); // Part of soundmeter implementation
 						}).catch(function (error) {
-							handleError(error); // Part of soundmeter implementation
-							alert(`Error: ${error.message}`);
+							alert('Error: ' + error);
 							console.error(error);
 						});
 					}
@@ -175,6 +120,12 @@ var observer = new MutationObserver(function (mutations) {
 								type: 'audio/wav'
 							});
 							replaceAudio(URL.createObjectURL(blob));
+							if (heardCough) {
+								recorderResult = blob;
+								$("#sq_119_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
+							} else {
+								recorderResult = -1;
+							}
 						});
 
 						btnStartRecording.disabled = false;
@@ -189,14 +140,15 @@ var observer = new MutationObserver(function (mutations) {
 
 					var recorder; // globally accessible
 					var microphone;
+					var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
 					var btnReleaseMicrophone = document.createElement('BUTTON');
 
-					var coughSoundLevel = 0;
-
-					var blob = null;
+					var heardCough;
+					var speech;
+					var blob;
 
 					replaceElements();
 
@@ -205,6 +157,9 @@ var observer = new MutationObserver(function (mutations) {
 					btnStopRecording.style.visibility = "hidden";
 
 					btnStartRecording.onclick = function () {
+						recorderResult = null;
+						blob = null;
+						heardCough = false;
 						this.disabled = true;
 						this.style.border = '';
 						this.style.fontSize = '';
@@ -237,25 +192,8 @@ var observer = new MutationObserver(function (mutations) {
 
 						var options = {
 							type: 'audio',
-							// numberOfAudioChannels: isEdge ? 1 : 2,
-							// checkForInactiveTracks: true,
-							// bufferSize: 16384
 							recorderType: StereoAudioRecorder
 						};
-
-						// if (isSafari || isEdge) {
-						//   options.recorderType = StereoAudioRecorder;
-						// }
-
-						// if (navigator.platform && navigator.platform.toString().toLowerCase().indexOf('win') === -1) {
-						//   options.sampleRate = 48000; // or 44100 or remove this line for default
-						// }
-
-						// if (isSafari) {
-						//   options.sampleRate = 44100;
-						//   options.bufferSize = 4096;
-						//   options.numberOfAudioChannels = 2;
-						// }
 
 						if (recorder) {
 							recorder.destroy();
@@ -269,7 +207,17 @@ var observer = new MutationObserver(function (mutations) {
 						});
 
 						recorder.startRecording();
-						coughSoundLevel = 0;
+
+						var harkOptions = {
+							threshold: -40
+						};
+						harkMicrophone = microphone.clone();
+						speech = hark(harkMicrophone, harkOptions);
+
+						speech.on('speaking', function () {
+							console.log('Cough is heard!!!');
+							heardCough = true;
+						});
 
 						btnStopRecording.disabled = false;
 						btnStopRecording.className = "Rec";
@@ -283,12 +231,6 @@ var observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
-						if (coughSoundLevel >= 0.15) {
-							recorderResult = blob;
-							$("#sq_119_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
-						} else {
-							recorderResult = -1;
-						}
 						btnReleaseMicrophone.click();
 					};
 
@@ -299,6 +241,12 @@ var observer = new MutationObserver(function (mutations) {
 						if (microphone) {
 							microphone.stop();
 							microphone = null;
+						}
+						if (harkMicrophone) {
+							speech.stop();
+							speech = null;
+							harkMicrophone.stop();
+							harkMicrophone = null;
 						}
 					};
 
@@ -342,15 +290,11 @@ var observer = new MutationObserver(function (mutations) {
 
 							function interpolateArray(data, newSampleRate, oldSampleRate) {
 								var fitCount = Math.round(data.length * (newSampleRate / oldSampleRate));
-								//var newData = new Array();
 								var newData = [];
-								//var springFactor = new Number((data.length - 1) / (fitCount - 1));
 								var springFactor = Number((data.length - 1) / (fitCount - 1));
 								newData[0] = data[0]; // for new allocation
 								for (var i = 1; i < fitCount - 1; i++) {
 									var tmp = i * springFactor;
-									//var before = new Number(Math.floor(tmp)).toFixed();
-									//var after = new Number(Math.ceil(tmp)).toFixed();
 									var before = Number(Math.floor(tmp)).toFixed();
 									var after = Number(Math.ceil(tmp)).toFixed();
 									var atPoint = tmp - before;
