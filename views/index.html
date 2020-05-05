@@ -11,23 +11,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.5.9/RecordRTC.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.4.3/jspdf.plugin.autotable.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 
-    <link rel="stylesheet" href="css/survey.css"/>
-    <link
-      href="https://surveyjs.azureedge.net/1.7.2/modern.css"
-      type="text/css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="css/survey.css" />
+    <link rel="stylesheet" href="css/modern.css" />
   </head>
-  <body>
-    <div id="surveyElement" style="display: inline-block; width: 100%;"></div>
-    <div id="surveyResult"></div>
+  <body onload="getParameters()">
+    <div id="container">
+      <div id="targetGroup">
+        <h1 id="warning" hidden>
+          WARNING: If you have not being directed here via a public/government
+          institute please click <a href="/">here</a>
+        </h1>
+      </div>
+      <div id="surveyElement" style="display: inline-block; width: 100%;"></div>
+      <div id="surveyResult" style="display: inline-block; width: 100%;"></div>
 
-    <script>
-      var recorderResult = null;
-    </script>
-    <script type="text/javascript" src="js/survey.js"></script>
-    <script type="text/javascript" src="js/recorder.js"></script>
-    <script type="text/javascript" src="js/soundmeter.js"></script>
+      <script>
+        var recorderResult = null;
+      </script>
+      <script type="text/javascript" src="js/survey.js"></script>
+      <script type="text/javascript" src="js/recorder.js"></script>
+      <script type="text/javascript" src="js/soundmeter.js"></script>
+
+      <div style="height: 2rem;"></div>
+      <footer class="footer">© 2020 Cough Test Online</footer>
+    </div>
   </body>
 </html>

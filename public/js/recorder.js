@@ -1,13 +1,13 @@
-let observer = new MutationObserver(function (mutations) {
+var observer = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (!mutation.addedNodes) return
 
 		document.body.scrollTop = 0;
 		document.documentElement.scrollTop = 0;
 
-		for (let i = 0; i < mutation.addedNodes.length; i++) {
-			let node = mutation.addedNodes[i];
-			let c = node.childNodes;
+		for (var i = 0; i < mutation.addedNodes.length; i++) {
+			var node = mutation.addedNodes[i];
+			var c = node.childNodes;
 
 			for (i = 0; i < c.length; i++) {
 				if (c[i].title == "Record") {
@@ -42,6 +42,9 @@ let observer = new MutationObserver(function (mutations) {
 						newBtnParent.appendChild(btnStopRecording);
 						newBtnParent.appendChild(btnReleaseMicrophone);
 						otherParentNode.appendChild(newBtnParent)
+
+						$("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
+						$(".sv-description").css('color', 'rgb(64, 64, 64)');
 
 						replaceAudio();
 					}
@@ -91,6 +94,7 @@ let observer = new MutationObserver(function (mutations) {
 					}
 
 					function handleError(error) {
+						alert('navigator.MediaDevices.getUserMedia error: ', error.message, error.name)
 						console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 					}
 
@@ -122,7 +126,7 @@ let observer = new MutationObserver(function (mutations) {
 							handleSuccess(mic); // Part of soundmeter implementation
 						}).catch(function (error) {
 							handleError(error); // Part of soundmeter implementation
-							alert('Please press the previous button then the next button and grant permission for microphone');
+							alert(`Error: ${error.message}`);
 							console.error(error);
 						});
 					}
@@ -265,6 +269,7 @@ let observer = new MutationObserver(function (mutations) {
 						});
 
 						recorder.startRecording();
+						coughSoundLevel = 0;
 
 						btnStopRecording.disabled = false;
 						btnStopRecording.className = "Rec";
@@ -278,10 +283,12 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
-						if (coughSoundLevel >= 0.15)
+						if (coughSoundLevel >= 0.15) {
 							recorderResult = blob;
-						else
+							$("#sq_119_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
+						} else {
 							recorderResult = -1;
+						}
 						btnReleaseMicrophone.click();
 					};
 

@@ -1,39 +1,19 @@
 Survey
     .StylesManager
     .applyTheme("modern");
-
-
-// function appendMicrophoneToResults(results) {
-//     if (!recorderResult)
-//         return results;
-
-//     let micJSON = {
-//         "Microphone": recorderResult
-//     };
-
-//     return { ...results, ...micJSON };
-// }
-
-// function appendMicrophoneToResults(results) {
-//     if (!recorderResult)
-//         return JSON.stringify(results)
-//     var micJSON = {
-//         "microphone": recorderResult
-//     }
-//     var finalResult = { ...results, ...micJSON }
-//     return JSON.stringify(finalResult);
-// }
-
+    
 function surveyValidateQuestion(s, options) {
     if (options.name == 'microphone') {
+        if (recorderResult == -1)
+            options.error = "We weren't able to detect a cough. Please cough a little louder or cough more closer to the microphone.";
         if (!recorderResult)
-            options.error = "Please provide a cough sample!";
+            options.error = "You have not provided a cough sample! Please provide a cough sample to continue";
     }
 }
 
 let json = {
     "title": "COVID-19 App Development Questionnaire",
-    "completedHtml": "<h4>Thank you for completing the survey and stay safe!</h4>",
+    "completedHtml": "<h4>Thank you for completing the survey. You will receive your results shortly. Please continue to keep safe!</h4>",
     "pages": [
         {
             "name": "page0",
@@ -77,9 +57,9 @@ let json = {
                     ],
                     "titleLocation": "hidden",
                     "choices": [
-                        "you have read and understood the above explanation about the study",
-                        "you agree to participate",
-                        "you understand that your participation in this study is strictly voluntary"
+                        "You have read and understood the above explanation about the study",
+                        "You agree to participate",
+                        "You understand that your participation in this study is strictly voluntary"
                     ]
                 },
                 {
@@ -98,9 +78,9 @@ let json = {
                         }
                     ],
                     "choices": [
-                        "you have read and understood the above explanation about the study",
-                        "you agree that your child participates",
-                        "you understand that their participation in this study is strictly voluntary"
+                        "You have read and understood the above explanation about the study",
+                        "You agree that your child participates",
+                        "You understand that their participation in this study is strictly voluntary"
                     ]
                 }
             ]
@@ -130,9 +110,9 @@ let json = {
                     "type": "radiogroup",
                     "name": "days_ago_since_test_done",
                     "title": "How many days ago was your test done?",
+                    "isRequired": true,
                     "visibleIf": "{lab_test} = 'Yes'",
                     "enableIf": "{lab_test} = 'Yes'",
-                    "isRequired": true,
                     "choices": [
                         "1-3",
                         "4-6",
@@ -142,12 +122,15 @@ let json = {
                         ">15"
                     ]
                 },
+            ]
+        },
+        {
+            "name": "page3",
+            "elements": [
                 {
                     "type": "radiogroup",
                     "name": "lab_result",
                     "title": "My SARS-CoV-2 (Coronavirus or COVID-19 test) result was...",
-                    "visibleIf": "{lab_test} = 'Yes'",
-                    "enableIf": "{lab_test} = 'Yes'",
                     "isRequired": true,
                     "validators": [
                         {
@@ -161,135 +144,7 @@ let json = {
                         "Negative (I do not have COVID-19)",
                         "Unsure"
                     ]
-                }
-            ]
-        },
-        {
-            "name": "page3",
-            "elements": [
-                {
-                    "type": "radiogroup",
-                    "name": "gender",
-                    "title": "I am:",
-                    "isRequired": true,
-                    "choices": [
-                        "Male",
-                        "Female",
-                        "Prefer not to say"
-                    ]
                 },
-                {
-                    "type": "radiogroup",
-                    "name": "age_group",
-                    "title": "What is your age in years?",
-                    "isRequired": true,
-                    "choices": [
-                        "0-9",
-                        "10-19",
-                        "20-29",
-                        "30-39",
-                        "40-49",
-                        "50-59",
-                        "60-69",
-                        "70-79",
-                        ">79"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "page4",
-            "elements": [
-                {
-                    "type": "radiogroup",
-                    "name": "have_a_cough",
-                    "title": "Do you have a cough?",
-                    "isRequired": true,
-                    "choices": [
-                        "Yes",
-                        "No"
-                    ]
-                },
-                {
-                    "type": "radiogroup",
-                    "name": "days_coughing",
-                    "title": "For how many days have you been coughing?",
-                    "visibleIf": "{have_a_cough} = 'Yes'",
-                    "enableIf": "{have_a_cough} = 'Yes'",
-                    "isRequired": true,
-                    "choices": [
-                        "1-3",
-                        "4-6",
-                        "7-9",
-                        "10-12",
-                        "13-15",
-                        ">15"
-                    ]
-                },
-                {
-                    "type": "checkbox",
-                    "name": "symptoms",
-                    "title": "Tick off all the symptoms that apply to you. I am experiencing:",
-                    "choices": [
-                        "A cold",
-                        "Diarrhoea",
-                        "Sorethroat",
-                        "Bodyaches",
-                        "Headaches",
-                        "Fatigue",
-                        "Difficulty breathing",
-                        "A fever"
-                    ]
-                },
-                {
-                    "type": "radiogroup",
-                    "name": "fever",
-                    "title": "Is the temperature of your fever greater than 37.8°C/100.04°F?",
-                    "visibleIf": "{symptoms} contains 'a fever'",
-                    "enableIf": "{symptoms} contains 'a fever'",
-                    "isRequired": true,
-                    "choices": [
-                        "Yes",
-                        "No",
-                        "Unsure"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "page5",
-            "elements": [
-                {
-                    "type": "radiogroup",
-                    "name": "smoker",
-                    "title": "Are you a smoker?",
-                    "isRequired": true,
-                    "choices": [
-                        "No, I have never smoked.",
-                        "Yes, I am a current smoker.",
-                        "I have smoked in the past, but I don't smoke anymore."
-                    ]
-                },
-                {
-                    "type": "checkbox",
-                    "name": "lung_problems",
-                    "title": "Which, if any, other lung problems do you have? (check all that apply)",
-                    "hasOther": true,
-                    "otherPlaceHolder": "Please specify any other lung conditions",
-                    "choices": [
-                        "Lung Cancer",
-                        "Chronic Obstructive Pulmonary Disorder (COPD)",
-                        "Cystic Fibrosis (CF)",
-                        "Tuberculosis (TB)",
-                        "Asthma"
-                    ],
-                    "otherText": "Other"
-                }
-            ]
-        },
-        {
-            "name": "page6",
-            "elements": [
                 {
                     "type": "dropdown",
                     "name": "country_tested",
@@ -551,28 +406,8 @@ let json = {
                 },
                 {
                     "type": "radiogroup",
-                    "name": "travelled_internationally_past_14_days",
-                    "title": "Have you travelled internationally during the past 14 days?",
-                    "isRequired": true,
-                    "choices": [
-                        "Yes",
-                        "No"
-                    ]
-                },
-                {
-                    "type": "radiogroup",
-                    "name": "history_of_travelling_to_infected_area",
-                    "title": "Do you have a history of travelling to an area infected with the Covid-19 virus?",
-                    "isRequired": true,
-                    "choices": [
-                        "Yes",
-                        "No"
-                    ]
-                },
-                {
-                    "type": "radiogroup",
                     "name": "contact_with_patient",
-                    "title": "Have you had direct contact with or are you taking care of a Covid-19 positive patient?",
+                    "title": "Have you had direct contact with or are you taking care of a COVID-19 positive patient?",
                     "isRequired": true,
                     "choices": [
                         "Yes",
@@ -582,14 +417,152 @@ let json = {
             ]
         },
         {
+            "name": "page4",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "gender",
+                    "title": "I am:",
+                    "isRequired": true,
+                    "choices": [
+                        "Male",
+                        "Female",
+                        "Prefer not to say"
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "age_group",
+                    "title": "Which of the following age groups do you fall into?",
+                    "visibleIf": "{user_is_over_18} = 'Yes'",
+                    "enableIf": "{user_is_over_18} = 'Yes'",
+                    "isRequired": true,
+                    "choices": [
+                        "18-29",
+                        "30-39",
+                        "40-49",
+                        "50-59",
+                        "60-69",
+                        "70-79",
+                        ">79"
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "age_group",
+                    "title": "Which of the following age groups do you fall into?",
+                    "visibleIf": "{user_is_over_18} = 'No'",
+                    "enableIf": "{user_is_over_18} = 'No'",
+                    "isRequired": true,
+                    "choices": [
+                        "0-9",
+                        "10-17",
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "page5",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "smoker",
+                    "title": "Are you a smoker?",
+                    "isRequired": true,
+                    "choices": [
+                        "No, I have never smoked.",
+                        "Yes, I am a current smoker.",
+                        "I have smoked in the past, but I don't smoke anymore."
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "name": "lung_problems",
+                    "title": "Which, if any, other lung problems do you have? (check all that apply)",
+                    "hasOther": true,
+                    "otherPlaceHolder": "Please specify any other lung conditions",
+                    "choices": [
+                        "Lung Cancer",
+                        "Chronic Obstructive Pulmonary Disorder (COPD)",
+                        "Cystic Fibrosis (CF)",
+                        "Tuberculosis (TB)",
+                        "Asthma"
+                    ],
+                    "otherText": "Other"
+                },
+                {
+                    "type": "checkbox",
+                    "name": "symptoms",
+                    "title": "Tick off all the symptoms that apply to you. I am experiencing:",
+                    "choices": [
+                        "A cold",
+                        "Diarrhoea",
+                        "Sore throat",
+                        "Body aches",
+                        "Headaches",
+                        "Fatigue",
+                        "Difficulty breathing",
+                        "A fever"
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "fever",
+                    "title": "Is the temperature of your fever greater than 37.8°C/100.04°F?",
+                    "visibleIf": "{symptoms} contains 'A fever'",
+                    "enableIf": "{symptoms} contains 'A fever'",
+                    "isRequired": true,
+                    "choices": [
+                        "Yes",
+                        "No",
+                        "Unsure"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "page6",
+            "elements": [
+                {
+                    "type": "radiogroup",
+                    "name": "have_a_cough",
+                    "title": "Do you have a cough?",
+                    "isRequired": true,
+                    "choices": [
+                        "Yes",
+                        "No"
+                    ]
+                },
+                {
+                    "type": "radiogroup",
+                    "name": "days_coughing",
+                    "title": "For how many days have you been coughing?",
+                    "visibleIf": "{have_a_cough} = 'Yes'",
+                    "enableIf": "{have_a_cough} = 'Yes'",
+                    "isRequired": true,
+                    "choices": [
+                        "1-3",
+                        "4-6",
+                        "7-9",
+                        "10-12",
+                        "13-15",
+                        ">15"
+                    ]
+                }
+            ]
+        },
+        {
             "name": "page7",
             "elements": [
                 {
                     "type": "microphone",
-                    "description": "Please record a few seconds of yourself coughing using your device's microphone. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. You must allow the use of your device's microphone if prompted. The recording will automatically stop after 5 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. You may listen to your recording by tapping/clicking on the play button.",
+                    "description": "Please record a few seconds of yourself coughing using your device's microphone. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. Please allow access to your device's microphone if prompted. The recording will automatically stop after 5 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. You may listen to your recording by tapping/clicking on the play button.",
                     "name": "microphone",
                     "hideNumber": true,
-                    "title": "Cough sample"
+                    "title": "Record a cough sample",
+                    "visibleIf": "{have_a_cough} = 'Yes'",
+                    "enableIf": "{have_a_cough} = 'Yes'",
+                    "isRequired": true,
                 }
             ]
         }
@@ -597,8 +570,8 @@ let json = {
     "showQuestionNumbers": "off",
     "showProgressBar": "top",
     "clearInvisibleValues": "onHidden",
-    "startSurveyText": "Start survey",
-    "completeText": "Complete survey",
+    "startSurveyText": "Start",
+    "completeText": "Finish",
     "firstPageIsStarted": true
 }
 
@@ -613,32 +586,41 @@ survey
     .add(function (result) {
         const form = new FormData();
 
-        Object.keys(result.data).forEach(key => {
+        for (key in result.data) {
             form.append(key, result.data[key]);
-        })
+        }
 
-        form.append('sample', recorderResult);
+        if (verifiedCC) {
+            form.append('target_group', verifiedCC);
+        }
+
+        if (recorderResult) {
+            form.append('sample', recorderResult);
+        }
 
         $.ajax({
             url: 'https://coughtest.online/',
             method: 'POST',
             data: form,
             processData: false,
-            contentType: 'multipart/form-data',
+            contentType: false,
             success: function (data) {
-                alert(data);
                 for (let key in result.data) {
-                    let temp = [key[0].toUpperCase() + key.slice(1).replace('_', ' '), result.data[key]];
+                    let temp = [key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), result.data[key]];
                     row.push(temp);
                 }
 
-                doc.autoTable(col, row);
+                doc.text('COVID-19 App Development Questionnaire', 55, 15);
+                doc.text('Would you like to help save the world from the coronavirus?', 10, 26);
+                doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. Once it is rolled out, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
+                doc.text('But first, we need to teach a computer what a COVID-19 cough sounds like.', 10, 65);
+                doc.autoTable(col, row, { startY: 70 });
                 doc.save('Results.pdf');
             },
             error: function (data) {
-                alert(data);
+                alert('Error - ' + data.responseText);
             }
-        });
+        })
     });
 
 $("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion });
