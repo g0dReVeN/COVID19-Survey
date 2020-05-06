@@ -11,7 +11,7 @@ let observer = new MutationObserver(function (mutations) {
 		if (target) {
 			var attrObserver = new MutationObserver(function(mutations) {
 				mutations.forEach(function(mutationRecord) {
-					$('h4.sv-title.sv-panel__title').first().css({'background-color': 'rgba(26, 179, 148, 0.2)', 'height': '34px', 'line-height': '34px'});
+					$('h4.sv-title.sv-panel__title').first().css({'background-color': 'rgba(26, 179, 148, 0.2)', 'padding': '0.25em 0.44em'});
 				});    
 			});
 			attrObserver.observe(target, { attributes : true });

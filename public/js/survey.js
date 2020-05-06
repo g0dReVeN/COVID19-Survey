@@ -71,7 +71,7 @@ let json = {
                 {
                     "type": "checkbox",
                     "name": "permission_from_parents_or_guardians",
-                    "title": "Please ask your parent/guardian to complete the following section: [Get Showdown!](https://github.com/showdownjs/showdown) ",
+                    "title": "Please ask your parent/guardian to complete the following section:",
                     "visibleIf": "{user_is_over_18} = 'No'",
                     "enableIf": "{user_is_over_18} = 'No'",
                     "isRequired": true,
@@ -85,9 +85,16 @@ let json = {
                     ],
                     "choices": [
                         "You have read and understood the explanation on the previous page about the study",
-                        "You understand that their participation in this study is strictly voluntary",
-                        "You confirm your child/ward has read or had the assent form read to them and he/she understands and agrees to participate"
+                        "You understand that your child's/ward's participation in this study is strictly voluntary",
+                        "You confirm your child/ward has read or had the assent form (please find link below) read to them and that he/she understands and agrees to participate"
                     ]
+                },
+                {
+                    "type": "html",
+                    "name": "question1",
+                    "html": "<article class='intro'><div class='intro__body wysiwyg'><h2>For the assent form, please click here <a href='assets/information.pdf' target='_blank'>here.</a></h2></div></article>",
+                    "visibleIf": "{user_is_over_18} = 'No'",
+                    "enableIf": "{user_is_over_18} = 'No'",
                 }
             ]
         },
@@ -634,8 +641,23 @@ survey
         let col = ["Questions", "Your Answers"];
         let row = [];
 
-        for (key in result.data) {
-            form.append(key, result.data[key]);
+        for (prop in result.data) {
+            let key = prop
+            let value = result.data[prop];
+
+            if (prop == 'temp_type')
+                continue;
+            else if (prop.includes('age_group'))
+                key = 'age_group';
+            else if (prop.includes('temperature_C'))
+                key = 'temperature';
+            else if (prop.includes('temperature_F')) {
+                key = 'temperature';
+                value = (5 / 9) * (value - 32);
+            }
+
+            form.append(key, value);
+            row.push([key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), value]);
         }
 
         if (verifiedCC) {
@@ -653,24 +675,6 @@ survey
             processData: false,
             contentType: false,
             success: function (data) {
-                for (let prop in result.data) {
-                    let key = prop[0].toUpperCase() + prop.slice(1).replace(/_+/g, ' ');
-                    let value = result.data[prop];
-
-                    if (prop == 'temp_type')
-                        continue;
-                    else if (prop.includes('age_group'))
-                        key = 'Age group';
-                    else if (prop.includes('temperature_C'))
-                        key = 'Temperature';
-                    else if (prop.includes('temperature_F')) {
-                        key = 'Temperature';
-                        value = (5 / 9) * (value - 32);
-                    }
-
-                    row.push([key, value]);
-                }
-
                 doc.text('COVID-19 App Development Questionnaire', 55, 15);
                 doc.text('Would you like to help save the world from the coronavirus?', 10, 26);
                 doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
@@ -682,23 +686,6 @@ survey
                 alert('Error - ' + data.responseText);
             }
         })
-    });
-
-var converter = new showdown.Converter();
-survey
-    .onTextMarkdown
-    .add(function (survey, options) {
-        //convert the mardown text to html
-        if (options.name == 'permission_from_parents_or_guardians') {
-            alert('dd');
-
-            var str = converter.makeHtml(options.text);
-            //remove root paragraphs <p></p>
-            str = str.substring(3);
-            str = str.substring(0, str.length - 4);
-            //set html
-            options.html = str;
-        }
     });
 
 $("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion, onAfterRenderQuestion: surveyRenderQuestion });
