@@ -254,13 +254,13 @@ function getParameters() {
 	if (cc.slice(0, 4) === '?cc=' && isoCountries.hasOwnProperty(cc.slice(4))) {
 		verifiedCC = cc.slice(4);
 
-		$("#warning").show();
-		$(".sv-btn").on("click", function () {
-			$("#warning").hide();
+		$('#warning').show();
+		$('.sv-btn').on('click', function () {
+			$('#warning').hide();
 		});
 	}
 
-	window.addEventListener("resize", function () {
-		$("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
-	}, false);
+	$(window).resize(function () {
+		$('#record, #save').css('left', `${$('.footer').width() / 2 - 25}px`);
+	});
 }

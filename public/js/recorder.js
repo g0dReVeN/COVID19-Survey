@@ -2,6 +2,21 @@ let observer = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (!mutation.addedNodes) return
 
+		// var attrObserver = new MutationObserver(function(mutations) {
+		// 	mutations.forEach(function(mutationRecord) {
+		// 		$('h4.sv-title.sv-panel__title').first().css({'background-color': 'rgba(26, 179, 148, 0.2)', 'height': '34px', 'line-height': '34px'});
+		// 	});    
+		// });
+		var target = document.getElementById('sq_116_ariaTitle');
+		if (target) {
+			var attrObserver = new MutationObserver(function(mutations) {
+				mutations.forEach(function(mutationRecord) {
+					$('h4.sv-title.sv-panel__title').first().css({'background-color': 'rgba(26, 179, 148, 0.2)', 'height': '34px', 'line-height': '34px'});
+				});    
+			});
+			attrObserver.observe(target, { attributes : true });
+		}
+
 		for (let i = 0; i < mutation.addedNodes.length; i++) {
 			let node = mutation.addedNodes[i];
 			let c = node.childNodes;

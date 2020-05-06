@@ -1,13 +1,19 @@
 Survey
     .StylesManager
     .applyTheme("modern");
-    
+
 function surveyValidateQuestion(s, options) {
     if (options.name == 'microphone') {
         if (recorderResult == -1)
             options.error = "We weren't able to detect a cough. Please cough a little louder or cough more closer to the microphone.";
         if (!recorderResult)
             options.error = "You have not provided a cough sample! Please provide a cough sample to continue";
+    }
+}
+
+function surveyRenderQuestion(s, options) {
+    if (options.htmlElement.getElementsByClassName("noUi-target noUi-ltr noUi-horizontal")[0]) {
+        $('.noUi-target noUi-ltr noUi-horizontal').parent().css('paddingLeft', '20px');
     }
 }
 
@@ -21,7 +27,7 @@ let json = {
                 {
                     "type": "html",
                     "name": "survey_intro",
-                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to help save the world from the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. Once it is rolled out, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
+                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to help save the world from the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
                 }
             ]
         },
@@ -57,7 +63,7 @@ let json = {
                     ],
                     "titleLocation": "hidden",
                     "choices": [
-                        "You have read and understood the above explanation about the study",
+                        "You have read and understood the explanation on the previous page about the study",
                         "You agree to participate",
                         "You understand that your participation in this study is strictly voluntary"
                     ]
@@ -65,7 +71,7 @@ let json = {
                 {
                     "type": "checkbox",
                     "name": "permission_from_parents_or_guardians",
-                    "title": "Please ask your parent/guardian to complete the following section:",
+                    "title": "Please ask your parent/guardian to complete the following section: [Get Showdown!](https://github.com/showdownjs/showdown) ",
                     "visibleIf": "{user_is_over_18} = 'No'",
                     "enableIf": "{user_is_over_18} = 'No'",
                     "isRequired": true,
@@ -78,9 +84,9 @@ let json = {
                         }
                     ],
                     "choices": [
-                        "You have read and understood the above explanation about the study",
-                        "You agree that your child participates",
-                        "You understand that their participation in this study is strictly voluntary"
+                        "You have read and understood the explanation on the previous page about the study",
+                        "You understand that their participation in this study is strictly voluntary",
+                        "You confirm your child/ward has read or had the assent form read to them and he/she understands and agrees to participate"
                     ]
                 }
             ]
@@ -432,7 +438,7 @@ let json = {
                 },
                 {
                     "type": "radiogroup",
-                    "name": "age_group",
+                    "name": "age_group_18_and_over",
                     "title": "Which of the following age groups do you fall into?",
                     "visibleIf": "{user_is_over_18} = 'Yes'",
                     "enableIf": "{user_is_over_18} = 'Yes'",
@@ -449,7 +455,7 @@ let json = {
                 },
                 {
                     "type": "radiogroup",
-                    "name": "age_group",
+                    "name": "age_group_under_18",
                     "title": "Which of the following age groups do you fall into?",
                     "visibleIf": "{user_is_over_18} = 'No'",
                     "enableIf": "{user_is_over_18} = 'No'",
@@ -501,18 +507,52 @@ let json = {
                     ]
                 },
                 {
-                    "type": "radiogroup",
-                    "name": "fever",
-                    "title": "Is the temperature of your fever greater than 37.8°C/100.04°F?",
+                    "type": "panel",
+                    "name": "temp_panel",
+                    "title": "Adjust the slider to match your temperature: *",
                     "visibleIf": "{symptoms} contains 'A fever'",
                     "enableIf": "{symptoms} contains 'A fever'",
-                    "isRequired": true,
-                    "choices": [
-                        "Yes",
-                        "No",
-                        "Unsure"
+                    "elements": [
+                        {
+                            "type": "radiogroup",
+                            "name": "temp_type",
+                            "title": "Temperature Scale:",
+                            "defaultValue": "°C",
+                            "choices": [
+                                "°C",
+                                "°F"
+                            ]
+                        },
+                        {
+                            "type": "nouislider",
+                            "name": "temperature_C",
+                            "title": "Temperature °C",
+                            "visibleIf": "{temp_type} = '°C'",
+                            "enableIf": "{temp_type} = '°C'",
+                            "isRequired": true,
+                            "step": 0.1,
+                            "rangeMin": 37,
+                            "rangeMax": 41,
+                            "pipsValues": null,
+                            "pipsText": null,
+                            "pipsDensity": 15
+                        },
+                        {
+                            "type": "nouislider",
+                            "name": "temperature_F",
+                            "title": "Temperature °F",
+                            "visibleIf": "{temp_type} = '°F'",
+                            "enableIf": "{temp_type} = '°F'",
+                            "isRequired": true,
+                            "step": 0.1,
+                            "rangeMin": 98,
+                            "rangeMax": 106,
+                            "pipsValues": null,
+                            "pipsText": null,
+                            "pipsDensity": 15
+                        }
                     ]
-                }
+                },
             ]
         },
         {
@@ -582,14 +622,17 @@ let json = {
 
 window.survey = new Survey.Model(json);
 
-const doc = new jsPDF();
-let col = ["Questions", "Your Answers"];
-let row = [];
+// const doc = new jsPDF();
+// let col = ["Questions", "Your Answers"];
+// let row = [];
 
 survey
     .onComplete
     .add(function (result) {
         const form = new FormData();
+        const doc = new jsPDF();
+        let col = ["Questions", "Your Answers"];
+        let row = [];
 
         for (key in result.data) {
             form.append(key, result.data[key]);
@@ -610,14 +653,27 @@ survey
             processData: false,
             contentType: false,
             success: function (data) {
-                for (let key in result.data) {
-                    let temp = [key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), result.data[key]];
-                    row.push(temp);
+                for (let prop in result.data) {
+                    let key = prop[0].toUpperCase() + prop.slice(1).replace(/_+/g, ' ');
+                    let value = result.data[prop];
+
+                    if (prop == 'temp_type')
+                        continue;
+                    else if (prop.includes('age_group'))
+                        key = 'Age group';
+                    else if (prop.includes('temperature_C'))
+                        key = 'Temperature';
+                    else if (prop.includes('temperature_F')) {
+                        key = 'Temperature';
+                        value = (5 / 9) * (value - 32);
+                    }
+
+                    row.push([key, value]);
                 }
 
                 doc.text('COVID-19 App Development Questionnaire', 55, 15);
                 doc.text('Would you like to help save the world from the coronavirus?', 10, 26);
-                doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. Once it is rolled out, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
+                doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
                 doc.text('But first, we need to teach a computer what a COVID-19 cough sounds like.', 10, 65);
                 doc.autoTable(col, row, { startY: 70 });
                 doc.save('Results.pdf');
@@ -628,4 +684,21 @@ survey
         })
     });
 
-$("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion });
+var converter = new showdown.Converter();
+survey
+    .onTextMarkdown
+    .add(function (survey, options) {
+        //convert the mardown text to html
+        if (options.name == 'permission_from_parents_or_guardians') {
+            alert('dd');
+
+            var str = converter.makeHtml(options.text);
+            //remove root paragraphs <p></p>
+            str = str.substring(3);
+            str = str.substring(0, str.length - 4);
+            //set html
+            options.html = str;
+        }
+    });
+
+$("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion, onAfterRenderQuestion: surveyRenderQuestion });
