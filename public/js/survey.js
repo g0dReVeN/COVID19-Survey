@@ -13,7 +13,21 @@ function surveyValidateQuestion(s, options) {
 
 function surveyRenderQuestion(s, options) {
     if (options.htmlElement.getElementsByClassName("noUi-target noUi-ltr noUi-horizontal")[0]) {
-        $('.noUi-target noUi-ltr noUi-horizontal').parent().css('paddingLeft', '20px');
+        $('.noUi-target.noUi-ltr.noUi-horizontal').parent().css('paddingLeft', '18px');
+        $('h4.sv-title.sv-panel__title').first().css('padding', '0.25em 0.44em');
+    }
+    if (options.question.name == "permission_from_parents_or_guardians") {
+        const a = document.createElement("A");
+        const span = document.createElement("SPAN");
+        const parent = document.querySelector('[title="You confirm your child/ward has read or had the"]');
+
+        a.innerText = "children's information page";
+        a.href = "assets/children_info.pdf";
+        a.target = "_blank";
+        span.innerText = " read to them and that he/she understands and agrees to participate";
+
+        parent.appendChild(a);
+        parent.appendChild(span);
     }
 }
 
@@ -27,7 +41,7 @@ let json = {
                 {
                     "type": "html",
                     "name": "survey_intro",
-                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to help save the world from the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
+                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to join in the fight against the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf' target='_blank'>here</a> or for a more child friendly version <a href='assets/children_info.pdf' target='_blank'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf' target='_blank'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
                 }
             ]
         },
@@ -86,16 +100,9 @@ let json = {
                     "choices": [
                         "You have read and understood the explanation on the previous page about the study",
                         "You understand that your child's/ward's participation in this study is strictly voluntary",
-                        "You confirm your child/ward has read or had the assent form (please find link below) read to them and that he/she understands and agrees to participate"
+                        "You confirm your child/ward has read or had the"
                     ]
                 },
-                {
-                    "type": "html",
-                    "name": "question1",
-                    "html": "<article class='intro'><div class='intro__body wysiwyg'><h2>For the assent form, please click here <a href='assets/information.pdf' target='_blank'>here.</a></h2></div></article>",
-                    "visibleIf": "{user_is_over_18} = 'No'",
-                    "enableIf": "{user_is_over_18} = 'No'",
-                }
             ]
         },
         {
@@ -514,11 +521,23 @@ let json = {
                     ]
                 },
                 {
-                    "type": "panel",
-                    "name": "temp_panel",
-                    "title": "Adjust the slider to match your temperature: *",
+                    "type": "radiogroup",
+                    "name": "know_or_take_temperature",
+                    "title": "Do you know your temperature today or can you take it your now?",
                     "visibleIf": "{symptoms} contains 'A fever'",
                     "enableIf": "{symptoms} contains 'A fever'",
+                    "isRequired": true,
+                    "choices": [
+                        "Yes",
+                        "No"
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "temp_panel",
+                    "title": "Adjust the slider to match your temperature today: *",
+                    "visibleIf": "{know_or_take_temperature} = 'Yes'",
+                    "enableIf": "{know_or_take_temperature} = 'Yes'",
                     "elements": [
                         {
                             "type": "radiogroup",
@@ -538,7 +557,7 @@ let json = {
                             "enableIf": "{temp_type} = '°C'",
                             "isRequired": true,
                             "step": 0.1,
-                            "rangeMin": 37,
+                            "rangeMin": 36,
                             "rangeMax": 41,
                             "pipsValues": null,
                             "pipsText": null,
@@ -552,7 +571,8 @@ let json = {
                             "enableIf": "{temp_type} = '°F'",
                             "isRequired": true,
                             "step": 0.1,
-                            "rangeMin": 98,
+
+                            "rangeMin": 97,
                             "rangeMax": 106,
                             "pipsValues": null,
                             "pipsText": null,
@@ -628,10 +648,6 @@ let json = {
 }
 
 window.survey = new Survey.Model(json);
-
-// const doc = new jsPDF();
-// let col = ["Questions", "Your Answers"];
-// let row = [];
 
 survey
     .onComplete
