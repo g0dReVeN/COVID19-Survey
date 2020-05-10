@@ -664,7 +664,6 @@ survey
     .add(function (result) {
         grecaptcha.ready(function() {
             grecaptcha.execute('6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2', {action: 'survey'}).then(function(token) {
-                console.log(token);
                 for (prop in result.data) {
                     let key = prop
                     let value = result.data[prop];
