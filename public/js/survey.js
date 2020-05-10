@@ -535,7 +535,7 @@ let json = {
                 {
                     "type": "panel",
                     "name": "temp_panel",
-                    "title": "Adjust the slider to match your temperature today: *",
+                    "title": "Please adjust the slider to match your temperature today: *",
                     "visibleIf": "{know_or_take_temperature} = 'Yes'",
                     "enableIf": "{know_or_take_temperature} = 'Yes'",
                     "elements": [
