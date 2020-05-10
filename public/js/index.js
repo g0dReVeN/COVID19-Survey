@@ -255,9 +255,8 @@ function onloadCallback() {
 		'size': 'invisible'
 	});
 
-	$('#recaptcha').css('bottom', '');
-	$('#recaptcha').css('top', '20px');
-	
+	$('.grecaptcha-badge').css('bottom', '');
+	$('.grecaptcha-badge').css('top', '20px');
 }
 
 function getParameters() {
