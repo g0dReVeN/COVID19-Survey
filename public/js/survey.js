@@ -665,51 +665,52 @@ survey
         grecaptcha.ready(function() {
             grecaptcha.execute('6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2', {action: 'homepage'}).then(function(token) {
                 console.log(token);
+                for (prop in result.data) {
+                    let key = prop
+                    let value = result.data[prop];
+        
+                    if (prop == 'temp_type' | prop == 'know_temperature')
+                        continue;
+                    else if (prop.includes('age_group'))
+                        key = 'age_group';
+                    else if (prop.includes('temperature_C'))
+                        key = 'temperature';
+                    else if (prop.includes('temperature_F')) {
+                        key = 'temperature';
+                        value = (5 / 9) * (value - 32);
+                    }
+        
+                    form.append(key, value);
+                    row.push([key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), value]);
+                }
+        
+                doc.autoTable(col, row, { startY: 70 });
+                form.append('g-recaptcha-response', token);
+        
+                if (verifiedCC) {
+                    form.append('target_group', verifiedCC);
+                }
+        
+                if (recorderResult) {
+                    form.append('sample', recorderResult);
+                }
+        
+                $.ajax({
+                    url: 'https://coughtest.online/',
+                    method: 'POST',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        doc.save('Results.pdf');
+                    },
+                    error: function (data) {
+                        alert('Error - ' + data.responseText);
+                    }
+                })
             });
         });
         
-        for (prop in result.data) {
-            let key = prop
-            let value = result.data[prop];
-
-            if (prop == 'temp_type' | prop == 'know_temperature')
-                continue;
-            else if (prop.includes('age_group'))
-                key = 'age_group';
-            else if (prop.includes('temperature_C'))
-                key = 'temperature';
-            else if (prop.includes('temperature_F')) {
-                key = 'temperature';
-                value = (5 / 9) * (value - 32);
-            }
-
-            form.append(key, value);
-            row.push([key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), value]);
-        }
-
-        doc.autoTable(col, row, { startY: 70 });
-
-        if (verifiedCC) {
-            form.append('target_group', verifiedCC);
-        }
-
-        if (recorderResult) {
-            form.append('sample', recorderResult);
-        }
-
-        $.ajax({
-            url: 'https://coughtest.online/',
-            method: 'POST',
-            data: form,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                doc.save('Results.pdf');
-            },
-            error: function (data) {
-                alert('Error - ' + data.responseText);
-            }
-        })
     });
 
 $("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion, onAfterRenderQuestion: surveyRenderQuestion });

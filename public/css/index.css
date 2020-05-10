@@ -9,10 +9,6 @@ body {
   background-color: #f6fcfb;
 }
 
-.grecaptcha-badge {
-  top: 100px !important;
-}
-
 .notRec {
   background-color: darkred;
 }
