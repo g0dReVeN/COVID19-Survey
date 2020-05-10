@@ -248,6 +248,10 @@ const isoCountries = {
 	'ZW': 'Zimbabwe'
 };
 
+function onloadCallback() {
+	alert("grecaptcha is ready!");
+}
+
 function getParameters() {
 	const cc = window.location.search;
 
