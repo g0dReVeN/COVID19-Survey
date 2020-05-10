@@ -1,5 +1,5 @@
 let verifiedCC = null;
-let clientId = null;
+let clientId = '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2';
 
 const isoCountries = {
 	'AF': 'Afghanistan',
@@ -250,7 +250,7 @@ const isoCountries = {
 };
 
 function reposition(top) {
-	$('.grecaptcha-badge').css('bottom', !top ? '20px' : '');
+	$('.grecaptcha-badge').css('bottom', !top ? '30px' : '');
 	$('.grecaptcha-badge').css('top', top ? '20px' : '');
 }
 
@@ -275,17 +275,10 @@ function getParameters() {
 		$('.sv-btn').on('click', function () {
 			$('#warning').hide();
 			reposition(true);
-			// $(document.body).scrollTop(0);
-			// $(document.documentElement).scrollTop(0);
 		});
 	}
 
 	$(window).resize(function () {
 		$('#record, #save').css('left', `${$('.footer').width() / 2 - 25}px`);
 	});
-
-	// $('.sv-btn.sv-footer__next-btn').on('click', function () {
-	// 	$(document.body).scrollTop(0);
-	// 	$(document.documentElement).scrollTop(0);
-	// });
 }
