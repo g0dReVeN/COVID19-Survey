@@ -522,7 +522,7 @@ let json = {
                 },
                 {
                     "type": "radiogroup",
-                    "name": "know_or_take_temperature",
+                    "name": "know_temperature",
                     "title": "Do you know your temperature today or can you take it your now?",
                     "visibleIf": "{symptoms} contains 'A fever'",
                     "enableIf": "{symptoms} contains 'A fever'",
@@ -536,8 +536,8 @@ let json = {
                     "type": "panel",
                     "name": "temp_panel",
                     "title": "Please adjust the slider to match your temperature today: *",
-                    "visibleIf": "{know_or_take_temperature} = 'Yes'",
-                    "enableIf": "{know_or_take_temperature} = 'Yes'",
+                    "visibleIf": "{know_temperature} = 'Yes'",
+                    "enableIf": "{know_temperature} = 'Yes'",
                     "elements": [
                         {
                             "type": "radiogroup",
@@ -649,19 +649,24 @@ let json = {
 
 window.survey = new Survey.Model(json);
 
+const form = new FormData();
+const doc = new jsPDF();
+let col = ["Questions", "Your Answers"];
+let row = [];
+
+doc.text('COVID-19 App Development Questionnaire', 55, 15);
+doc.text('Would you like to help save the world from the coronavirus?', 10, 26);
+doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
+doc.text('But first, we need to teach a computer what a COVID-19 cough sounds like.', 10, 65);
+
 survey
     .onComplete
     .add(function (result) {
-        const form = new FormData();
-        const doc = new jsPDF();
-        let col = ["Questions", "Your Answers"];
-        let row = [];
-
         for (prop in result.data) {
             let key = prop
             let value = result.data[prop];
 
-            if (prop == 'temp_type')
+            if (prop == 'temp_type' | prop == 'know_temperature')
                 continue;
             else if (prop.includes('age_group'))
                 key = 'age_group';
@@ -675,6 +680,8 @@ survey
             form.append(key, value);
             row.push([key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), value]);
         }
+
+        doc.autoTable(col, row, { startY: 70 });
 
         if (verifiedCC) {
             form.append('target_group', verifiedCC);
@@ -691,11 +698,6 @@ survey
             processData: false,
             contentType: false,
             success: function (data) {
-                doc.text('COVID-19 App Development Questionnaire', 55, 15);
-                doc.text('Would you like to help save the world from the coronavirus?', 10, 26);
-                doc.text(doc.splitTextToSize('We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.', 180), 10, 33);
-                doc.text('But first, we need to teach a computer what a COVID-19 cough sounds like.', 10, 65);
-                doc.autoTable(col, row, { startY: 70 });
                 doc.save('Results.pdf');
             },
             error: function (data) {
