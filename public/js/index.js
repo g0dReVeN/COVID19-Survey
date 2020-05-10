@@ -250,13 +250,14 @@ const isoCountries = {
 
 function onloadCallback() {
 	alert("grecaptcha is ready!");
+
+	$('.grecaptcha-badge').css('bottom', '');
+	$('.grecaptcha-badge').css('top', '20px');
+	
 }
 
 function getParameters() {
 	const cc = window.location.search;
-
-	// $('.grecaptcha-badge').css('bottom', '');
-	// $('.grecaptcha-badge').css('top', '20px');
 
 	if (cc.slice(0, 4) === '?cc=' && isoCountries.hasOwnProperty(cc.slice(4))) {
 		verifiedCC = cc.slice(4);
