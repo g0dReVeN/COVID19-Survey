@@ -662,6 +662,12 @@ doc.text('But first, we need to teach a computer what a COVID-19 cough sounds li
 survey
     .onComplete
     .add(function (result) {
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2', {action: 'homepage'}).then(function(token) {
+                console.log(token);
+            });
+        });
+        
         for (prop in result.data) {
             let key = prop
             let value = result.data[prop];

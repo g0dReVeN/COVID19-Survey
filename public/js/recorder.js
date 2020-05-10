@@ -2,7 +2,7 @@ let observer = new MutationObserver(function (mutations) {
 	mutations.forEach(function (mutation) {
 		if (!mutation.addedNodes) return
 
-		let target = document.getElementById('sq_116_ariaTitle');
+		const target = document.getElementById('sq_117_ariaTitle');
 		if (target) {
 			let attrObserver = new MutationObserver(function (mutations) {
 				$('h4.sv-title.sv-panel__title').first().css('background-color', 'rgba(26, 179, 148, 0.2)');
@@ -55,7 +55,7 @@ let observer = new MutationObserver(function (mutations) {
 					}
 
 					function captureMicrophone(callback) {
-						$("#sq_121_ariaTitle").css('background-color', '');
+						$("#sq_122_ariaTitle").css('background-color', '');
 
 						btnReleaseMicrophone.disabled = false;
 
@@ -130,7 +130,7 @@ let observer = new MutationObserver(function (mutations) {
 							replaceAudio(URL.createObjectURL(blob));
 							if (heardCough) {
 								recorderResult = blob;
-								$("#sq_121_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
+								$("#sq_122_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
 							} else {
 								recorderResult = -1;
 							}
