@@ -249,10 +249,14 @@ const isoCountries = {
 };
 
 function onloadCallback() {
-	alert("grecaptcha is ready!");
+	grecaptcha.render('recaptcha', {
+		'sitekey': '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2',
+		'badge': 'bottom',
+		'size': 'invisible'
+	});
 
-	$('.grecaptcha-badge').css('bottom', '');
-	$('.grecaptcha-badge').css('top', '20px');
+	$('#recaptcha').css('bottom', '');
+	$('#recaptcha').css('top', '20px');
 	
 }
 
