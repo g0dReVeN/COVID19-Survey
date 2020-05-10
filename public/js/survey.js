@@ -684,7 +684,7 @@ survey
                 }
         
                 doc.autoTable(col, row, { startY: 70 });
-                form.append('g-recaptcha-response', token);
+                form.append('token', token);
         
                 if (verifiedCC) {
                     form.append('target_group', verifiedCC);
