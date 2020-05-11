@@ -261,6 +261,7 @@ function onloadCallback() {
 		'size': 'invisible'
 	});
 
+	$('.grecaptcha-badge').css('z-index', '999')
 	reposition(true);
 }
 
