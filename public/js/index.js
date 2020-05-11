@@ -2,6 +2,7 @@ let verifiedCC = null;
 let clientId = '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2';
 
 const isoCountries = {
+	'ZA': 'South Africa',
 	'AF': 'Afghanistan',
 	'AX': 'Aland Islands',
 	'AL': 'Albania',
@@ -204,7 +205,6 @@ const isoCountries = {
 	'SI': 'Slovenia',
 	'SB': 'Solomon Islands',
 	'SO': 'Somalia',
-	'ZA': 'South Africa',
 	'GS': 'South Georgia And Sandwich Isl.',
 	'ES': 'Spain',
 	'LK': 'Sri Lanka',
