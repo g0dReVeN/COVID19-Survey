@@ -61,10 +61,10 @@ app.post('/', multer.single('sample'), async (req, res, next) => {
 						const file = bucket.file(mm + '-' + dd + '/' + uuid + '.wav');
 						const stream = file.createWriteStream({
 							resumable: false,
-							metadata: Object.assign(
-								{ contentType: 'audio/wav' },
-								req.body
-							)
+							metadata: {
+								contentType: 'audio/wav',
+								metadata: req.body
+							}
 						});
 
 						stream.on('finish', () => {
