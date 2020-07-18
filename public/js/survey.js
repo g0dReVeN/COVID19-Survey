@@ -46,8 +46,8 @@ countries.unshift("Prefer not to say");
 const json = {
 	title: "COVID-19 App Development Questionnaire",
 	logo: "assets/sun_logo_transparent.png",
-	logoWidth: 130,
-	logoHeight: 130,
+	logoWidth: 100,
+	logoHeight: 100,
 	completedHtml:
 		"<h4>Thank you for completing the survey. You will receive your results shortly. Please continue to keep safe!</h4>",
 	pages: [
