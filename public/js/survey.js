@@ -40,9 +40,25 @@ let json = {
             "name": "page0",
             "elements": [
                 {
-                    "type": "html",
-                    "name": "survey_intro",
-                    "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to join in the fight against the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf' target='_blank'>here</a> or for a more child friendly version <a href='assets/children_info.pdf' target='_blank'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf' target='_blank'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>"
+                    "type": "image",
+                    "name": "stellenbosch-university-logo",
+                    "imageLink": "assets/Stellenbosch-University-Logo.jpeg",
+                    "imageFit": "contain",
+                    "imageHeight": 150,
+                    "imageWidth": 150,
+                    "width": "160px"
+                },
+                {
+                    "type": "panel",
+                    "name": "first_page_container_panel",
+                    "elements": [
+                        {
+                            "type": "html",
+                            "name": "survey_intro",
+                            "html": "<article class='intro'><div class='intro__body wysiwyg'><p>Would you like to join in the fight against the coronavirus?</p><p>We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.</p><p>But first, we need to teach a computer what a COVID-19 cough sounds like.</p><p>If you would like to learn more about the study, please visit our information page <a href='assets/information.pdf' target='_blank'>here</a> or for a more child friendly version <a href='assets/children_info.pdf' target='_blank'>here</a>.</p><p>If you have any questions, please visit our FAQ page <a href='assets/FAQ.pdf' target='_blank'>here</a> for questions commonly asked.</p><p><strong>If you have had a lab test for COVID-19 (coronavirus) recently, please complete the following survey.</strong></p><p>Thank you!</p></div> </article>",
+                        }
+                    ],
+                    "startWithNewLine": false
                 }
             ]
         },
@@ -379,7 +395,7 @@ let json = {
             "elements": [
                 {
                     "type": "microphone",
-                    "description": "Please record a few seconds of yourself coughing using your device's microphone. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. Please allow access to your device's microphone if prompted. The recording will automatically stop after 5 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. You may listen to your recording by tapping/clicking on the play button.",
+                    "description": "Please record a few seconds of yourself coughing using your device's microphone. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. Please allow access to your device's microphone if prompted. The recording will automatically stop after 15 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. You may listen to your recording by tapping/clicking on the play button.",
                     "name": "microphone",
                     "hideNumber": true,
                     "title": "Record a cough sample *",
@@ -412,12 +428,12 @@ doc.text('But first, we need to teach a computer what a COVID-19 cough sounds li
 survey
     .onComplete
     .add(function (result) {
-        grecaptcha.ready(function() {
-            grecaptcha.execute(clientId, {action: 'survey'}).then(function(token) {
+        grecaptcha.ready(function () {
+            grecaptcha.execute(clientId, { action: 'survey' }).then(function (token) {
                 for (prop in result.data) {
                     let key = prop
                     let value = result.data[prop];
-        
+
                     if (prop == 'temp_type' | prop == 'know_temperature')
                         continue;
                     else if (prop.includes('age_group'))
@@ -428,22 +444,22 @@ survey
                         key = 'temperature';
                         value = (5 / 9) * (value - 32);
                     }
-        
+
                     form.append(key, value);
                     row.push([key[0].toUpperCase() + key.slice(1).replace(/_+/g, ' '), value]);
                 }
-        
+
                 doc.autoTable(col, row, { startY: 70 });
                 form.append('token', token);
-        
+
                 if (verifiedCC) {
                     form.append('target_group', verifiedCC);
                 }
-        
+
                 if (recorderResult) {
                     form.append('sample', recorderResult);
                 }
-        
+
                 $.ajax({
                     url: 'https://coughtest.online/',
                     method: 'POST',
@@ -459,7 +475,7 @@ survey
                 })
             });
         });
-        
+
     });
 
 $("#surveyElement").Survey({ model: survey, onValidateQuestion: surveyValidateQuestion, onAfterRenderQuestion: surveyRenderQuestion });
