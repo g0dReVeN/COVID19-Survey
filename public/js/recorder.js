@@ -210,7 +210,7 @@ let observer = new MutationObserver(function (mutations) {
 
 						recorder = RecordRTC(microphone, options);
 
-						recorder.setRecordingDuration(5000).onRecordingStopped(() => {
+						recorder.setRecordingDuration(15000).onRecordingStopped(() => {
 							btnStopRecording.click()
 						});
 
