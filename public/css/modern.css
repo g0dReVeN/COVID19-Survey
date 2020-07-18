@@ -1246,6 +1246,16 @@
 	vertical-align: top;
 	height: 100px;
 }
+@media only screen and (max-width: 1000px) {
+	.sv-header__text {
+		width: 100%;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.sv-header__text {
+		padding-bottom: 25px;
+	}
+}
 
 .sjs_sp_container {
 	position: relative;
