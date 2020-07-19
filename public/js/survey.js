@@ -384,30 +384,34 @@ const json = {
 
 window.survey = new Survey.Model(json);
 
-const form = new FormData();
-const doc = new jsPDF();
-let col = ["Questions", "Your Answers"];
-let row = [];
-
-doc.text("COVID-19 App Development Questionnaire", 55, 15);
-doc.text("Would you like to help save the world from the coronavirus?", 10, 26);
-doc.text(
-	doc.splitTextToSize(
-		"We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.",
-		180
-	),
-	10,
-	33
-);
-doc.text(
-	"But first, we need to teach a computer what a COVID-19 cough sounds like.",
-	10,
-	65
-);
-
 survey.onComplete.add(function (result) {
 	grecaptcha.ready(function () {
 		grecaptcha.execute(clientId, { action: "survey" }).then(function (token) {
+			const form = new FormData();
+			const doc = new jsPDF();
+			const col = ["Questions", "Your Answers"];
+			const row = [];
+
+			doc.text("COVID-19 App Development Questionnaire", 55, 15);
+			doc.text(
+				"Would you like to help save the world from the coronavirus?",
+				10,
+				26
+			);
+			doc.text(
+				doc.splitTextToSize(
+					"We want to develop a smartphone app that can help to identify COVID-19 (coronavirus) coughs. If we are successful, the app will be able to tell you whether you should have a lab test done. This will help to reduce the number of lab tests needed so that time, reagents and money is not wasted on so many negative tests.",
+					180
+				),
+				10,
+				33
+			);
+			doc.text(
+				"But first, we need to teach a computer what a COVID-19 cough sounds like.",
+				10,
+				65
+			);
+
 			for (prop in result.data) {
 				let key = prop;
 				let value = result.data[prop];
