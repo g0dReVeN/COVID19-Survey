@@ -2,5 +2,7 @@ steps:
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'gs://$_BUCKET/app.yaml', 'default/app.yaml']
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy"]
+    args: ["app", "deploy", "default"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "taskHandler"]
 timeout: "1600s"
