@@ -1,0 +1,29 @@
+const { CloudTasksClient } = require("@google-cloud/tasks");
+
+const client = new CloudTasksClient();
+
+// const project = 'totemic-winter-274612';
+// const queue = 'coughstudy-queue';
+// const location = 'europe-west2';
+
+const parent = client.queuePath(process.env.GOOGLE_CLOUD_PROJECT, process.env.GCLOUD_TASK_QUEUE_LOCATION, process.env.GCLOUD_TASK_QUEUE);
+
+export default (payload) => {
+    const task = {
+        appEngineHttpRequest: {
+          httpMethod: 'POST',
+          appEngineRouting: {
+            service : 'taskHandler'
+          },
+          relativeUri: '/',
+          body: Buffer.from(JSON.stringify(payload)).toString('base64')
+        },
+    };
+
+    const request = {
+        parent: parent,
+        task: task,
+    };
+
+    client.createTask(request);
+}

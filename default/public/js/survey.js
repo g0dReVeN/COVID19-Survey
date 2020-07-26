@@ -40,9 +40,6 @@ function surveyRenderQuestion(s, options) {
 	}
 }
 
-const countries = Object.values(isoCountries);
-countries.unshift("Prefer not to say");
-
 const json = {
 	title: "COVID-19 App Development Questionnaire",
 	logo: "assets/sun_logo_transparent.png",
@@ -178,7 +175,7 @@ const json = {
 					title: "In which country were you tested?",
 					defaultValue: "Prefer not to say",
 					isRequired: true,
-					choices: countries,
+					choices: ["Prefer not to say", ...Object.values(isoCountries)],
 				},
 				{
 					type: "radiogroup",
@@ -305,8 +302,8 @@ const json = {
 							rangeMax: 41,
 							pipsValues: null,
 							pipsText: null,
-                            pipsDensity: 15,
-                            defaultValue: 38.5,
+							pipsDensity: 15,
+							defaultValue: 38.5,
 						},
 						{
 							type: "nouislider",
@@ -320,8 +317,8 @@ const json = {
 							rangeMax: 106,
 							pipsValues: null,
 							pipsText: null,
-                            pipsDensity: 15,
-                            defaultValue: 101.5,
+							pipsDensity: 15,
+							defaultValue: 101.5,
 						},
 					],
 				},

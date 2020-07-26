@@ -2,4 +2,8 @@
 appengine-generated/
 node_modules
 package-lock.json
-app.yaml
+
+default/node_modules
+default/package-lock.json
+taskHandler/node_modules
+taskHandler/package-lock.json
