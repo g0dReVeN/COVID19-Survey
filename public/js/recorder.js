@@ -76,8 +76,17 @@ let observer = new MutationObserver(function (mutations) {
 							audio: isEdge ? true : {
 								echoCancellation: false
 							}
-						}).then(function (mic) {
-							callback(mic);
+						}).then(function (stream) {
+							ctx = new AudioContext();
+							var source = ctx.createMediaStreamSource(stream);
+							var dest = ctx.createMediaStreamDestination();
+							var gainNode = ctx.createGain();
+
+							source.connect(gainNode);
+							gainNode.connect(dest);
+							gainNode.gain.value = 0.8;
+							callback(dest.stream);
+							// callback(stream);
 						}).catch(function (error) {
 							alert('Error: ' + error);
 							console.error(error);
@@ -146,9 +155,10 @@ let observer = new MutationObserver(function (mutations) {
 					var isEdge = navigator.userAgent.indexOf('Edge') !== -1 && (!!navigator.msSaveOrOpenBlob || !!navigator.msSaveBlob);
 					var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
+					var ctx;
 					var recorder; // globally accessible
 					var microphone;
-					var harkMicrophone;
+					// var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
@@ -208,6 +218,8 @@ let observer = new MutationObserver(function (mutations) {
 							recorder = null;
 						}
 
+						speech = hark(microphone, harkOptions);
+
 						recorder = RecordRTC(microphone, options);
 
 						recorder.setRecordingDuration(15000).onRecordingStopped(() => {
@@ -219,8 +231,8 @@ let observer = new MutationObserver(function (mutations) {
 						var harkOptions = {
 							threshold: -40
 						};
-						harkMicrophone = microphone.clone();
-						speech = hark(harkMicrophone, harkOptions);
+						// harkMicrophone = microphone.clone();
+						// speech = hark(harkMicrophone, harkOptions);
 
 						speech.on('speaking', function () {
 							console.log('Cough is heard!!!');
@@ -247,15 +259,20 @@ let observer = new MutationObserver(function (mutations) {
 						btnStartRecording.disabled = false;
 
 						if (microphone) {
-							microphone.stop();
-							microphone = null;
+							ctx.close().then(() => {
+								microphone.stop();
+								microphone = null;
+								speech.stop();
+								speech = null;
+								console.log("here")
+							});
 						}
-						if (harkMicrophone) {
-							speech.stop();
-							speech = null;
-							harkMicrophone.stop();
-							harkMicrophone = null;
-						}
+						// if (harkMicrophone) {
+						// 	speech.stop();
+						// 	speech = null;
+						// 	harkMicrophone.stop();
+						// 	harkMicrophone = null;
+						// }
 					};
 
 					function click(el) {
