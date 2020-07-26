@@ -13,7 +13,7 @@ export default (payload) => {
         appEngineHttpRequest: {
           httpMethod: 'POST',
           appEngineRouting: {
-            service : 'taskHandler'
+            service : 'task-handler'
           },
           relativeUri: '/',
           body: Buffer.from(JSON.stringify(payload)).toString('base64')

@@ -4,5 +4,5 @@ steps:
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "default"]
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy", "taskHandler"]
+    args: ["app", "deploy", "task-handler"]
 timeout: "1600s"
