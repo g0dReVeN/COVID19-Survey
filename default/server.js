@@ -4,11 +4,13 @@ const cors = require("cors");
 const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
-const { Storage } = require("@google-cloud/storage");
 const createTask = require("./events/createTask");
+const uploadFile = require("./events/uploadFile");
+
+const RECAPTCHA_URL =
+	"https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=";
 
 const app = express();
-const storage = new Storage();
 
 app.enable("trust proxy");
 app.use(cors());
@@ -20,8 +22,6 @@ const multer = Multer({
 		fileSize: 1 * 1024 * 1024, // max file size 1MB
 	},
 });
-
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/views/index.html"));
@@ -37,10 +37,7 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 	}
 
 	try {
-		const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=${req.body.token}`;
-		delete req.body.token;
-
-		fetch(url, {
+		fetch(`${RECAPTCHA_URL}${req.body.token}`, {
 			method: "post",
 		})
 			.then((response) => response.json())
@@ -48,45 +45,16 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 				if (reCaptchaResponse.success) {
 					const uuid = v4();
 
-					// const entityPromise = C19SurveyController.persist(db, req.body, uuid);
 					createTask({ ...req.body, uuid });
 
 					if (req.file) {
-						const now = new Date();
-						const dd =
-							now.getUTCDate() < 10 ? "0" + now.getUTCDate() : now.getUTCDate();
-						const mm =
-							now.getUTCMonth() + 1 < 10
-								? "0" + (now.getUTCMonth() + 1)
-								: now.getUTCMonth() + 1;
-
-						const file = bucket.file(mm + "-" + dd + "/" + uuid + ".wav");
-						const stream = file.createWriteStream({
-							resumable: false,
-							metadata: {
-								contentType: "audio/wav",
-								metadata: req.body,
-							},
-						});
-
-						stream.on("finish", () => {
-							// Promise.all([entityPromise]).then(() => {
-								res
-									.status(200)
-									.set()
-									.send({ success: "Survey recorded successfully!" });
-							// });
-						});
-
-						stream.end(req.file.buffer);
-					} else {
-						// Promise.all([entityPromise]).then(() => {
-							res
-								.status(200)
-								.set()
-								.send({ success: "Survey recorded successfully!" });
-						// });
+						uploadFile(req.file, uuid);
 					}
+
+					res
+						.status(200)
+						.set()
+						.send({ success: "Survey recorded successfully!" });
 				} else {
 					res.status(400).set().send({ error: "Failed reCAPTCHA!" });
 				}
