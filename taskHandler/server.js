@@ -13,7 +13,7 @@ const rawBodySaver = (req, res, buf, encoding) => {
 
 const auth = new google.auth.GoogleAuth({
 	keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-	scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+	scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
 const secureMiddleware = async (req, res, next) => {
