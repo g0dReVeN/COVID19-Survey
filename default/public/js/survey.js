@@ -416,8 +416,8 @@ survey.onComplete.add(function (result) {
 				else if (prop.includes("permission_from_user")) value = "Yes";
 				else if (prop.includes("permission_from_parents_or_guardians")) value = "Yes";
 				else if (prop.includes("age_group")) key = "age_group";
-				else if (prop.includes("temperature_C")) key = "temperature";
-				else if (prop.includes("temperature_F")) {
+				else if (prop.includes("temperature_c")) key = "temperature";
+				else if (prop.includes("temperature_f")) {
 					key = "temperature";
 					value = (5 / 9) * (value - 32);
 				}

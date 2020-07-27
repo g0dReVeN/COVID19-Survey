@@ -1099,6 +1099,7 @@
 	font-size: 1em;
 	outline: none;
 	width: 100%;
+	resize: none;
 }
 
 .sv-comment:focus {

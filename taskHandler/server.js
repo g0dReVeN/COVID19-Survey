@@ -47,7 +47,7 @@ app.post("/", async (req, res) => {
 	const rowValues = { ...rowStructure };
 
 	Object.keys(bodyData).forEach((key) => {
-		rowValues[key] = bodyData[key];
+		if (rowValues.hasOwnProperty(key)) rowValues[key] = bodyData[key];
 	});
 
 	const request = {
