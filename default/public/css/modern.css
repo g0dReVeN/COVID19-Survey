@@ -1194,6 +1194,11 @@
 	margin-left: 20px;
 	margin-right: 20px;
 }
+@media only screen and (max-width: 600px) {
+	.sv-completedpage {
+		margin-bottom: 20px;
+	}
+}
 
 .sv-completedpage:before {
 	display: block;

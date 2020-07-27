@@ -419,7 +419,7 @@ survey.onComplete.add(function (result) {
 				else if (key === "temperature_c") key = "temperature";
 				else if (key === "temperature_f") {
 					key = "temperature";
-					value = (5 / 9) * (value - 32);
+					value = ((5 / 9) * (value - 32)).toFixed(2);
 				}
 
 				form.append(key, value);
