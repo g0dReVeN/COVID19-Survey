@@ -366,7 +366,6 @@ const json = {
 					name: "microphone",
 					hideNumber: true,
 					title: "Record a cough sample *",
-					isRequired: true,
 				},
 			],
 		},
