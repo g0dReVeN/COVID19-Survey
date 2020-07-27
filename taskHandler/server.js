@@ -10,12 +10,13 @@ const rawBodySaver = (req, res, buf, encoding) => {
 };
 
 const secureMiddleware = async (req, res, next) => {
-	if (req.header("X-AppEngine-QueueName") !== "coughstudy-queue") {
-		return res.status(403).send("Unauthorized");
-	} else {
+	console.log(req);
+	// if (req.header("X-AppEngine-QueueName") !== "coughstudy-queue") {
+	// 	return res.status(403).send("Unauthorized");
+	// } else {
 		next();
 		return;
-	}
+	// }
 };
 
 app.enable("trust proxy");
@@ -29,7 +30,7 @@ app.use(
 		},
 	})
 );
-// app.use(secureMiddleware);
+app.use(secureMiddleware);
 
 app.post("/", (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
