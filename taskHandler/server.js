@@ -4,13 +4,17 @@ const { google } = require("googleapis");
 const rowStructure = require("./rowStructure");
 
 const app = express();
-const sheets = google.sheets("v4");
 
 const rawBodySaver = (req, res, buf, encoding) => {
 	if (buf && buf.length) {
 		req.rawBody = buf.toString(encoding || "utf8");
 	}
 };
+
+const auth = new google.auth.GoogleAuth({
+	keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+	scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+});
 
 const secureMiddleware = async (req, res, next) => {
 	if (
@@ -54,9 +58,12 @@ app.post("/", async (req, res) => {
 		},
 	};
 
-	// we need to send this status to tell cloud task about the completion of task.
 	try {
+		const authClient = await auth.getClient();
+		const sheets = google.sheets({ version: "v4", auth: authClient });
+
 		const response = (await sheets.spreadsheets.values.append(request)).data;
+
 		console.log(JSON.stringify(response, null, 2));
 		res.sendStatus(200);
 	} catch (err) {
