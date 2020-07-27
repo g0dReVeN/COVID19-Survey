@@ -10,7 +10,7 @@ const rawBodySaver = (req, res, buf, encoding) => {
 };
 
 const secureMiddleware = async (req, res, next) => {
-	console.log(req);
+	console.log(req.headers);
 	// if (req.header("X-AppEngine-QueueName") !== "coughstudy-queue") {
 	// 	return res.status(403).send("Unauthorized");
 	// } else {
