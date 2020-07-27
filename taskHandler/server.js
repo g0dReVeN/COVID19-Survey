@@ -16,7 +16,7 @@ const secureMiddleware = async (req, res, next) => {
 	if (
 		req.header("x-appengine-queuename") !== process.env.APP_ENGINE_QUEUE ||
 		req.header("x-appengine-default-version-hostname") !==
-			APP_ENGINE_DEFAULT_HOSTNAME
+			process.env.APP_ENGINE_DEFAULT_HOSTNAME
 	) {
 		return res.status(403).send("Unauthorized");
 	} else {
