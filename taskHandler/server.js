@@ -54,7 +54,7 @@ app.post("/", async (req, res) => {
 		spreadsheetId: process.env.SHEET_ID,
 		range: "Sheet1!A:A",
 		includeValuesInResponse: false,
-		valueInputOption: "USER_ENTERED",
+		valueInputOption: "RAW",
 		insertDataOption: "INSERT_ROWS",
 		resource: {
 			majorDimension: "ROWS",

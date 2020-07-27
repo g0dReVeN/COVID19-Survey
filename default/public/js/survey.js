@@ -415,7 +415,7 @@ survey.onComplete.add(function (result) {
 				if ((key === "temp_type") | (key === "know_temperature")) continue;
 				else if (key === "permission_from_user") value = "Yes";
 				else if (key === "permission_from_parents_or_guardians") value = "Yes";
-				else if (key === "age_group") key = "age_group";
+				else if (key.includes("age_group")) key = "age_group";
 				else if (key === "temperature_c") key = "temperature";
 				else if (key === "temperature_f") {
 					key = "temperature";
