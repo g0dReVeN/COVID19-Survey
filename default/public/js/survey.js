@@ -46,7 +46,7 @@ const json = {
 	logoWidth: 100,
 	logoHeight: 100,
 	completedHtml:
-		"<h4>Thank you for completing the survey. You will receive your results shortly. Please continue to keep safe!</h4>",
+		"<h4>Thank you for completing the survey. Please be patient, you will receive your results shortly. Please continue to keep safe!</h4>",
 	pages: [
 		{
 			name: "page0",

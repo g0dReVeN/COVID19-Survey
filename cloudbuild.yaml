@@ -2,6 +2,8 @@ steps:
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'gs://$_BUCKET/default.yaml', 'default/default.yaml']
   - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'gs://$_BUCKET/taskHandlerSheetsAccount_key.json', 'taskHandler/taskHandlerSheetsAccount_key.json']
+  - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'gs://$_BUCKET/taskHandler.yaml', 'taskHandler/taskHandler.yaml']
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "default/default.yaml"]
