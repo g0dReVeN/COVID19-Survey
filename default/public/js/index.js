@@ -256,7 +256,7 @@ function reposition(top) {
 
 function onloadCallback() {
 	clientId = grecaptcha.render('recaptcha', {
-		'sitekey': '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2',
+		'sitekey': clientId,
 		'badge': 'bottom',
 		'size': 'invisible'
 	});

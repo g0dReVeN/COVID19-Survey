@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const multer = Multer({
 	storage: Multer.memoryStorage(),
 	limits: {
-		fileSize: 1 * 1024 * 1024, // max file size 1MB
+		fileSize: 5 * 1024 * 1024, // max file size 5MB
 	},
 });
 
