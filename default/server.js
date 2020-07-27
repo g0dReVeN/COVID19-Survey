@@ -70,22 +70,22 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 						});
 
 						stream.on("finish", () => {
-							Promise.all([entityPromise]).then(() => {
+							// Promise.all([entityPromise]).then(() => {
 								res
 									.status(200)
 									.set()
 									.send({ success: "Survey recorded successfully!" });
-							});
+							// });
 						});
 
 						stream.end(req.file.buffer);
 					} else {
-						Promise.all([entityPromise]).then(() => {
+						// Promise.all([entityPromise]).then(() => {
 							res
 								.status(200)
 								.set()
 								.send({ success: "Survey recorded successfully!" });
-						});
+						// });
 					}
 				} else {
 					res.status(400).set().send({ error: "Failed reCAPTCHA!" });
