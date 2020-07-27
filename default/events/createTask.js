@@ -8,7 +8,7 @@ const client = new CloudTasksClient();
 
 const parent = client.queuePath(process.env.GOOGLE_CLOUD_PROJECT, process.env.GCLOUD_TASK_QUEUE_LOCATION, process.env.GCLOUD_TASK_QUEUE);
 
-export default (payload) => {
+const createTask = (payload) => {
     const task = {
         appEngineHttpRequest: {
           httpMethod: 'POST',
@@ -27,3 +27,5 @@ export default (payload) => {
 
     client.createTask(request);
 }
+
+module.exports = createTask;
