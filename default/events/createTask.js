@@ -15,7 +15,7 @@ export default (payload) => {
           appEngineRouting: {
             service : 'task-handler'
           },
-          relativeUri: '/createTask',
+          relativeUri: '/',
           body: Buffer.from(JSON.stringify(payload)).toString('base64')
         },
     };

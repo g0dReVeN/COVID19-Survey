@@ -32,7 +32,7 @@ app.use(
 );
 app.use(secureMiddleware);
 
-app.post("/createTask", (req, res) => {
+app.post("/", (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
 
     console.log(req.rawBody);

@@ -4,7 +4,7 @@ const cors = require("cors");
 const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
-const { Storage } = require("./default/node_modules/@google-cloud/storage");
+const { Storage } = require("@google-cloud/storage");
 const createTask = require("./events/createTask");
 
 const app = express();
