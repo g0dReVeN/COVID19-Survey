@@ -44,8 +44,11 @@ app.use(secureMiddleware);
 
 app.post("/", async (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
+	const rowValues = { ...rowStructure };
 
-	// console.log(bodyData);
+	Object.keys(bodyData).forEach((key) => {
+		rowValues[key] = bodyData[key];
+	});
 
 	const request = {
 		spreadsheetId: process.env.SHEET_ID,
@@ -54,7 +57,7 @@ app.post("/", async (req, res) => {
 		valueInputOption: "USER_ENTERED",
 		insertDataOption: "INSERT_ROWS",
 		resource: {
-			values: [Object.keys(rowStructure)],
+			values: [Object.values(rowValues)],
 		},
 	};
 
@@ -62,9 +65,7 @@ app.post("/", async (req, res) => {
 		const authClient = await auth.getClient();
 		const sheets = google.sheets({ version: "v4", auth: authClient });
 
-		const response = (await sheets.spreadsheets.values.append(request)).data;
-
-		console.log(JSON.stringify(response, null, 2));
+		await sheets.spreadsheets.values.append(request);
 		res.sendStatus(200);
 	} catch (err) {
 		console.error(err);
