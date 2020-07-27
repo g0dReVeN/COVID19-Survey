@@ -34,7 +34,7 @@ app.use(secureMiddleware);
 app.post("/", (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
 
-	console.log(req.rawBody);
+	console.log(bodyData);
 	// we need to send this status to tell cloud task about the completion of task.
 	res.sendStatus(200);
 });
