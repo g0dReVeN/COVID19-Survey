@@ -37,6 +37,8 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 	}
 
 	try {
+		cconsole.log(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=${req.body.token}`);
+		console.log(`${RECAPTCHA_URL}${req.body.token}`);
 		fetch(`${RECAPTCHA_URL}${req.body.token}`, {
 			method: "post",
 		})
