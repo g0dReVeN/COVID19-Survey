@@ -52,11 +52,12 @@ app.post("/", async (req, res) => {
 
 	const request = {
 		spreadsheetId: process.env.SHEET_ID,
-		range: "Sheet1!A:B",
+		range: "Sheet1!A:A",
 		includeValuesInResponse: false,
 		valueInputOption: "USER_ENTERED",
 		insertDataOption: "INSERT_ROWS",
 		resource: {
+			majorDimension: "ROWS",
 			values: [Object.values(rowValues)],
 		},
 	};
