@@ -10,13 +10,12 @@ const rawBodySaver = (req, res, buf, encoding) => {
 };
 
 const secureMiddleware = async (req, res, next) => {
-	console.log(req.headers);
-	// if (req.header("X-AppEngine-QueueName") !== "coughstudy-queue") {
-	// 	return res.status(403).send("Unauthorized");
-	// } else {
+	if (req.header("x-appengine-queuename") !== "coughstudy-queue") {
+		return res.status(403).send("Unauthorized");
+	} else {
 		next();
 		return;
-	// }
+	}
 };
 
 app.enable("trust proxy");
@@ -35,7 +34,7 @@ app.use(secureMiddleware);
 app.post("/", (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
 
-    console.log(req.rawBody);
+	console.log(req.rawBody);
 	// we need to send this status to tell cloud task about the completion of task.
 	res.sendStatus(200);
 });
