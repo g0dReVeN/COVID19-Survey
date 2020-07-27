@@ -29,7 +29,7 @@ app.use(
 		},
 	})
 );
-app.use(secureMiddleware);
+// app.use(secureMiddleware);
 
 app.post("/", (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
