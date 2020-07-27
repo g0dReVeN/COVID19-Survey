@@ -54,7 +54,7 @@ app.post("/", async (req, res) => {
 		valueInputOption: "USER_ENTERED",
 		insertDataOption: "INSERT_ROWS",
 		resource: {
-			values: Object.keys(rowStructure),
+			values: [Object.keys(rowStructure)],
 		},
 	};
 
