@@ -412,12 +412,12 @@ survey.onComplete.add(function (result) {
 				let key = prop.toLowerCase().replace(/-+/g, "_");
 				let value = result.data[prop];
 
-				if ((prop == "temp_type") | (prop == "know_temperature")) continue;
-				else if (prop.includes("permission_from_user")) value = "Yes";
-				else if (prop.includes("permission_from_parents_or_guardians")) value = "Yes";
-				else if (prop.includes("age_group")) key = "age_group";
-				else if (prop.includes("temperature_c")) key = "temperature";
-				else if (prop.includes("temperature_f")) {
+				if ((key === "temp_type") | (key === "know_temperature")) continue;
+				else if (key === "permission_from_user") value = "Yes";
+				else if (key === "permission_from_parents_or_guardians") value = "Yes";
+				else if (key === "age_group") key = "age_group";
+				else if (key === "temperature_c") key = "temperature";
+				else if (key === "temperature_f") {
 					key = "temperature";
 					value = (5 / 9) * (value - 32);
 				}
