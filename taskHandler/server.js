@@ -41,7 +41,7 @@ app.use(secureMiddleware);
 app.post("/", async (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
 
-	console.log(bodyData);
+	// console.log(bodyData);
 
 	const request = {
 		spreadsheetId: process.env.SHEET_ID,
@@ -50,14 +50,13 @@ app.post("/", async (req, res) => {
 		valueInputOption: "USER_ENTERED",
 		insertDataOption: "INSERT_ROWS",
 		resource: {
-			why: 'vyh'
+			values: [Object.keys(rowStructure)],
 		},
 	};
 
 	// we need to send this status to tell cloud task about the completion of task.
 	try {
 		const response = (await sheets.spreadsheets.values.append(request)).data;
-		// TODO: Change code below to process the `response` object:
 		console.log(JSON.stringify(response, null, 2));
 		res.sendStatus(200);
 	} catch (err) {
