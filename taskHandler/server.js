@@ -1,7 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { google } = require("googleapis");
+const rowStructure = require("./rowStructure");
 
 const app = express();
+const sheets = google.sheets("v4");
 
 const rawBodySaver = (req, res, buf, encoding) => {
 	if (buf && buf.length) {
@@ -10,7 +13,11 @@ const rawBodySaver = (req, res, buf, encoding) => {
 };
 
 const secureMiddleware = async (req, res, next) => {
-	if (req.header("x-appengine-queuename") !== "coughstudy-queue") {
+	if (
+		req.header("x-appengine-queuename") !== process.env.APP_ENGINE_QUEUE ||
+		req.header("x-appengine-default-version-hostname") !==
+			APP_ENGINE_DEFAULT_HOSTNAME
+	) {
 		return res.status(403).send("Unauthorized");
 	} else {
 		next();
@@ -31,12 +38,31 @@ app.use(
 );
 app.use(secureMiddleware);
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
 	const bodyData = JSON.parse(req.rawBody);
 
 	console.log(bodyData);
+
+	const request = {
+		spreadsheetId: process.env.SHEET_ID,
+		range: "Sheet1!A:B",
+		includeValuesInResponse: false,
+		valueInputOption: "USER_ENTERED",
+		insertDataOption: "INSERT_ROWS",
+		resource: {
+			why: 'vyh'
+		},
+	};
+
 	// we need to send this status to tell cloud task about the completion of task.
-	res.sendStatus(200);
+	try {
+		const response = (await sheets.spreadsheets.values.append(request)).data;
+		// TODO: Change code below to process the `response` object:
+		console.log(JSON.stringify(response, null, 2));
+		res.sendStatus(200);
+	} catch (err) {
+		console.error(err);
+	}
 });
 
 const PORT = process.env.PORT || 8080;
