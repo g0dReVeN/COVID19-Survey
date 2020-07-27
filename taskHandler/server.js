@@ -10,8 +10,7 @@ const rawBodySaver = (req, res, buf, encoding) => {
 };
 
 const secureMiddleware = async (req, res, next) => {
-	if (req.header("X-AppEngine-QueueName") != "my-queue") {
-		console.log("No X-AppEngine-QueueName is specified");
+	if (req.header("X-AppEngine-QueueName") != "coughstudy-queue") {
 		return res.status(403).send("Unauthorized");
 	} else {
 		next();
