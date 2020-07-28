@@ -18,6 +18,17 @@ let observer = new MutationObserver(function (mutations) {
 				if (c[i].title == "Record") {
 
 					var audio = document.querySelector('audio');
+					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
+					var cloneButton = finishButton.cloneNode(true);
+					cloneButton.style.display = "none";
+					finishButton.parentNode.appendChild(cloneButton);
+
+					cloneButton.onclick = function () {
+						btnStopRecording.click();
+						setTimeout(function () {
+							finishButton.click();
+						}, 400);
+					}
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
@@ -76,8 +87,16 @@ let observer = new MutationObserver(function (mutations) {
 							audio: isEdge ? true : {
 								echoCancellation: false
 							}
-						}).then(function (mic) {
-							callback(mic);
+						}).then(function (stream) {
+							ctx = new AudioContext();
+							var source = ctx.createMediaStreamSource(stream);
+							var dest = ctx.createMediaStreamDestination();
+							var gainNode = ctx.createGain();
+
+							source.connect(gainNode);
+							gainNode.connect(dest);
+							gainNode.gain.value = 0.8;
+							callback(dest.stream);
 						}).catch(function (error) {
 							alert('Error: ' + error);
 							console.error(error);
@@ -146,9 +165,9 @@ let observer = new MutationObserver(function (mutations) {
 					var isEdge = navigator.userAgent.indexOf('Edge') !== -1 && (!!navigator.msSaveOrOpenBlob || !!navigator.msSaveBlob);
 					var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-					var recorder; // globally accessible
+					var ctx;
+					var recorder;
 					var microphone;
-					var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
@@ -208,9 +227,11 @@ let observer = new MutationObserver(function (mutations) {
 							recorder = null;
 						}
 
+						speech = hark(microphone, harkOptions);
+
 						recorder = RecordRTC(microphone, options);
 
-						recorder.setRecordingDuration(5000).onRecordingStopped(() => {
+						recorder.setRecordingDuration(15000).onRecordingStopped(() => {
 							btnStopRecording.click()
 						});
 
@@ -219,8 +240,6 @@ let observer = new MutationObserver(function (mutations) {
 						var harkOptions = {
 							threshold: -40
 						};
-						harkMicrophone = microphone.clone();
-						speech = hark(harkMicrophone, harkOptions);
 
 						speech.on('speaking', function () {
 							console.log('Cough is heard!!!');
@@ -231,6 +250,8 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
 						btnStopRecording.style.visibility = "visible";
+						finishButton.style.display = "none";
+						cloneButton.style.display = "";
 					};
 
 					btnStopRecording.onclick = function () {
@@ -239,6 +260,8 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
+						finishButton.style.display = "";
+						cloneButton.style.display = "none";
 						btnReleaseMicrophone.click();
 					};
 
@@ -247,19 +270,17 @@ let observer = new MutationObserver(function (mutations) {
 						btnStartRecording.disabled = false;
 
 						if (microphone) {
-							microphone.stop();
-							microphone = null;
-						}
-						if (harkMicrophone) {
-							speech.stop();
-							speech = null;
-							harkMicrophone.stop();
-							harkMicrophone = null;
+							ctx.close().then(() => {
+								microphone.stop();
+								microphone = null;
+								speech.stop();
+								speech = null;
+							});
 						}
 					};
 
 					function click(el) {
-						el.disabled = false; // make sure that element is not disabled
+						el.disabled = false;
 						var evt = document.createEvent('Event');
 						evt.initEvent('click', true, true);
 						el.dispatchEvent(evt);
