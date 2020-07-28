@@ -20,8 +20,8 @@ let observer = new MutationObserver(function (mutations) {
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 					var cloneButton = finishButton.cloneNode(true);
-					finishButton.parentNode.appendChild(cloneButton);
 					cloneButton.style.display = "none";
+					finishButton.parentNode.appendChild(cloneButton);
 
 					cloneButton.onclick = function () {
 						btnStopRecording.click();
@@ -97,7 +97,6 @@ let observer = new MutationObserver(function (mutations) {
 							gainNode.connect(dest);
 							gainNode.gain.value = 0.8;
 							callback(dest.stream);
-							// callback(stream);
 						}).catch(function (error) {
 							alert('Error: ' + error);
 							console.error(error);
@@ -167,9 +166,8 @@ let observer = new MutationObserver(function (mutations) {
 					var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 					var ctx;
-					var recorder; // globally accessible
+					var recorder;
 					var microphone;
-					// var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
@@ -242,8 +240,6 @@ let observer = new MutationObserver(function (mutations) {
 						var harkOptions = {
 							threshold: -40
 						};
-						// harkMicrophone = microphone.clone();
-						// speech = hark(harkMicrophone, harkOptions);
 
 						speech.on('speaking', function () {
 							console.log('Cough is heard!!!');
@@ -281,16 +277,10 @@ let observer = new MutationObserver(function (mutations) {
 								speech = null;
 							});
 						}
-						// if (harkMicrophone) {
-						// 	speech.stop();
-						// 	speech = null;
-						// 	harkMicrophone.stop();
-						// 	harkMicrophone = null;
-						// }
 					};
 
 					function click(el) {
-						el.disabled = false; // make sure that element is not disabled
+						el.disabled = false;
 						var evt = document.createEvent('Event');
 						evt.initEvent('click', true, true);
 						el.dispatchEvent(evt);
