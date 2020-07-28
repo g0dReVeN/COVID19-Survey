@@ -249,20 +249,16 @@ const isoCountries = {
 	'ZW': 'Zimbabwe'
 };
 
-function reposition(top) {
-	$('.grecaptcha-badge').css('bottom', !top ? '30px' : '');
-	$('.grecaptcha-badge').css('top', top ? '20px' : '');
-}
-
 function onloadCallback() {
 	clientId = grecaptcha.render('recaptcha', {
-		'sitekey': '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2',
+		'sitekey': clientId,
 		'badge': 'bottom',
 		'size': 'invisible'
 	});
 
-	$('.grecaptcha-badge').css('z-index', '999')
-	reposition(true);
+	$('.grecaptcha-badge').css('z-index', '999');
+	$('.grecaptcha-badge').css('bottom', '');
+	$('.grecaptcha-badge').css('top', '20px');
 }
 
 function getParameters() {
@@ -272,10 +268,8 @@ function getParameters() {
 		verifiedCC = cc.slice(4);
 
 		$('#warning').show();
-		reposition(false);
 		$('.sv-btn').on('click', function () {
 			$('#warning').hide();
-			reposition(true);
 		});
 	}
 

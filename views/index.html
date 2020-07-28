@@ -1,53 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>COVID-19 Cough Survey</title>
+	<head>
+		<title>COVID-19 Cough Survey</title>
 
-    <meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/survey-jquery/1.7.4/survey.jquery.min.js"></script>
-    <script src="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/surveyjs-widgets@1.7.4/surveyjs-widgets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.5.9/RecordRTC.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.4.3/jspdf.plugin.autotable.min.js"></script>
-    <script src="js/index.js"></script>
-    <script
-      src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-      async
-      defer
-    ></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/survey-jquery/1.7.4/survey.jquery.min.js"></script>
+		<script src="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/surveyjs-widgets@1.7.4/surveyjs-widgets.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.5.9/RecordRTC.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.4.3/jspdf.plugin.autotable.min.js"></script>
+		<script src="js/index.js"></script>
+		<script
+			src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+			async
+			defer
+		></script>
 
-    <link rel="stylesheet" href="https://coughtest.online/css/index.css" />
-    <link rel="stylesheet" href="https://coughtest.online/css/modern.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.min.css"
-    />
-  </head>
-  <body onload="getParameters()">
-    <div id="container">
-      <div id="targetGroup">
-        <h1 id="warning" hidden>
-          WARNING: If you have not being directed here via a public / government
-          institute please click <a href="/">here</a>
-        </h1>
-      </div>
-      <div id="recaptcha"></div>
-      <div id="surveyElement" style="display: inline-block; width: 100%;"></div>
-      <div id="surveyResult" style="display: inline-block; width: 100%;"></div>
+		<link rel="stylesheet" href="https://coughtest.online/css/index.css" />
+		<link rel="stylesheet" href="https://coughtest.online/css/modern.css" />
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.min.css"
+		/>
+	</head>
+	<body onload="getParameters()">
+		<div id="container">
+			<div id="recaptcha"></div>
+			<div id="surveyElement" style="display: inline-block; width: 100%;"></div>
+			<div id="surveyResult" style="display: inline-block; width: 100%;"></div>
 
-      <script>
-        var recorderResult = null;
-      </script>
-      <script type="text/javascript" src="js/survey.js"></script>
-      <script type="text/javascript" src="js/hark.js"></script>
-      <script type="text/javascript" src="js/recorder.js"></script>
+			<script>
+				var recorderResult = null;
+			</script>
+			<script type="text/javascript" src="js/survey.js"></script>
+			<script type="text/javascript" src="js/hark.js"></script>
+			<script type="text/javascript" src="js/recorder.js"></script>
 
-      <div style="height: 2rem;"></div>
-      <footer class="footer">© 2020 Cough Test Online</footer>
-    </div>
-  </body>
+			<div style="height: 2rem;"></div>
+			<footer class="footer">© 2020 Cough Test Online</footer>
+		</div>
+	</body>
 </html>

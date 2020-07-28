@@ -27,7 +27,7 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.click();
 						setTimeout(function () {
 							finishButton.click();
-						}, 300);
+						}, 400);
 					}
 
 					function replaceElements() {
