@@ -19,16 +19,13 @@ let observer = new MutationObserver(function (mutations) {
 
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
-					var cloneButton = finishButton.cloneNode(true);
-					cloneButton.style.display = "none";
-					finishButton.parentNode.appendChild(cloneButton);
 
-					cloneButton.onclick = function () {
-						btnStopRecording.click();
-						setTimeout(function () {
-							finishButton.click();
-						}, 400);
-					}
+					finishButton.addEventListener('mousedown', function (e) {
+						if (isRecording) {
+							console.log("recording")
+							btnStopRecording.click();
+						}
+					});
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
@@ -176,6 +173,7 @@ let observer = new MutationObserver(function (mutations) {
 					var heardCough;
 					var speech;
 					var blob;
+					var isRecording = false;
 
 					replaceElements();
 
@@ -184,6 +182,7 @@ let observer = new MutationObserver(function (mutations) {
 					btnStopRecording.style.visibility = "hidden";
 
 					btnStartRecording.onclick = function () {
+						isRecording = true;
 						recorderResult = null;
 						blob = null;
 						heardCough = false;
@@ -250,19 +249,16 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
 						btnStopRecording.style.visibility = "visible";
-						finishButton.style.display = "none";
-						cloneButton.style.display = "";
 					};
 
 					btnStopRecording.onclick = function () {
+						isRecording = false;
 						this.disabled = true;
 						recorder.stopRecording(stopRecordingCallback);
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
 						finishButton.style.display = "";
-						cloneButton.style.display = "none";
-						btnReleaseMicrophone.click();
 					};
 
 					btnReleaseMicrophone.onclick = function () {
