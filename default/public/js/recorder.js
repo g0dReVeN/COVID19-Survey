@@ -20,6 +20,13 @@ let observer = new MutationObserver(function (mutations) {
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 
+					finishButton.addEventListener('touchstart', function (e) {
+						if (isRecording) {
+							console.log("recording")
+							btnStopRecording.click();
+						}
+					});
+
 					finishButton.addEventListener('mousedown', function (e) {
 						if (isRecording) {
 							console.log("recording")
