@@ -20,18 +20,18 @@ let observer = new MutationObserver(function (mutations) {
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 
-					finishButton.addEventListener('touchstart', function (e) {
+					function stopRecording() {
 						if (isRecording) {
-							console.log("recording")
 							btnStopRecording.click();
 						}
+					}
+
+					finishButton.addEventListener('touchstart', function (e) {
+						stopRecording();
 					});
 
 					finishButton.addEventListener('mousedown', function (e) {
-						if (isRecording) {
-							console.log("recording")
-							btnStopRecording.click();
-						}
+						stopRecording();
 					});
 
 					function replaceElements() {
@@ -248,7 +248,7 @@ let observer = new MutationObserver(function (mutations) {
 						};
 
 						speech.on('speaking', function () {
-							console.log('Cough is heard!!!');
+							console.log('cough detected');
 							heardCough = true;
 						});
 
