@@ -105,11 +105,6 @@ body {
 #warning {
   color: red;
   font-family: "Raleway";
-  margin: 0 auto;
-  padding: 0px 20px 0px 20px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
 
 @keyframes pulse {
