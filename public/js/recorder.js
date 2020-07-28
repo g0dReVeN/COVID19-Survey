@@ -18,6 +18,17 @@ let observer = new MutationObserver(function (mutations) {
 				if (c[i].title == "Record") {
 
 					var audio = document.querySelector('audio');
+					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
+					var cloneButton = finishButton.cloneNode(true);
+					finishButton.parentNode.appendChild(cloneButton);
+					cloneButton.style.display = "none";
+
+					cloneButton.onclick = function () {
+						btnStopRecording.click();
+						setTimeout(function () {
+							finishButton.click();
+						}, 300);
+					}
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
@@ -243,6 +254,8 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
 						btnStopRecording.style.visibility = "visible";
+						finishButton.style.display = "none";
+						cloneButton.style.display = "";
 					};
 
 					btnStopRecording.onclick = function () {
@@ -251,6 +264,8 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
+						finishButton.style.display = "";
+						cloneButton.style.display = "none";
 						btnReleaseMicrophone.click();
 					};
 
@@ -264,7 +279,6 @@ let observer = new MutationObserver(function (mutations) {
 								microphone = null;
 								speech.stop();
 								speech = null;
-								console.log("here")
 							});
 						}
 						// if (harkMicrophone) {
