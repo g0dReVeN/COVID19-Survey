@@ -31,6 +31,11 @@ let observer = new MutationObserver(function (mutations) {
 						stopRecording();
 					}, false);
 
+					finishButton.addEventListener('touchend', function (e) {
+						console.log('touchend button event triggered');
+						stopRecording();
+					}, false);
+
 					finishButton.addEventListener('mousedown', function (e) {
 						console.log('mousedown button event triggered');
 						stopRecording();
