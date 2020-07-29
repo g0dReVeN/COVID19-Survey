@@ -20,13 +20,6 @@ let observer = new MutationObserver(function (mutations) {
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 
-					finishButton.addEventListener('mousedown', function (e) {
-						if (isRecording) {
-							console.log("recording")
-							btnStopRecording.click();
-						}
-					});
-
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
 						var newBtnParent = document.createElement('DIV');
@@ -182,6 +175,7 @@ let observer = new MutationObserver(function (mutations) {
 					btnStopRecording.style.visibility = "hidden";
 
 					btnStartRecording.onclick = function () {
+						finishButton.disabled = true;
 						isRecording = true;
 						recorderResult = null;
 						blob = null;
@@ -258,7 +252,7 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
-						finishButton.style.display = "";
+						finishButton.disabled = false;
 					};
 
 					btnReleaseMicrophone.onclick = function () {
