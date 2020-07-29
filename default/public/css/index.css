@@ -1,120 +1,124 @@
+html {
+	touch-action: manipulation;
+}
+
 html.touch *:hover {
-  pointer-events: none !important;
+	pointer-events: none !important;
 }
 
 body {
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  background-color: #f6fcfb;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	background-color: #f6fcfb;
 }
 
 .notRec {
-  background-color: darkred;
+	background-color: darkred;
 }
 
 .Rec {
-  animation-name: pulse;
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+	animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 
 #record,
 #save {
-  width: 50px;
-  height: 50px;
-  font-size: 0;
-  background-image: radial-gradient(red 47%, white 53%);
-  border: 2px solid rgb(64, 64, 64);
-  border-radius: 50px;
-  outline: none;
-  position: absolute;
-  margin: 0 auto;
-  text-align: center;
+	width: 50px;
+	height: 50px;
+	font-size: 0;
+	background-image: radial-gradient(red 47%, white 53%);
+	border: 2px solid rgb(64, 64, 64);
+	border-radius: 50px;
+	outline: none;
+	position: absolute;
+	margin: 0 auto;
+	text-align: center;
 }
 
 #container {
-  position: relative;
-  height: 100%;
-  min-height: 100vh;
+	position: relative;
+	height: 100%;
+	min-height: 100vh;
 }
 
 .footer {
-  color: #f8f8f8;
-  font-family: "Raleway";
-  position: absolute;
-  clear: both;
-  bottom: 0;
-  width: 100%;
-  height: 2rem;
-  font-size: 1.2rem;
-  text-align: center;
-  line-height: 2rem;
-  background-color: rgb(26, 179, 148);
+	color: #f8f8f8;
+	font-family: "Raleway";
+	position: absolute;
+	clear: both;
+	bottom: 0;
+	width: 100%;
+	height: 2rem;
+	font-size: 1.2rem;
+	text-align: center;
+	line-height: 2rem;
+	background-color: rgb(26, 179, 148);
 }
 
 .notFoundError {
-  width: 100%;
-  color: rgb(26, 179, 148);
-  font-family: "Raleway";
-  font-size: 40px;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+	width: 100%;
+	color: rgb(26, 179, 148);
+	font-family: "Raleway";
+	font-size: 40px;
+	text-align: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 @media screen and (min-width: 375px) {
-  .notFoundError {
-    font-size: 40px;
-  }
+	.notFoundError {
+		font-size: 40px;
+	}
 }
 
 @media screen and (min-width: 425px) {
-  .notFoundError {
-    font-size: 40px;
-  }
+	.notFoundError {
+		font-size: 40px;
+	}
 }
 
 @media screen and (min-width: 768px) {
-  .notFoundError {
-    font-size: 60px;
-  }
+	.notFoundError {
+		font-size: 60px;
+	}
 }
 
 @media screen and (min-width: 1024px) {
-  .notFoundError {
-    font-size: 70px;
-  }
+	.notFoundError {
+		font-size: 70px;
+	}
 }
 
 @media screen and (min-width: 1440px) {
-  .notFoundError {
-    font-size: 80px;
-  }
+	.notFoundError {
+		font-size: 80px;
+	}
 }
 
 @media screen and (min-width: 2560px) {
-  .notFoundError {
-    font-size: 80px;
-  }
+	.notFoundError {
+		font-size: 80px;
+	}
 }
 
 #warning {
-  color: red;
-  font-family: "Raleway";
+	color: red;
+	font-family: "Raleway";
 }
 
 @keyframes pulse {
-  0% {
-    box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
-  }
-  65% {
-    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
-  }
-  90% {
-    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
-  }
+	0% {
+		box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+	}
+	65% {
+		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+	}
+	90% {
+		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+	}
 }

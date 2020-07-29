@@ -29,17 +29,17 @@ let observer = new MutationObserver(function (mutations) {
 					finishButton.addEventListener('touchstart', function (e) {
 						console.log('touchstart button event triggered');
 						stopRecording();
-					}, false);
+					});
 
 					finishButton.addEventListener('touchend', function (e) {
 						console.log('touchend button event triggered');
 						stopRecording();
-					}, false);
+					});
 
 					finishButton.addEventListener('mousedown', function (e) {
 						console.log('mousedown button event triggered');
 						stopRecording();
-					}, false);
+					});
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
