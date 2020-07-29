@@ -1,10 +1,10 @@
 html {
-	touch-action: manipulation;
+	touch-action: none;
 }
 
-html.touch *:hover {
+/* html.touch *:hover {
 	pointer-events: none !important;
-}
+} */
 
 body {
 	width: 100%;

@@ -26,20 +26,20 @@ let observer = new MutationObserver(function (mutations) {
 						}
 					}
 
-					finishButton.addEventListener('touchstart', function (e) {
+					finishButton.addEventListener('pointerdown', function (e) {
 						console.log('touchstart button event triggered');
 						stopRecording();
 					});
 
-					finishButton.addEventListener('touchend', function (e) {
-						console.log('touchend button event triggered');
-						stopRecording();
-					});
+					// finishButton.addEventListener('touchend', function (e) {
+					// 	console.log('touchend button event triggered');
+					// 	stopRecording();
+					// });
 
-					finishButton.addEventListener('mousedown', function (e) {
-						console.log('mousedown button event triggered');
-						stopRecording();
-					});
+					// finishButton.addEventListener('mousedown', function (e) {
+					// 	console.log('mousedown button event triggered');
+					// 	stopRecording();
+					// });
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
