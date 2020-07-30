@@ -618,6 +618,10 @@
 	float: right;
 }
 
+.sv-footer__complete-btn:disabled {
+	background-color: #dddddd;
+}
+
 .sv-footer__next-btn {
 	background-color: #1ab394;
 	float: right;
