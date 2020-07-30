@@ -176,6 +176,7 @@ let observer = new MutationObserver(function (mutations) {
 
 					btnStartRecording.onclick = function () {
 						finishButton.disabled = true;
+						finishButton.style.backgroundColor = "#dddddd";
 						isRecording = true;
 						recorderResult = null;
 						blob = null;
@@ -253,6 +254,7 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
 						finishButton.disabled = false;
+						finishButton.style.backgroundColor = "#1ab394";
 					};
 
 					btnReleaseMicrophone.onclick = function () {
