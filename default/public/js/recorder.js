@@ -20,27 +20,6 @@ let observer = new MutationObserver(function (mutations) {
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 
-					function stopRecording() {
-						if (isRecording) {
-							btnStopRecording.click();
-						}
-					}
-
-					finishButton.addEventListener('pointerdown', function (e) {
-						console.log('touchstart button event triggered');
-						stopRecording();
-					});
-
-					// finishButton.addEventListener('touchend', function (e) {
-					// 	console.log('touchend button event triggered');
-					// 	stopRecording();
-					// });
-
-					// finishButton.addEventListener('mousedown', function (e) {
-					// 	console.log('mousedown button event triggered');
-					// 	stopRecording();
-					// });
-
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
 						var newBtnParent = document.createElement('DIV');
@@ -196,6 +175,7 @@ let observer = new MutationObserver(function (mutations) {
 					btnStopRecording.style.visibility = "hidden";
 
 					btnStartRecording.onclick = function () {
+						finishButton.disabled = true;
 						isRecording = true;
 						recorderResult = null;
 						blob = null;
@@ -263,6 +243,7 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
 						btnStopRecording.style.visibility = "visible";
+						finishButton.disabled = false;
 					};
 
 					btnStopRecording.onclick = function () {
