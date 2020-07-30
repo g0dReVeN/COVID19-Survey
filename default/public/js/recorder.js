@@ -243,7 +243,6 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
 						btnStopRecording.style.visibility = "visible";
-						finishButton.disabled = false;
 					};
 
 					btnStopRecording.onclick = function () {
@@ -253,7 +252,7 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
-						finishButton.style.display = "";
+						finishButton.disabled = false;
 					};
 
 					btnReleaseMicrophone.onclick = function () {
