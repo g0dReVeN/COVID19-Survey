@@ -16,7 +16,6 @@ let observer = new MutationObserver(function (mutations) {
 
 			for (i = 0; i < c.length; i++) {
 				if (c[i].title == "Record") {
-
 					var audio = document.querySelector('audio');
 					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
 
@@ -158,6 +157,7 @@ let observer = new MutationObserver(function (mutations) {
 					var ctx;
 					var recorder;
 					var microphone;
+					var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
@@ -221,8 +221,6 @@ let observer = new MutationObserver(function (mutations) {
 							recorder = null;
 						}
 
-						speech = hark(microphone, harkOptions);
-
 						recorder = RecordRTC(microphone, options);
 
 						recorder.setRecordingDuration(15000).onRecordingStopped(() => {
@@ -234,6 +232,8 @@ let observer = new MutationObserver(function (mutations) {
 						var harkOptions = {
 							threshold: -40
 						};
+						harkMicrophone = microphone.clone();
+						speech = hark(harkMicrophone, harkOptions);
 
 						speech.on('speaking', function () {
 							console.log('cough detected');
@@ -265,8 +265,12 @@ let observer = new MutationObserver(function (mutations) {
 							ctx.close().then(() => {
 								microphone.stop();
 								microphone = null;
-								speech.stop();
-								speech = null;
+								if (harkMicrophone) {
+									speech.stop();
+									speech = null;
+									harkMicrophone.stop();
+									harkMicrophone = null;
+								}
 							});
 						}
 					};
