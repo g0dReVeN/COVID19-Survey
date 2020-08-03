@@ -4,7 +4,7 @@ const cors = require("cors");
 const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
-const MobileDetect = require("mobile-detect");
+const DeviceDetector = require("device-detector-js");
 const createTask = require("./events/createTask");
 const uploadFile = require("./events/uploadFile");
 
@@ -24,19 +24,24 @@ const multer = Multer({
 });
 
 app.get("/", (req, res) => {
-	const md = new MobileDetect(req.headers["user-agent"]);
+	const deviceDetector = new DeviceDetector();
+	const device = deviceDetector.parse(req.headers["user-agent"]);
 
 	if (
-		(md.os() === "iOS" &&
-			md.version("iOS") >= 13 &&
-			md.userAgent() !== "Safari") ||
-		(md.os() !== "iOS" && md.version("Chrome") >= 46) ||
-		(md.os() !== "iOS" && md.version("Firefox") >= 22)
+		(device.os.name === "iOS" &&
+			Number(device.os.version) >= 13 &&
+			device.client.name === "Mobile Safari") ||
+		(device.os.name !== "iOS" &&
+			["Chrome Mobile", "Chrome", "Chromium"].includes(device.client.name) &&
+			Number(device.client.version) >= 46) ||
+		(device.os.name !== "iOS" &&
+			["Firefox Mobile", "Firefox"].includes(device.client.name) &&
+			Number(device.client.version) >= 22)
 	) {
 		res.sendFile(path.join(__dirname, "/views/index.html"));
+	} else {
+		res.redirect(303, "/platforms");
 	}
-
-	res.redirect(303, "/platforms");
 });
 
 app.post("/", multer.single("sample"), async (req, res, next) => {
@@ -80,7 +85,7 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 });
 
 app.get("/platforms", (req, res) => {
-	res.render(path.join(__dirname, "/views/303.html"));
+	res.sendFile(path.join(__dirname, "/views/303.html"));
 });
 
 app.get("*", (req, res) => {
