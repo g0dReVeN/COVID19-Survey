@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 		res.sendFile(path.join(__dirname, "/views/index.html"));
 	}
 
-	res.redirect(303, "/browsers");
+	res.redirect(303, "/platforms");
 });
 
 app.post("/", multer.single("sample"), async (req, res, next) => {
