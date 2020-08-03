@@ -65,11 +65,11 @@ let observer = new MutationObserver(function (mutations) {
 						}
 
 						if (typeof navigator.mediaDevices === 'undefined' || !navigator.mediaDevices.getUserMedia) {
-							alert('This browser does not supports WebRTC getUserMedia API.');
+							alert('Please use a native browser such as Safari or Chrome as this in-app browser is not supported.');
 
-							if (!!navigator.getUserMedia) {
-								alert('This browser seems supporting deprecated getUserMedia API.');
-							}
+							// if (!!navigator.getUserMedia) {
+							// 	alert('This browser seems supporting deprecated getUserMedia API.');
+							// }
 						}
 
 						navigator.mediaDevices.getUserMedia({
