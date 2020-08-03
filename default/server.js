@@ -4,11 +4,11 @@ const cors = require("cors");
 const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
-const createTask = require("./events/createTask");
-const uploadFile = require("./events/uploadFile");
+const MobileDetect = require("mobile-detect");
+// const createTask = require("./events/createTask");
+// const uploadFile = require("./events/uploadFile");
 
-const RECAPTCHA_URL =
-	`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=`;
+const RECAPTCHA_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=`;
 
 const app = express();
 
@@ -24,7 +24,19 @@ const multer = Multer({
 });
 
 app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "/views/index.html"));
+	const md = new MobileDetect(req.headers["user-agent"]);
+
+	if (
+		(md.os() === "iOS" &&
+			md.version("iOS") >= 13 &&
+			md.userAgent() !== "Safari") ||
+		(md.os() !== "iOS" && md.version("Chrome") >= 46) ||
+		(md.os() !== "iOS" && md.version("Firefox") >= 22)
+	) {
+		res.sendFile(path.join(__dirname, "/views/index.html"));
+	}
+
+	res.redirect(303, "/browsers");
 });
 
 app.post("/", multer.single("sample"), async (req, res, next) => {
@@ -67,11 +79,15 @@ app.post("/", multer.single("sample"), async (req, res, next) => {
 	}
 });
 
+app.get("/platforms", (req, res) => {
+	res.render(path.join(__dirname, "/views/303.html"));
+});
+
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/views/404.html"));
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8090;
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}...`);
 });
