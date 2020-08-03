@@ -28,19 +28,32 @@ app.get("/", (req, res) => {
 	const device = deviceDetector.parse(req.headers["user-agent"]);
 
 	if (
-		(device.os.name === "iOS" &&
-			Number(device.os.version) >= 13 &&
-			device.client.name === "Mobile Safari") ||
-		(device.os.name !== "iOS" &&
-			["Chrome Mobile", "Chrome", "Chromium"].includes(device.client.name) &&
-			Number(device.client.version) >= 46) ||
-		(device.os.name !== "iOS" &&
-			["Firefox Mobile", "Firefox"].includes(device.client.name) &&
-			Number(device.client.version) >= 22)
+		device.client &&
+		[
+			"Chrome Mobile iOS",
+			"Firefox Mobile iOS",
+			"Opera Mini iOS",
+			"Internet Explorer",
+			"IE Mobile",
+			"Microsoft Edge",
+			"UC Browser",
+			"UC Browser Mini",
+			"UC Browser Turbo",
+			"Samsung Browser",
+			"Huawei Browser",
+			"Android Browser",
+			"BlackBerry Browser",
+			"LG Browser",
+			"Nokia Browser",
+			"Opera Mobile",
+			"Opera",
+			"Oppo Browser",
+			"Safari",
+		].includes(device.client.name)
 	) {
-		res.sendFile(path.join(__dirname, "/views/index.html"));
-	} else {
 		res.redirect(303, "/platforms");
+	} else {
+		res.sendFile(path.join(__dirname, "/views/index.html"));
 	}
 });
 
