@@ -5,8 +5,8 @@ const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
 const MobileDetect = require("mobile-detect");
-// const createTask = require("./events/createTask");
-// const uploadFile = require("./events/uploadFile");
+const createTask = require("./events/createTask");
+const uploadFile = require("./events/uploadFile");
 
 const RECAPTCHA_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=`;
 
@@ -87,7 +87,7 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/views/404.html"));
 });
 
-const PORT = process.env.PORT || 8090;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}...`);
 });
