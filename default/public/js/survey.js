@@ -1,16 +1,5 @@
 Survey.StylesManager.applyTheme("modern");
 
-function surveyValidateQuestion(s, options) {
-	if (options.name == "microphone") {
-		if (recorderResult == -1)
-			options.error =
-				"We weren't able to detect a cough. Please cough a little louder or cough more closer to the microphone.";
-		if (!recorderResult)
-			options.error =
-				"You have not provided a cough sample! Please provide a cough sample to continue";
-	}
-}
-
 function surveyRenderQuestion(s, options) {
 	if (
 		options.htmlElement.getElementsByClassName(
@@ -459,6 +448,5 @@ survey.onComplete.add(function (result) {
 
 $("#surveyElement").Survey({
 	model: survey,
-	onValidateQuestion: surveyValidateQuestion,
 	onAfterRenderQuestion: surveyRenderQuestion,
 });

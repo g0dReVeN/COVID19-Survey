@@ -136,12 +136,8 @@ let observer = new MutationObserver(function (mutations) {
 								type: 'audio/wav'
 							});
 							replaceAudio(URL.createObjectURL(blob));
-							if (heardCough) {
 								recorderResult = blob;
 								$("#sq_122_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
-							} else {
-								recorderResult = -1;
-							}
 						});
 
 						btnStartRecording.disabled = false;
@@ -157,14 +153,11 @@ let observer = new MutationObserver(function (mutations) {
 					var ctx;
 					var recorder;
 					var microphone;
-					var harkMicrophone;
 
 					var btnStartRecording = document.createElement('BUTTON');
 					var btnStopRecording = document.createElement('BUTTON');
 					var btnReleaseMicrophone = document.createElement('BUTTON');
 
-					var heardCough;
-					var speech;
 					var blob;
 					var isRecording = false;
 
@@ -229,17 +222,6 @@ let observer = new MutationObserver(function (mutations) {
 
 						recorder.startRecording();
 
-						var harkOptions = {
-							threshold: -40
-						};
-						harkMicrophone = microphone.clone();
-						speech = hark(harkMicrophone, harkOptions);
-
-						speech.on('speaking', function () {
-							console.log('cough detected');
-							heardCough = true;
-						});
-
 						btnStopRecording.disabled = false;
 						btnStopRecording.className = "Rec";
 						btnStartRecording.style.visibility = "hidden";
@@ -265,12 +247,6 @@ let observer = new MutationObserver(function (mutations) {
 							ctx.close().then(() => {
 								microphone.stop();
 								microphone = null;
-								if (harkMicrophone) {
-									speech.stop();
-									speech = null;
-									harkMicrophone.stop();
-									harkMicrophone = null;
-								}
 							});
 						}
 					};
