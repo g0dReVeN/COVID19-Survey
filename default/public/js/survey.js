@@ -376,7 +376,8 @@ const json = {
 					type: "comment",
 					name: "feedback",
 					title: "Any feedback?",
-					placeHolder: "Type feedback here..."
+					placeHolder: "Type feedback here...",
+					rows: 8,
 				},
 			],
 		},

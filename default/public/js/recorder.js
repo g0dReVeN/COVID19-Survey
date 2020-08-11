@@ -17,7 +17,7 @@ let observer = new MutationObserver(function (mutations) {
 			for (i = 0; i < c.length; i++) {
 				if (c[i].title == "Record") {
 					var audio = document.querySelector('audio');
-					var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
+					var nextButton = document.getElementsByClassName("sv-btn sv-footer__next-btn")[0];
 
 					function replaceElements() {
 						var otherParentNode = document.querySelector('[title="Record"]').parentNode;
@@ -175,8 +175,8 @@ let observer = new MutationObserver(function (mutations) {
 					btnStopRecording.style.visibility = "hidden";
 
 					btnStartRecording.onclick = function () {
-						finishButton.disabled = true;
-						finishButton.style.backgroundColor = "#dddddd";
+						nextButton.disabled = true;
+						nextButton.style.backgroundColor = "#dddddd";
 						isRecording = true;
 						recorderResult = null;
 						blob = null;
@@ -253,8 +253,8 @@ let observer = new MutationObserver(function (mutations) {
 						btnStopRecording.className = "notRec";
 						btnStopRecording.style.visibility = "hidden";
 						btnStartRecording.style.visibility = "visible";
-						finishButton.disabled = false;
-						finishButton.style.backgroundColor = "#1ab394";
+						nextButton.disabled = false;
+						nextButton.style.backgroundColor = "#1ab394";
 					};
 
 					btnReleaseMicrophone.onclick = function () {
