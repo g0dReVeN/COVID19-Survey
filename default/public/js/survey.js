@@ -369,6 +369,17 @@ const json = {
 				},
 			],
 		},
+		{
+			name: "page8",
+			elements: [
+				{
+					type: "comment",
+					name: "feedback",
+					title: "Any feedback?",
+					placeHolder: "Type feedback here..."
+				},
+			],
+		},
 	],
 	showQuestionNumbers: "off",
 	showProgressBar: "top",
