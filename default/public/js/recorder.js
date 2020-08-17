@@ -32,9 +32,6 @@ let observer = new MutationObserver(function (mutations) {
             btnStopRecording = document.createElement('BUTTON');
             btnReleaseMicrophone = document.createElement('BUTTON');
 
-            btnStartRecording.innerHTML = "Start";
-            btnStopRecording.innerHTML = "Stop";
-
             btnReleaseMicrophone.style.visibility = "hidden";
 
             btnStartRecording.id = "record";

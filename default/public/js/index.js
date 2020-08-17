@@ -1,3 +1,4 @@
+let recorderResult = null;
 let verifiedCC = null;
 let clientId = '6LdKXPUUAAAAAPxPeMHJheEGHpXae50QeE1NqRf2';
 
