@@ -263,6 +263,9 @@ function onloadCallback() {
 }
 
 function getParameters() {
+	if (typeof navigator.mediaDevices === 'undefined' || !navigator.mediaDevices.getUserMedia)
+		alert('You cannot complete the survey with an in-app browser. Please use a native browser such as Safari or Chrome.');
+
 	const cc = window.location.search;
 
 	if (cc.slice(0, 4) === '?cc=' && isoCountries.hasOwnProperty(cc.slice(4))) {
