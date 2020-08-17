@@ -95,6 +95,9 @@ let observer = new MutationObserver(function (mutations) {
           btnStartRecording.className = "notRec";
           btnStopRecording.style.visibility = "hidden";
 
+          if (typeof navigator.mediaDevices === 'undefined' || !navigator.mediaDevices.getUserMedia)
+            alert('Please use a native browser such as Safari or Chrome as this in-app browser is not supported.');
+
           btnStartRecording.addEventListener('click', () => {
             navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
               finishButton.disabled = true;
