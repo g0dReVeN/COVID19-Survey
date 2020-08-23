@@ -96,6 +96,9 @@ let observer = new MutationObserver(function (mutations) {
           btnStopRecording.style.visibility = "hidden";
 
           btnStartRecording.addEventListener('click', () => {
+            if (typeof navigator.mediaDevices === 'undefined' || !navigator.mediaDevices.getUserMedia)
+              alert('You cannot complete the survey with an in-app browser. Please use a native browser such as Safari or Chrome.');
+
             navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
               finishButton.disabled = true;
               finishButton.style.backgroundColor = "#dddddd";
