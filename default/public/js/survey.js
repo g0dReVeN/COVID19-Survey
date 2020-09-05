@@ -362,7 +362,7 @@ const json = {
 				{
 					type: "microphone",
 					description:
-						"Please record a few seconds of yourself coughing using your device's microphone even if you currently don't have a cough. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. Please allow access to your device's microphone if prompted. The recording will automatically stop after 15 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. Alternatively, you may upload an audio recording of yourself coughing. The audio needs to be raw pcm data converted into a WAV format and no more than 15 seconds in length. For this we recommend using Sound Recorder PCM for Android and PCM Recorder Lite for iPhone. You may listen to your recording by tapping/clicking on the play button.",
+						"Please record a few seconds of yourself coughing using your device's microphone even if you currently don't have a cough. We know this may be very uncomfortable for you but the future development of the app hinges on this. To start/stop the recording, please tap/click on the red record button below. Please allow access to your device's microphone if prompted. The recording will automatically stop after 15 seconds. You may record yourself as many times as you like but keep in mind, only your last recording will be submitted. Alternatively, you may upload an audio recording of yourself coughing. You may listen to your recording by tapping/clicking on the play button.",
 					name: "microphone",
 					hideNumber: true,
 					title: "Record a cough sample *",

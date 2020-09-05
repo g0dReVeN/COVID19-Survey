@@ -37,6 +37,10 @@ let observer = new MutationObserver(function (mutations) {
           var heardCough;
           var speech;
           var timeout;
+          var recordBlob;
+          var recordBlobUrl;
+          var uploadBlob;
+          var uploadBlobUrl;
           var BASE64_MARKER = ';base64,';
 
           var uploadOrRecordContent = document.createElement('DIV');
@@ -94,9 +98,15 @@ let observer = new MutationObserver(function (mutations) {
             var reader = new FileReader();
             reader.addEventListener('load', function (e) {
               var audioFileType = audioFile.type;
-              if (!(audioFileType === 'audio/wav' || audioFileType === 'audio/x-wav')) {
+              var fileSize = audioFile.size / 1024 / 1024;
+              if (!audioFileType.startsWith("audio/")) {
                 inputFileUpload.value = null;
-                alert("You uploaded a file of type " + audioFileType + ". Please upload a WAV formatted audio file");
+                alert("Please upload an audio file");
+                return;
+              }
+              if (fileSize > 5) {
+                inputFileUpload.value = null;
+                alert("Please upload an audio file that is at most 5MB in size");
                 return;
               }
               var binary = convertDataURIToBinary(e.target.result);
@@ -108,11 +118,13 @@ let observer = new MutationObserver(function (mutations) {
                 var duration = testAudio.duration;
                 if (duration > 15) {
                   inputFileUpload.value = null;
-                  alert("The duration of the audio file is " + duration + " seconds. Please upload an audio file that is at most 15 seconds long");
+                  alert("Please upload an audio file that is at most 15 seconds long");
                   return;
                 }
-                replaceAudio(blobUrl);
-                recorderResult = blob;
+                uploadBlob = blob;
+                uploadBlobUrl = URL.createObjectURL(uploadBlob);
+                replaceAudio(uploadBlobUrl);
+                recorderResult = uploadBlob;
               }, false);
             });
             reader.readAsDataURL(audioFile);
@@ -131,7 +143,9 @@ let observer = new MutationObserver(function (mutations) {
                 recorder = new MediaRecorder(stream);
 
                 recorder.addEventListener('dataavailable', e => {
-                  replaceAudio(URL.createObjectURL(e.data));
+                  recordBlob = e.data;
+                  recordBlobUrl = URL.createObjectURL(recordBlob);
+                  replaceAudio(recordBlobUrl);
                   if (heardCough) {
                     recorderResult = e.data;
                     $("#sq_122_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
@@ -190,10 +204,19 @@ let observer = new MutationObserver(function (mutations) {
             uploadOrRecordContent.style.marginTop = "50px";
 
             inputFileUpload.type = "file";
+            inputFileUpload.accept = "audio/*";
 
             inputFileUpload.addEventListener('change', readFile);
 
             uploadOrRecordContent.appendChild(inputFileUpload);
+
+            if (uploadBlob) {
+              recorderResult = uploadBlob;
+              replaceAudio(uploadBlobUrl);
+            } else {
+              recorderResult = null;
+              replaceAudio();
+            }
           }
 
           function replaceRecordingElements() {
@@ -224,6 +247,16 @@ let observer = new MutationObserver(function (mutations) {
 
             $(".sv-description").css('color', 'rgb(64, 64, 64)');
             $("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
+
+            if (recordBlob) {
+              if (heardCough) recorderResult = recordBlob;
+              else recorderResult = -1;
+              replaceAudio(recordBlobUrl);
+            }
+            else {
+              recorderResult = null;
+              replaceAudio();
+            }
 
             recordBtnHandlers();
           }
@@ -256,7 +289,6 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           replaceRecordingElements();
-          replaceAudio();
         }
       }
     }
