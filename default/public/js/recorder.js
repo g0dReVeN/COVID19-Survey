@@ -16,14 +16,6 @@ let observer = new MutationObserver(function (mutations) {
 
       for (i = 0; i < c.length; i++) {
         if (c[i].title == "Record") {
-          var spanDesc = document.getElementsByClassName("sv-description sv-question__description")[0].children[0];
-          var descText = spanDesc.innerHTML;
-          var appLink = '<a href="https://play.google.com/store/apps/details?id=com.hardcodedjoy.soundrecorder" target="_blank" rel="external">Sound Recorder PCM</a>';
-          descText = descText.replace('Sound Recorder PCM', appLink);
-          var appLink = '<a href="https://itunes.apple.com/us/app/pcm-recorder-lite/id439572045" target="_blank" rel="external">PCM Recorder Lite</a>';
-          descText = descText.replace('PCM Recorder Lite', appLink);
-          spanDesc.innerHTML = '<p>' + descText + '</p>';
-
           var btnStartRecording;
           var btnStopRecording;
           var btnReleaseMicrophone;
@@ -105,6 +97,8 @@ let observer = new MutationObserver(function (mutations) {
                 return;
               }
               if (fileSize > 5) {
+                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+
                 inputFileUpload.value = null;
                 alert("Please upload an audio file that is at most 5MB in size");
                 return;
@@ -117,6 +111,8 @@ let observer = new MutationObserver(function (mutations) {
               testAudio.addEventListener('loadedmetadata', function () {
                 var duration = testAudio.duration;
                 if (duration > 15) {
+                  inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+
                   inputFileUpload.value = null;
                   alert("Please upload an audio file that is at most 15 seconds long");
                   return;
@@ -198,6 +194,11 @@ let observer = new MutationObserver(function (mutations) {
 
           function replaceUploadElements() {
             inputFileUpload = document.createElement('INPUT');
+            var uploadLabel = document.createElement('LABEL');
+            var uploadSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var svgpath1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            var svgpath2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            var uploadSpan = document.createElement('SPAN');
 
             uploadOrRecordContent.innerHTML = "";
             uploadOrRecordContent.style.textAlign = "center";
@@ -205,10 +206,33 @@ let observer = new MutationObserver(function (mutations) {
 
             inputFileUpload.type = "file";
             inputFileUpload.accept = "audio/*";
+            inputFileUpload.className = "inputfile";
+            inputFileUpload.id = "inputfile";
+
+            uploadLabel.htmlFor = "inputfile";
+            uploadSVG.setAttribute("viewbox","0 0 24 24");
+            uploadSVG.setAttribute("height","24");
+            uploadSVG.setAttribute("width","24");
+            svgpath1.setAttribute("d","M0 0h24v24H0z");
+            svgpath1.setAttribute("fill","none");
+            svgpath2.setAttribute("d","M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z");
+            uploadSpan.innerHTML = "Choose a file";
 
             inputFileUpload.addEventListener('change', readFile);
+            inputFileUpload.addEventListener('change', function (e) {
+              const fileName = e.target.value.split('\\').pop();
 
+              if (fileName) {
+                uploadSpan.innerHTML = fileName;
+              }
+            });
+
+            uploadSVG.appendChild(svgpath1);
+            uploadSVG.appendChild(svgpath2);
+            uploadLabel.appendChild(uploadSVG);
+            uploadLabel.appendChild(uploadSpan);
             uploadOrRecordContent.appendChild(inputFileUpload);
+            uploadOrRecordContent.appendChild(uploadLabel);
 
             if (uploadBlob) {
               recorderResult = uploadBlob;
