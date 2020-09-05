@@ -17,7 +17,8 @@ const rowStructure = Object.freeze({
 	smoker: "",
 	have_a_cough: "",
     days_coughing: "",
-    target_group: "",
+	target_group: "",
+	feedback: "",
 });
 
 module.exports = rowStructure;
