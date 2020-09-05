@@ -257,9 +257,6 @@ let observer = new MutationObserver(function (mutations) {
             btnStartRecording.className = "notRec";
             btnStopRecording.style.visibility = "hidden";
 
-            btnStartRecording.innerHTML = "Start";
-            btnStopRecording.innerHTML = "Stop";
-
             btnReleaseMicrophone.style.visibility = "hidden";
 
             btnStartRecording.id = "record";
