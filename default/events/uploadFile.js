@@ -1,10 +1,11 @@
+const path = require("path");
 const { Storage } = require("@google-cloud/storage");
 
 const storage = new Storage();
 
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
-const uploadFile = (fileToUpload, uuid) => {
+const uploadFile = (fileToStore, uuid) => {
 	const now = new Date();
 
 	const dd = now.getUTCDate() < 10 ? "0" + now.getUTCDate() : now.getUTCDate();
@@ -13,16 +14,17 @@ const uploadFile = (fileToUpload, uuid) => {
 			? "0" + (now.getUTCMonth() + 1)
 			: now.getUTCMonth() + 1;
 
-	const file = bucket.file(mm + "-" + dd + "/" + uuid + ".wav");
+	const ext = path.extname(fileToStore.originalname) ?? '.m4a';
+	const file = bucket.file(mm + "-" + dd + "/" + uuid + ext.toLowerCase());
 
 	const stream = file.createWriteStream({
 		resumable: false,
 		metadata: {
-			contentType: "audio/wav"
+			...(fileToStore.mimetype && { contentType: fileToStore.mimetype })
 		},
 	});
 
-	stream.end(fileToUpload.buffer);
+	stream.end(fileToStore.buffer);
 };
 
 module.exports = uploadFile;
