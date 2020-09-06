@@ -320,7 +320,7 @@ let observer = new MutationObserver(function (mutations) {
             recordBtnHandlers();
           }
 
-          function replaceAudio(src) {
+          function replaceAudio(src = null) {
             if (!!src) {
               newAudio.src = src;
               newAudio.controls = true;
