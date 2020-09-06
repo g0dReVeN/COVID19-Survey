@@ -36,12 +36,14 @@ let observer = new MutationObserver(function (mutations) {
           var BASE64_MARKER = ';base64,';
 
           var uploadOrRecordContent = document.createElement('DIV');
+          var newAudio = document.createElement('AUDIO');
           var sliderParent = document.createElement('DIV');
           var sliderLabel = document.createElement('LABEL');
           var sliderInput = document.createElement('INPUT');
           var sliderSpan = document.createElement('SPAN');
           var sliderOptionsText = document.createElement('P');
 
+          newAudio.style.borderRadius = "15px";
           otherParentNode.innerHTML = '';
           otherParentNode.style.height = "350px";
           otherParentNode.parentNode.style.marginLeft = "0";
@@ -86,23 +88,51 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           function readFile(e) {
-            var audioFile = e.target.files[0];
-            var reader = new FileReader();
+            const fileName = e.target.value.split('\\').pop();
+
+            if (fileName) {
+              inputFileUpload.nextElementSibling.querySelector('span').innerHTML = fileName;
+            }
+
+            const audioFile = e.target.files[0];
+            const reader = new FileReader();
             reader.addEventListener('load', function (e) {
-              var audioFileType = audioFile.type;
-              var fileSize = audioFile.size / 1024 / 1024;
+              const audioFileType = audioFile.type.toLowerCase();
+
               if (!audioFileType.startsWith("audio/")) {
+                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+
                 inputFileUpload.value = null;
-                alert("Please upload an audio file");
+                alert("Please upload an audio file.");
                 return;
               }
+
+              if (audioFileType === 'audio/amr' || audioFileType === 'audio/amr-wb' || audioFileType === 'audio/amr-wb+') {
+                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+
+                inputFileUpload.value = null;
+                alert(".amr files not supported. Please upload an audio file of a different type.");
+                return;
+              }
+
+              if (audioFileType === 'audio/3gpp' || audioFileType === 'audio/3gpp2' || audioFileType === 'audio/3gp2') {
+                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+
+                inputFileUpload.value = null;
+                alert(".3gp files not supported. Please upload an audio file of a different type.");
+                return;
+              }
+
+              const fileSize = audioFile.size / 1024 / 1024;
+
               if (fileSize > 5) {
                 inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
                 inputFileUpload.value = null;
-                alert("Please upload an audio file that is at most 5MB in size");
+                alert("Please upload an audio file smaller than 5MB.");
                 return;
               }
+
               var binary = convertDataURIToBinary(e.target.result);
               var blob = new Blob([binary], { type: audioFile.type });
               var blobUrl = URL.createObjectURL(blob);
@@ -114,7 +144,7 @@ let observer = new MutationObserver(function (mutations) {
                   inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
                   inputFileUpload.value = null;
-                  alert("Please upload an audio file that is at most 15 seconds long");
+                  alert("Please upload an audio file that has a duration of 15 seconds or less.");
                   return;
                 }
                 uploadBlob = blob;
@@ -205,27 +235,20 @@ let observer = new MutationObserver(function (mutations) {
             uploadOrRecordContent.style.marginTop = "50px";
 
             inputFileUpload.type = "file";
-            inputFileUpload.accept = "audio/*";
+            inputFileUpload.accept = "application/octet-stream";
             inputFileUpload.className = "inputfile";
             inputFileUpload.id = "inputfile";
 
             uploadLabel.htmlFor = "inputfile";
-            uploadSVG.setAttribute("viewbox","0 0 24 24");
-            uploadSVG.setAttribute("height","24");
-            uploadSVG.setAttribute("width","24");
-            svgpath1.setAttribute("d","M0 0h24v24H0z");
-            svgpath1.setAttribute("fill","none");
-            svgpath2.setAttribute("d","M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z");
+            uploadSVG.setAttribute("viewbox", "0 0 24 24");
+            uploadSVG.setAttribute("height", "24");
+            uploadSVG.setAttribute("width", "24");
+            svgpath1.setAttribute("d", "M0 0h24v24H0z");
+            svgpath1.setAttribute("fill", "none");
+            svgpath2.setAttribute("d", "M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z");
             uploadSpan.innerHTML = "Choose a file";
 
             inputFileUpload.addEventListener('change', readFile);
-            inputFileUpload.addEventListener('change', function (e) {
-              const fileName = e.target.value.split('\\').pop();
-
-              if (fileName) {
-                uploadSpan.innerHTML = fileName;
-              }
-            });
 
             uploadSVG.appendChild(svgpath1);
             uploadSVG.appendChild(svgpath2);
@@ -283,16 +306,16 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           function replaceAudio(src) {
-            var newAudio = document.createElement('audio');
-
-            newAudio.controls = true;
-            newAudio.style.borderRadius = "15px";
-
-            if (src) {
+            if (!!src) {
               newAudio.src = src;
+              newAudio.controls = true;
+            } else {
+              newAudio.src = null;
+              newAudio.controls = false;
             }
 
             var parentNode = audio.parentNode;
+
             if (!parentNode) {
               var audioParent = document.createElement('DIV');
               audioParent.style.textAlign = "center";
@@ -300,8 +323,7 @@ let observer = new MutationObserver(function (mutations) {
 
               audioParent.appendChild(newAudio);
               otherParentNode.appendChild(audioParent);
-            }
-            else {
+            } else {
               parentNode.innerHTML = '';
               parentNode.appendChild(newAudio);
             }
