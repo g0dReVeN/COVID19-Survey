@@ -33,6 +33,7 @@ let observer = new MutationObserver(function (mutations) {
           var recordBlobUrl;
           var uploadBlob;
           var uploadBlobUrl;
+          var uploadFileName;
           var BASE64_MARKER = ';base64,';
 
           var uploadOrRecordContent = document.createElement('DIV');
@@ -88,10 +89,10 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           function readFile(e) {
-            const fileName = e.target.value.split('\\').pop();
+            const originalFileName = e.target.value.split('\\').pop();
 
-            if (fileName) {
-              inputFileUpload.nextElementSibling.querySelector('span').innerHTML = fileName;
+            if (originalFileName) {
+              inputFileUpload.nextElementSibling.querySelector('span').innerHTML = originalFileName;
             }
 
             const audioFile = e.target.files[0];
@@ -140,6 +141,7 @@ let observer = new MutationObserver(function (mutations) {
               testAudio.src = blobUrl;
               testAudio.addEventListener('loadedmetadata', function () {
                 var duration = testAudio.duration;
+
                 if (duration > 15) {
                   inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
@@ -147,10 +149,13 @@ let observer = new MutationObserver(function (mutations) {
                   alert("Please upload an audio file that has a duration of 15 seconds or less.");
                   return;
                 }
+                
                 uploadBlob = blob;
+                recorderResult = uploadBlob;
+                uploadFileName = originalFileName
+                fileName = uploadFileName;
                 uploadBlobUrl = URL.createObjectURL(uploadBlob);
                 replaceAudio(uploadBlobUrl);
-                recorderResult = uploadBlob;
               }, false);
             });
             reader.readAsDataURL(audioFile);
@@ -174,9 +179,11 @@ let observer = new MutationObserver(function (mutations) {
                   replaceAudio(recordBlobUrl);
                   if (heardCough) {
                     recorderResult = e.data;
+                    fileName = 'file.wav';
                     $("#sq_122_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
                   } else {
                     recorderResult = -1;
+                    fileName = null;
                   }
                 });
 
@@ -259,9 +266,11 @@ let observer = new MutationObserver(function (mutations) {
 
             if (uploadBlob) {
               recorderResult = uploadBlob;
+              fileName = uploadFileName;
               replaceAudio(uploadBlobUrl);
             } else {
               recorderResult = null;
+              fileName = null;
               replaceAudio();
             }
           }
@@ -293,12 +302,18 @@ let observer = new MutationObserver(function (mutations) {
             $("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
 
             if (recordBlob) {
-              if (heardCough) recorderResult = recordBlob;
-              else recorderResult = -1;
+              if (heardCough) {
+                recorderResult = recordBlob;
+                fileName = 'file.wav';
+              } else {
+                recorderResult = -1;
+                fileName = null;
+              }
+
               replaceAudio(recordBlobUrl);
-            }
-            else {
+            } else {
               recorderResult = null;
+              fileName = null;
               replaceAudio();
             }
 

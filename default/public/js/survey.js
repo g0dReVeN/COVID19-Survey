@@ -449,7 +449,11 @@ survey.onComplete.add(function (result) {
 			}
 
 			if (recorderResult) {
-				form.append("sample", recorderResult);
+				if (fileName) {
+					form.append("sample", recorderResult, fileName);
+				} else {
+					form.append("sample", recorderResult);
+				}
 			}
 
 			$.ajax({
