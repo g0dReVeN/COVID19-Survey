@@ -90,11 +90,6 @@ let observer = new MutationObserver(function (mutations) {
 
           function readFile(e) {
             const originalFileName = e.target.value.split('\\').pop();
-
-            if (originalFileName) {
-              inputFileUpload.nextElementSibling.querySelector('span').innerHTML = originalFileName;
-            }
-
             const audioFile = e.target.files[0];
             const reader = new FileReader();
             reader.addEventListener('load', function (e) {
@@ -149,10 +144,15 @@ let observer = new MutationObserver(function (mutations) {
                   alert("Please upload an audio file that has a duration of 15 seconds or less.");
                   return;
                 }
-                
+
                 uploadBlob = blob;
                 recorderResult = uploadBlob;
                 uploadFileName = originalFileName
+
+                if (!!uploadFileName) {
+                  inputFileUpload.nextElementSibling.querySelector('span').innerHTML = originalFileName;
+                }
+
                 fileName = uploadFileName;
                 uploadBlobUrl = URL.createObjectURL(uploadBlob);
                 replaceAudio(uploadBlobUrl);
