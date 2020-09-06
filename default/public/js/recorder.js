@@ -267,6 +267,11 @@ let observer = new MutationObserver(function (mutations) {
             if (uploadBlob) {
               recorderResult = uploadBlob;
               fileName = uploadFileName;
+
+              if (!!uploadFileName) {
+                uploadSpan.innerHTML = uploadFileName;
+              }
+
               replaceAudio(uploadBlobUrl);
             } else {
               recorderResult = null;
