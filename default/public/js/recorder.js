@@ -107,7 +107,7 @@ let observer = new MutationObserver(function (mutations) {
                 inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
                 inputFileUpload.value = null;
-                alert(".amr files not supported. Please upload an audio file of a different type.");
+                alert(".amr files are not supported. Please upload an audio file of a different type e.g. .wav or .m4a");
                 return;
               }
 
@@ -115,7 +115,7 @@ let observer = new MutationObserver(function (mutations) {
                 inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
                 inputFileUpload.value = null;
-                alert(".3gp files not supported. Please upload an audio file of a different type.");
+                alert(".3gp files are not supported. Please upload an audio file of a different type e.g. .wav or .m4a");
                 return;
               }
 
