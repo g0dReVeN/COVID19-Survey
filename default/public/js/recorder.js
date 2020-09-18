@@ -43,6 +43,9 @@ let observer = new MutationObserver(function (mutations) {
           var sliderInput = document.createElement('INPUT');
           var sliderSpan = document.createElement('SPAN');
           var sliderOptionsText = document.createElement('P');
+          var audioParent = document.createElement('DIV');
+          var notPlayableMessage = notPlayableMessage = document.createElement('P');
+          var audioPlayable = true;
 
           newAudio.style.borderRadius = "15px";
           otherParentNode.innerHTML = '';
@@ -53,6 +56,9 @@ let observer = new MutationObserver(function (mutations) {
           sliderLabel.className = "switch";
           sliderInput.type = "checkbox";
           sliderSpan.className = "slider";
+          audioParent.style.textAlign = "center";
+          audioParent.style.marginTop = "60px";
+          notPlayableMessage.innerText = "This file type is not playable but can still be submitted";
 
           sliderLabel.appendChild(sliderInput);
           sliderLabel.appendChild(sliderSpan);
@@ -88,6 +94,26 @@ let observer = new MutationObserver(function (mutations) {
             return array;
           }
 
+          function playableAudioFile(audioFileType) {
+            return (audioFileType === 'audio/amr' || audioFileType === 'audio/amr-wb' || audioFileType === 'audio/amr-wb+' || audioFileType === 'audio/3gpp' || audioFileType === 'audio/3gpp2' || audioFileType === 'audio/3gp2')
+              ? false : true;
+          }
+
+          function addBlobToResult(blob, originalFileName) {
+            uploadBlob = blob;
+            recorderResult = uploadBlob;
+            uploadFileName = originalFileName;
+
+            if (!!uploadFileName) {
+              inputFileUpload.nextElementSibling.querySelector('span').innerHTML = originalFileName;
+            }
+
+            fileName = uploadFileName;
+            uploadBlobUrl = URL.createObjectURL(uploadBlob);
+
+            audioPlayable ? replaceAudio(uploadBlobUrl) : replaceAudio(uploadBlobUrl, false);
+          }
+
           function readFile(e) {
             const originalFileName = e.target.value.split('\\').pop();
             const audioFile = e.target.files[0];
@@ -100,22 +126,6 @@ let observer = new MutationObserver(function (mutations) {
 
                 inputFileUpload.value = null;
                 alert("Please upload an audio file.");
-                return;
-              }
-
-              if (audioFileType === 'audio/amr' || audioFileType === 'audio/amr-wb' || audioFileType === 'audio/amr-wb+') {
-                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
-
-                inputFileUpload.value = null;
-                alert(".amr files are not supported. Please upload an audio file of a different type e.g. .wav or .m4a");
-                return;
-              }
-
-              if (audioFileType === 'audio/3gpp' || audioFileType === 'audio/3gpp2' || audioFileType === 'audio/3gp2') {
-                inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
-
-                inputFileUpload.value = null;
-                alert(".3gp files are not supported. Please upload an audio file of a different type e.g. .wav or .m4a");
                 return;
               }
 
@@ -133,30 +143,25 @@ let observer = new MutationObserver(function (mutations) {
               var blob = new Blob([binary], { type: audioFile.type });
               var blobUrl = URL.createObjectURL(blob);
               var testAudio = document.createElement('AUDIO');
-              testAudio.src = blobUrl;
-              testAudio.addEventListener('loadedmetadata', function () {
-                var duration = testAudio.duration;
+              if (playableAudioFile(audioFileType)) {
+                audioPlayable = true;
+                testAudio.src = blobUrl;
+                testAudio.addEventListener('loadedmetadata', function () {
+                  var duration = testAudio.duration;
 
-                if (duration > 15) {
-                  inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
+                  if (duration > 15) {
+                    inputFileUpload.nextElementSibling.querySelector('span').innerHTML = "Choose a file";
 
-                  inputFileUpload.value = null;
-                  alert("Please upload an audio file that has a duration of 15 seconds or less.");
-                  return;
-                }
-
-                uploadBlob = blob;
-                recorderResult = uploadBlob;
-                uploadFileName = originalFileName
-
-                if (!!uploadFileName) {
-                  inputFileUpload.nextElementSibling.querySelector('span').innerHTML = originalFileName;
-                }
-
-                fileName = uploadFileName;
-                uploadBlobUrl = URL.createObjectURL(uploadBlob);
-                replaceAudio(uploadBlobUrl);
-              }, false);
+                    inputFileUpload.value = null;
+                    alert("Please upload an audio file that has a duration of 15 seconds or less.");
+                    return;
+                  }
+                  addBlobToResult(blob, originalFileName);
+                }, false);
+              } else {
+                audioPlayable = false;
+                addBlobToResult(blob, originalFileName);
+              }
             });
             reader.readAsDataURL(audioFile);
           }
@@ -272,7 +277,7 @@ let observer = new MutationObserver(function (mutations) {
                 uploadSpan.innerHTML = uploadFileName;
               }
 
-              replaceAudio(uploadBlobUrl);
+              replaceAudio(uploadBlobUrl, audioPlayable);
             } else {
               recorderResult = null;
               fileName = null;
@@ -325,7 +330,7 @@ let observer = new MutationObserver(function (mutations) {
             recordBtnHandlers();
           }
 
-          function replaceAudio(src = null) {
+          function replaceAudio(src = null, playable = true) {
             if (!!src) {
               newAudio.src = src;
               newAudio.controls = true;
@@ -337,15 +342,12 @@ let observer = new MutationObserver(function (mutations) {
             var parentNode = audio.parentNode;
 
             if (!parentNode) {
-              var audioParent = document.createElement('DIV');
-              audioParent.style.textAlign = "center";
-              audioParent.style.marginTop = "60px";
-
               audioParent.appendChild(newAudio);
               otherParentNode.appendChild(audioParent);
             } else {
               parentNode.innerHTML = '';
               parentNode.appendChild(newAudio);
+              playable ? (parentNode.contains(notPlayableMessage) ? parentNode.removeChild(notPlayableMessage) : null) : parentNode.appendChild(notPlayableMessage);
             }
 
             audio = newAudio;
