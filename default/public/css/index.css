@@ -143,7 +143,7 @@ input:checked + .slider:before {
   bottom: 0;
   width: 100%;
   min-height: 2rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   display: -webkit-box;
   display: -moz-box;
   display: -moz-flex;
@@ -164,7 +164,7 @@ input:checked + .slider:before {
   display: flex;
 }
 
-@media screen and (max-width: 30em) {
+@media screen and (max-width: 24em) {
   .copyright {
     padding-left: 0px;
     width: 100%;
@@ -174,14 +174,20 @@ input:checked + .slider:before {
   }
 
   .contactUs {
-	padding-right: 0px;
-	width: 100%;
-	text-align: center;
-	justify-content: center;
+    padding-right: 0px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 
   #surveyElement {
     margin-bottom: 50px;
+  }
+}
+
+@media screen and (min-width: 24em) {
+  .footer {
+	font-size: 1rem;
   }
 }
 
