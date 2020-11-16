@@ -22,7 +22,7 @@ body {
 	height: 50px;
 	font-size: 0;
 	background-image: radial-gradient(red 47%, white 53%);
-	border: 2px solid rgb(64, 64, 64);
+	border: 2px solid rgb(26, 179, 148);
 	border-radius: 50px;
 	outline: none;
 	position: absolute;
@@ -101,8 +101,6 @@ input:checked + .slider:before {
 
 .inputfile + label {
     max-width: 80%;
-    /* font-size: 1.25rem; */
-    /* 20px */
     font-weight: 700;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -111,8 +109,6 @@ input:checked + .slider:before {
     overflow: hidden;
 	padding: 0.625rem 1.25rem;
 	border-radius: 999px;
-	/* 10px 20px */
-	
 	color: rgb(26, 179, 148);
     border: 2px solid currentColor;
 }

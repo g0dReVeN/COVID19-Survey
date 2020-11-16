@@ -14,13 +14,13 @@ const uploadFile = (fileToStore, uuid) => {
 			? "0" + (now.getUTCMonth() + 1)
 			: now.getUTCMonth() + 1;
 
-	const ext = path.extname(fileToStore.originalname) ?? '.m4a';
+	const ext = !!path.extname(fileToStore.originalname) ? path.extname(fileToStore.originalname) : '.m4a';
 	const file = bucket.file(mm + "-" + dd + "/" + uuid + ext.toLowerCase());
 
 	const stream = file.createWriteStream({
 		resumable: false,
 		metadata: {
-			...(fileToStore.mimetype && { contentType: fileToStore.mimetype })
+			...(!!fileToStore.mimetype && { contentType: fileToStore.mimetype })
 		},
 	});
 
