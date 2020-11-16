@@ -1,39 +1,45 @@
 body {
-	width: 100%;
-	padding: 0px;
-	margin: 0px;
-	background-color: #f6fcfb;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  background-color: #f6fcfb;
 }
 
 .notRec {
-	background-color: darkred;
+  background-color: darkred;
 }
 
 .Rec {
-	animation-name: pulse;
-	animation-duration: 1.5s;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
+  animation-name: pulse;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 #record,
 #save {
-	width: 50px;
-	height: 50px;
-	font-size: 0;
-	background-image: radial-gradient(red 47%, white 53%);
-	border: 2px solid rgb(26, 179, 148);
-	border-radius: 50px;
-	outline: none;
-	position: absolute;
-	margin: 0 auto;
-	text-align: center;
+  width: 50px;
+  height: 50px;
+  font-size: 0;
+  background-image: radial-gradient(red 47%, white 53%);
+  border: 2px solid rgb(26, 179, 148);
+  border-radius: 50px;
+  outline: none;
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
 }
 
 #container {
-	position: relative;
-	height: 100%;
-	min-height: 100vh;
+  position: relative;
+  height: 100%;
+  min-height: 100vh;
+}
+
+#surveyElement,
+#surveyResult {
+  display: inline-block;
+  width: 100%;
 }
 
 .switch {
@@ -43,7 +49,7 @@ body {
   height: 25px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -57,8 +63,8 @@ body {
   right: 0;
   bottom: 0;
   background-color: rgb(26, 179, 148);
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -70,18 +76,17 @@ body {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-	border-radius: 50%;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
 }
-
 
 input:checked + .slider {
   background-color: rgb(26, 179, 148);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -91,125 +96,179 @@ input:checked + .slider:before {
 }
 
 .inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .inputfile + label {
-    max-width: 80%;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-	padding: 0.625rem 1.25rem;
-	border-radius: 999px;
-	color: rgb(26, 179, 148);
-    border: 2px solid currentColor;
+  max-width: 80%;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+  border-radius: 999px;
+  color: rgb(26, 179, 148);
+  border: 2px solid currentColor;
 }
 
 .inputfile:focus + label,
 .inputfile.has-focus + label {
-    outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
 }
 
 .inputfile + label:hover {
-	color: rgba(26, 179, 148, 0.4);
+  color: rgba(26, 179, 148, 0.4);
 }
 
 .inputfile + label svg {
-    vertical-align: middle;
-    fill: currentColor;
-    margin-top: -0.25em;
-    margin-right: 0.25em;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-top: -0.25em;
+  margin-right: 0.25em;
 }
 
 .footer {
-	color: #f8f8f8;
-	font-family: "Raleway";
-	position: absolute;
-	clear: both;
-	bottom: 0;
-	width: 100%;
-	height: 2rem;
-	font-size: 1.2rem;
-	text-align: center;
-	line-height: 2rem;
-	background-color: rgb(26, 179, 148);
+  color: #f8f8f8;
+  font-family: "Raleway";
+  position: absolute;
+  clear: both;
+  bottom: 0;
+  width: 100%;
+  min-height: 2rem;
+  font-size: 0.8rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap-reverse;
+  line-height: 2rem;
+  background-color: rgb(26, 179, 148);
+}
+
+.copyright {
+  padding-left: 10px;
+}
+
+.contactUs {
+  padding-right: 10px;
+  display: flex;
+}
+
+@media screen and (max-width: 24em) {
+  .copyright {
+    padding-left: 0px;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .contactUs {
+    padding-right: 0px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  #surveyElement {
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (min-width: 24em) {
+  .footer {
+	font-size: 1rem;
+  }
+}
+
+.emailAdd {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center;
+}
+
+.emailAdd > *:first-child {
+  margin-left: 10px;
+  margin-right: 5px;
 }
 
 .notFoundError {
-	width: 100%;
-	color: rgb(26, 179, 148);
-	font-family: "Raleway";
-	font-size: 25px;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
+  width: 100%;
+  color: rgb(26, 179, 148);
+  font-family: "Raleway";
+  font-size: 25px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .notFoundError > h1 {
-	margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .notFoundError > span {
-	margin-top: 60px;
+  margin-top: 60px;
 }
 
 .platform {
-	margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .supportedPlatforms > * {
-	display: block;
-	margin: 30px 0;
-	font-size: 15px;
+  display: block;
+  margin: 30px 0;
+  font-size: 15px;
 }
 
 @media screen and (min-width: 375px) {
-	.notFoundError {
-		font-size: 40px;
-	}
+  .notFoundError {
+    font-size: 40px;
+  }
 
-	.supportedPlatforms > * {
-		font-size: 20px;
-	}
+  .supportedPlatforms > * {
+    font-size: 20px;
+  }
 }
 
 @media screen and (min-width: 768px) {
-	.notFoundError {
-		font-size: 50px;
-	}
+  .notFoundError {
+    font-size: 50px;
+  }
 
-	.supportedPlatforms > * {
-		font-size: 25px;
-	}
+  .supportedPlatforms > * {
+    font-size: 25px;
+  }
 
-	.inputfile + label {
-		max-width: 270px;
-	}
+  .inputfile + label {
+    max-width: 270px;
+  }
 }
 
 #warning {
-	color: red;
-	font-family: "Raleway";
+  color: red;
+  font-family: "Raleway";
 }
 
 @keyframes pulse {
-	0% {
-		box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
-	}
-	65% {
-		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
-	}
-	90% {
-		box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
-	}
+  0% {
+    box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+  }
+  65% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+  }
+  90% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+  }
 }
