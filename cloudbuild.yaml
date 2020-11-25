@@ -5,8 +5,14 @@ steps:
     args: ['cp', 'gs://$_BUCKET/taskHandlerSheetsAccount_key.json', 'taskHandler/taskHandlerSheetsAccount_key.json']
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'gs://$_BUCKET/taskHandler.yaml', 'taskHandler/taskHandler.yaml']
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'gs://$_BUCKET/iOSTrafficHandler.yaml', 'iOSTrafficHandler/iOSTrafficHandler.yaml']
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "default/default.yaml"]
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "taskHandler/taskHandler.yaml"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "iOSTrafficHandler/iOSTrafficHandler.yaml"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "dispatch.yaml"]
 timeout: "1600s"

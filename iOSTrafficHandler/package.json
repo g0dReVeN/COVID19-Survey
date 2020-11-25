@@ -1,0 +1,16 @@
+{
+  "name": "iostraffichandlder",
+  "version": "1.0.0",
+  "description": "Microservice to route iOS traffic",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Jordan Govender",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.14",
+    "ftp-srv": "^4.3.4",
+    "path": "^0.12.7"
+  }
+}

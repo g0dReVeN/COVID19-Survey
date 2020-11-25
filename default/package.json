@@ -1,7 +1,7 @@
 {
   "name": "coughstudy",
   "version": "1.0.0",
-  "description": "",
+  "description": "API/Back-end service for cough data collection app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
