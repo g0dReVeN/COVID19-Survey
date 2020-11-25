@@ -8,5 +8,5 @@ dispatch:
     service: default
 
   # Microservice routes iOS traffic.
-  - url: "ftp://ftp.coughtest.online/*"
+  - url: "ftp.coughtest.online/*"
     service: ios-traffic-handler
