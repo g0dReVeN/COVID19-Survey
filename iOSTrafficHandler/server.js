@@ -13,7 +13,7 @@ const ftpServer = new ftpSrv({
 
 ftpServer.on("login", (data, resolve, _) => {
   // console.log("[login] Connection by", data);
-  // console.log("[login] Setting home dir to:", HOMEDIR);
+  console.log("[login] Setting home dir to:", HOMEDIR);
 
   resolve({ root: HOMEDIR });
 });
