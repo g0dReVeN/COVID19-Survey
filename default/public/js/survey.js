@@ -4,7 +4,7 @@ function surveyValidateQuestion(s, options) {
 	if (options.name == "microphone") {
 		if (recorderResult == -1)
 			options.error =
-				"We weren't able to detect a cough. Please cough a little louder or cough more closer to the microphone.";
+				"We weren't able to detect a cough. Please cough a little louder or cough closer to the microphone.";
 		if (!recorderResult)
 			options.error =
 				"You have not provided a cough sample! Please provide a cough sample to continue";
@@ -71,7 +71,7 @@ const json = {
 				{
 					type: "radiogroup",
 					name: "user_is_over_18",
-					title: "you are over 18 years old",
+					title: "You are over 18 years old",
 					isRequired: true,
 					choices: ["Yes", "No"],
 				},
@@ -270,7 +270,7 @@ const json = {
 					type: "radiogroup",
 					name: "know_temperature",
 					title:
-						"Do you know your temperature today or can you take it your now?",
+						"Do you know your temperature or can you take it now?",
 					visibleIf: "{symptoms} contains 'A fever'",
 					enableIf: "{symptoms} contains 'A fever'",
 					isRequired: true,
@@ -279,7 +279,7 @@ const json = {
 				{
 					type: "panel",
 					name: "temp_panel",
-					title: "Please adjust the slider to match your temperature today: *",
+					title: "Please adjust the slider to match your current temperature: *",
 					visibleIf: "{know_temperature} = 'Yes'",
 					enableIf: "{know_temperature} = 'Yes'",
 					elements: [
