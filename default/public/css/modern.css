@@ -76,7 +76,7 @@
   background-color: rgb(26, 179, 148);
   color: white;
   border-radius: 15px;
-  padding: 25px;
+  padding: 25px !important;
 }
 
 .sv-visuallyhidden {
