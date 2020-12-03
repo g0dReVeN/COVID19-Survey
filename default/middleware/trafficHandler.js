@@ -22,6 +22,7 @@ module.exports = (req, res, next) => {
         "Chromium",
         "Microsoft Edge",
         "Safari",
+        "Mobile Safari",
         "Samsung Browser",
         "Huawei Browser",
         "Android Browser",
