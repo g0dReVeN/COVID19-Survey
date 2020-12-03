@@ -15,26 +15,21 @@ module.exports = (req, res, next) => {
     } else if (
       device.client &&
       [
-        "Internet Explorer",
-        "IE Mobile",
+        "Firefox",
+        "Firefox Mobile",
+        "Chrome",
+        "Chrome Mobile",
+        "Chromium",
         "Microsoft Edge",
-        "UC Browser",
-        "UC Browser Mini",
-        "UC Browser Turbo",
+        "Safari",
         "Samsung Browser",
         "Huawei Browser",
         "Android Browser",
-        "BlackBerry Browser",
-        "LG Browser",
-        "Nokia Browser",
-        "Opera Mobile",
-        "Opera",
-        "Oppo Browser",
       ].includes(device.client.name)
     ) {
-      res.redirect(303, "/platforms");
-    } else {
       next();
+    } else {
+      res.redirect(303, "/platforms");
     }
   } catch (error) {
     res.status(400).json({ error });
