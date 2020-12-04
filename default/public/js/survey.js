@@ -71,7 +71,7 @@ const json = {
 				{
 					type: "radiogroup",
 					name: "user_is_over_18",
-					title: "You are over 18 years old",
+					title: "Are you at least 18 years old?",
 					isRequired: true,
 					choices: ["Yes", "No"],
 				},
