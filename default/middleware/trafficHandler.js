@@ -26,6 +26,15 @@ module.exports = (req, res, next) => {
         "Samsung Browser",
         "Huawei Browser",
         "Android Browser",
+        "Facebook",
+        "Facebook Messenger",
+        "Facebook External Hit",
+        "Google Go",
+        "Google Search App",
+        "Google Play Newsstand",
+        "Google Search Console",
+        "WhatsApp",
+        "YouTube"
       ].includes(device.client.name)
     ) {
       next();
