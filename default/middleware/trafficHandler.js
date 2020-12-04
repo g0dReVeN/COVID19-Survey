@@ -32,7 +32,6 @@ module.exports = (req, res, next) => {
         "Google Go",
         "Google Search App",
         "Google Play Newsstand",
-        "Googlebot",
         "Google Search Console",
         "WhatsApp",
         "YouTube"
