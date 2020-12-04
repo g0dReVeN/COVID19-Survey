@@ -34,7 +34,8 @@ module.exports = (req, res, next) => {
         "Google Play Newsstand",
         "Google Search Console",
         "WhatsApp",
-        "YouTube"
+        "YouTube",
+        "Twitter"
       ].includes(device.client.name)
     ) {
       next();

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>COVID-19 Cough Survey</title>
-    <meta name="viewport" content="width=device-width"></meta>
+    <meta name="viewport" content="width=device-width" />
 
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="https://coughtest.online/css/modern.css" />
@@ -11,20 +11,80 @@
     <div id="container">
       <div class="notFoundError">
         <div class="platform">
-          <span>Supported Platforms & Browsers</span>
+          <span>Supported Platforms & Browsers/Apps</span>
         </div>
-          
-        <div class="supportedPlatforms">
-          <span>Windows 7-10: Chrome ≥ v46 and Firefox ≥ v22</span>
-          <span>Linux: Chrome ≥ v46 and Firefox ≥ v22</span>
-          <span>macOS ≥ v10.9: Chrome ≥ v46 and Firefox ≥ v22</span>
-          <span>Android: Chrome ≥ v46 and Firefox ≥ v22</span>
-          <span>iOS ≥ v13: Safari ≥ v13</span>
-        </div>
+
+        <table class="table-fill">
+          <thead>
+            <tr>
+              <th class="text-left">Platform</th>
+              <th class="text-left">Browser/App</th>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr>
+              <td class="text-left">Windows</td>
+              <td class="right">
+                <span>Edge v15+</span>
+                <span>Firefox v22+</span>
+                <span>Chrome v46+</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">macOS</td>
+              <td class="right">
+                <span>Safari v11+</span>
+                <span>Firefox v22+</span>
+                <span>Chrome v46+</span>
+                <span>Edge v15+</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">Linux</td>
+              <td class="right">
+                <span>Firefox v22+</span>
+                <span>Chrome v46+</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">Android</td>
+              <td class="right">
+                <span>Android Browser v81+</span>
+                <span>Huawei Browser v10+</span>
+                <span>Samsung Internet v4+</span>
+                <span>Chrome Mobile v29+</span>
+                <span>Firefox Mobile v24+</span>
+                <span>Facebook</span>
+                <span>Facebook Messenger</span>
+                <span>Instagram</span>
+                <span>Twitter</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">iOS/iPadOS</td>
+              <td class="right">
+                <span>Mobile Safari v11+</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div style="height: 2rem;"></div>
-      <footer class="footer">© 2020 Cough Test Online</footer>
+      <div style="height: 2rem"></div>
+      <footer class="footer">
+        <a class="copyright" href="/">© 2020 Cough Test Online</a>
+        <span class="contactUs"
+          >Contact Us:
+          <div class="emailAdd">
+            <img src="assets/message.svg" width="20px" height="20px" />
+            <a
+              class="mailTo"
+              href="mailto:covidcoughglobal@gmail.com?subject=Feedback"
+              >covidcoughglobal@gmail.com</a
+            >
+          </div>
+        </span>
+      </footer>
     </div>
   </body>
 </html>
