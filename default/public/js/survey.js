@@ -66,7 +66,7 @@ const json = {
 					type: "html",
 					name: "question1",
 					html:
-						"<article class='intro'><div class='intro__body wysiwyg'><h2>Please confirm that:</h2></div></article>",
+						"<article class='intro'><div class='intro__body wysiwyg'><h2>Please confirm the following:</h2></div></article>",
 				},
 				{
 					type: "radiogroup",

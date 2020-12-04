@@ -7,5 +7,3 @@ default/node_modules
 default/package-lock.json
 taskHandler/node_modules
 taskHandler/package-lock.json
-iOSTrafficHandler/node_modules
-iOSTrafficHandler/package-lock.json
