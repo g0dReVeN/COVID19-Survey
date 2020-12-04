@@ -105,16 +105,16 @@
   padding-top: 5em;
   padding-bottom: 0.9375em;
 }
-@media only screen and (min-width: 1000px) {
+
+.sv-container-modern__title {
+  margin-right: 0.55rem;
+  margin-left: 0.55rem;
+}
+
+@media only screen and (min-width: 768px) {
   .sv-container-modern__title {
     margin-right: 5%;
     margin-left: 5%;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  .sv-container-modern__title {
-    margin-right: 10px;
-    margin-left: 10px;
   }
 }
 
@@ -143,19 +143,17 @@
   margin: 0;
 }
 
-@media only screen and (min-width: 1000px) {
+.sv-body__page,
+.sv-body__footer {
+  margin-right: 0.55rem;
+  margin-left: 0.55rem;
+}
+
+@media only screen and (min-width: 768px) {
   .sv-body__page,
   .sv-body__footer {
     margin-right: 5%;
     margin-left: 5%;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .sv-body__page,
-  .sv-body__footer {
-    margin-right: 10px;
-    margin-left: 10px;
   }
 }
 
@@ -472,14 +470,14 @@
   font-weight: bold;
   padding-left: 0.6321em;
 }
-@media only screen and (min-width: 1000px) {
+
+.sv-progress__text {
+  margin-left: 0.55rem;
+}
+
+@media only screen and (min-width: 768px) {
   .sv-progress__text {
     margin-left: 5%;
-  }
-}
-@media only screen and (max-width: 1000px) {
-  .sv-progress__text {
-    margin-left: 10px;
   }
 }
 
