@@ -2,32 +2,31 @@ body {
   width: 100%;
   padding: 0px;
   margin: 0px;
+  background-image: url('../assets/doodle3.png');
+	background-repeat: repeat;
   background-color: #f6fcfb;
 }
 
 .notRec {
-  background-color: darkred;
+  background-color: rgb(26, 179, 148);
 }
 
 .Rec {
-  animation-name: pulse;
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  background-color: rgb(26, 179, 148);
+  animation: 2.1s ease-in-out 1s infinite normal none running animation-usesri;
 }
 
 #record,
 #save {
-  width: 50px;
-  height: 50px;
-  font-size: 0;
-  background-image: radial-gradient(red 47%, white 53%);
-  border: 2px solid rgb(26, 179, 148);
+  width: 100px;
+  height: 100px;
+  background-image: url("../assets/mic_none-24px.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  border: 1px solid rgb(26, 179, 148);
   border-radius: 50px;
-  outline: none;
-  position: absolute;
-  margin: 0 auto;
-  text-align: center;
+  cursor: pointer;
 }
 
 #container {
@@ -259,13 +258,13 @@ input:checked + .slider:before {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+    box-shadow: 0px 0px 5px 0px rgb(255, 255, 255);
   }
   65% {
-    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+    box-shadow: 0px 0px 5px 13px rgb(255, 255, 255);
   }
   90% {
-    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+    box-shadow: 0px 0px 5px 13px rgb(255, 255, 255);
   }
 }
 

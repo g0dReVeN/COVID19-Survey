@@ -42,7 +42,7 @@ function surveyRenderQuestion(s, options) {
 
 const json = {
 	title: "COVID-19 App Development Questionnaire",
-	logo: "assets/sun_logo_transparent.png",
+	logo: "assets/193681.svg",
 	logoWidth: 100,
 	logoHeight: 100,
 	completedHtml:
@@ -59,303 +59,303 @@ const json = {
 				},
 			],
 		},
-		{
-			name: "page1",
-			elements: [
-				{
-					type: "html",
-					name: "question1",
-					html:
-						"<article class='intro'><div class='intro__body wysiwyg'><h2>Please confirm the following:</h2></div></article>",
-				},
-				{
-					type: "radiogroup",
-					name: "user_is_over_18",
-					title: "Are you at least 18 years old?",
-					isRequired: true,
-					choices: ["Yes", "No"],
-				},
-				{
-					type: "checkbox",
-					name: "permission_from_user",
-					isRequired: true,
-					validators: [
-						{
-							type: "answercount",
-							text: "This section is required in order to complete the survey",
-							minCount: 3,
-							maxCount: 0,
-						},
-					],
-					titleLocation: "hidden",
-					choices: [
-						"You have read and understood the explanation on the previous page about the study",
-						"You agree to participate",
-						"You understand that your participation in this study is strictly voluntary",
-					],
-				},
-				{
-					type: "checkbox",
-					name: "permission_from_parents_or_guardians",
-					title:
-						"Please ask your parent/guardian to complete the following section:",
-					visibleIf: "{user_is_over_18} = 'No'",
-					enableIf: "{user_is_over_18} = 'No'",
-					isRequired: true,
-					validators: [
-						{
-							type: "answercount",
-							text: "This section is required in order to complete the survey",
-							minCount: 3,
-							maxCount: 0,
-						},
-					],
-					choices: [
-						"You have read and understood the explanation on the previous page about the study",
-						"You understand that your child's/ward's participation in this study is strictly voluntary",
-						"You confirm your child/ward has read or had the",
-					],
-				},
-			],
-		},
-		{
-			name: "page2",
-			elements: [
-				{
-					type: "radiogroup",
-					name: "lab_test",
-					title:
-						"Have you had a SARS-CoV-2 (coronavirus or COVID-19) laboratory test?",
-					isRequired: true,
-					validators: [
-						{
-							type: "expression",
-							text:
-								"You cannot complete the survey if you haven't been tested!",
-							expression: "{lab_test} = 'Yes'",
-						},
-					],
-					choices: ["Yes", "No", "Unsure"],
-				},
-				{
-					type: "radiogroup",
-					name: "days_ago_since_test_done",
-					title: "How many days ago was your test done?",
-					isRequired: true,
-					visibleIf: "{lab_test} = 'Yes'",
-					enableIf: "{lab_test} = 'Yes'",
-					choices: ["1-3", "4-6", "7-9", "10-12", "13-15", ">15"],
-				},
-			],
-		},
-		{
-			name: "page3",
-			elements: [
-				{
-					type: "radiogroup",
-					name: "lab_result",
-					title: "My SARS-CoV-2 (Coronavirus or COVID-19 test) result was...",
-					isRequired: true,
-					validators: [
-						{
-							type: "expression",
-							text: "You cannot complete the survey if you are not sure!",
-							expression: "{lab_result} <> 'Unsure'",
-						},
-					],
-					choices: [
-						"Positive (I have COVID-19)",
-						"Negative (I do not have COVID-19)",
-						"Unsure",
-					],
-				},
-				{
-					type: "dropdown",
-					name: "country_tested",
-					title: "In which country were you tested?",
-					defaultValue: "Prefer not to say",
-					isRequired: true,
-					choices: ["Prefer not to say", ...Object.values(isoCountries)],
-				},
-				{
-					type: "radiogroup",
-					name: "contact_with_patient",
-					title:
-						"Have you had direct contact with or are you taking care of a COVID-19 positive patient?",
-					isRequired: true,
-					choices: ["Yes", "No"],
-				},
-			],
-		},
-		{
-			name: "page4",
-			elements: [
-				{
-					type: "radiogroup",
-					name: "gender",
-					title: "I am:",
-					isRequired: true,
-					choices: ["Male", "Female", "Prefer not to say"],
-				},
-				{
-					type: "radiogroup",
-					name: "age_group_18_and_over",
-					title: "Which of the following age groups do you fall into?",
-					visibleIf: "{user_is_over_18} = 'Yes'",
-					enableIf: "{user_is_over_18} = 'Yes'",
-					isRequired: true,
-					choices: [
-						"18-29",
-						"30-39",
-						"40-49",
-						"50-59",
-						"60-69",
-						"70-79",
-						">79",
-					],
-				},
-				{
-					type: "radiogroup",
-					name: "age_group_under_18",
-					title: "Which of the following age groups do you fall into?",
-					visibleIf: "{user_is_over_18} = 'No'",
-					enableIf: "{user_is_over_18} = 'No'",
-					isRequired: true,
-					choices: ["0-9", "10-17"],
-				},
-			],
-		},
-		{
-			name: "page5",
-			elements: [
-				{
-					type: "checkbox",
-					name: "lung_problems",
-					title:
-						"Which, if any, other lung problems do you have? (check all that apply)",
-					hasOther: true,
-					otherPlaceHolder: "Please specify any other lung conditions",
-					choices: [
-						"Lung Cancer",
-						"Chronic Obstructive Pulmonary Disorder (COPD)",
-						"Cystic Fibrosis (CF)",
-						"Tuberculosis (TB)",
-						"Asthma",
-					],
-					otherText: "Other",
-				},
-				{
-					type: "checkbox",
-					name: "symptoms",
-					title:
-						"Tick off all the symptoms that apply to you. I am experiencing:",
-					choices: [
-						"A cold",
-						"A fever",
-						"Diarrhoea",
-						"Sore throat",
-						"Body aches",
-						"Headaches",
-						"Fatigue",
-						"Difficulty in breathing",
-						"Redness of eyes",
-						"Loss of smell",
-						"Loss of taste",
-						"Nausea",
-						"Vomiting",
-						"Weakness",
-					],
-				},
-				{
-					type: "radiogroup",
-					name: "know_temperature",
-					title:
-						"Do you know your temperature or can you take it now?",
-					visibleIf: "{symptoms} contains 'A fever'",
-					enableIf: "{symptoms} contains 'A fever'",
-					isRequired: true,
-					choices: ["Yes", "No"],
-				},
-				{
-					type: "panel",
-					name: "temp_panel",
-					title: "Please adjust the slider to match your current temperature: *",
-					visibleIf: "{know_temperature} = 'Yes'",
-					enableIf: "{know_temperature} = 'Yes'",
-					elements: [
-						{
-							type: "radiogroup",
-							name: "temp_type",
-							title: "Temperature Scale:",
-							defaultValue: "°C",
-							choices: ["°C", "°F"],
-						},
-						{
-							type: "nouislider",
-							name: "temperature_C",
-							title: "Temperature °C",
-							visibleIf: "{temp_type} = '°C'",
-							enableIf: "{temp_type} = '°C'",
-							isRequired: true,
-							step: 0.1,
-							rangeMin: 36,
-							rangeMax: 41,
-							pipsValues: null,
-							pipsText: null,
-							pipsDensity: 15,
-							defaultValue: 38.5,
-						},
-						{
-							type: "nouislider",
-							name: "temperature_F",
-							title: "Temperature °F",
-							visibleIf: "{temp_type} = '°F'",
-							enableIf: "{temp_type} = '°F'",
-							isRequired: true,
-							step: 0.1,
-							rangeMin: 97,
-							rangeMax: 106,
-							pipsValues: null,
-							pipsText: null,
-							pipsDensity: 15,
-							defaultValue: 101.5,
-						},
-					],
-				},
-			],
-		},
-		{
-			name: "page6",
-			elements: [
-				{
-					type: "radiogroup",
-					name: "smoker",
-					title: "Are you a smoker?",
-					isRequired: true,
-					choices: [
-						"No, I have never smoked.",
-						"Yes, I am a current smoker.",
-						"I have smoked in the past, but I don't smoke anymore.",
-					],
-				},
-				{
-					type: "radiogroup",
-					name: "have_a_cough",
-					title: "Do you have a cough?",
-					isRequired: true,
-					choices: ["Yes", "No"],
-				},
-				{
-					type: "radiogroup",
-					name: "days_coughing",
-					title: "For how many days have you been coughing?",
-					visibleIf: "{have_a_cough} = 'Yes'",
-					enableIf: "{have_a_cough} = 'Yes'",
-					isRequired: true,
-					choices: ["1-3", "4-6", "7-9", "10-12", "13-15", ">15"],
-				},
-			],
-		},
+		// {
+		// 	name: "page1",
+		// 	elements: [
+		// 		{
+		// 			type: "html",
+		// 			name: "question1",
+		// 			html:
+		// 				"<article class='intro'><div class='intro__body wysiwyg'><h2>Please confirm the following:</h2></div></article>",
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "user_is_over_18",
+		// 			title: "Are you at least 18 years old?",
+		// 			isRequired: true,
+		// 			choices: ["Yes", "No"],
+		// 		},
+		// 		{
+		// 			type: "checkbox",
+		// 			name: "permission_from_user",
+		// 			isRequired: true,
+		// 			validators: [
+		// 				{
+		// 					type: "answercount",
+		// 					text: "This section is required in order to complete the survey",
+		// 					minCount: 3,
+		// 					maxCount: 0,
+		// 				},
+		// 			],
+		// 			titleLocation: "hidden",
+		// 			choices: [
+		// 				"You have read and understood the explanation on the previous page about the study",
+		// 				"You agree to participate",
+		// 				"You understand that your participation in this study is strictly voluntary",
+		// 			],
+		// 		},
+		// 		{
+		// 			type: "checkbox",
+		// 			name: "permission_from_parents_or_guardians",
+		// 			title:
+		// 				"Please ask your parent/guardian to complete the following section:",
+		// 			visibleIf: "{user_is_over_18} = 'No'",
+		// 			enableIf: "{user_is_over_18} = 'No'",
+		// 			isRequired: true,
+		// 			validators: [
+		// 				{
+		// 					type: "answercount",
+		// 					text: "This section is required in order to complete the survey",
+		// 					minCount: 3,
+		// 					maxCount: 0,
+		// 				},
+		// 			],
+		// 			choices: [
+		// 				"You have read and understood the explanation on the previous page about the study",
+		// 				"You understand that your child's/ward's participation in this study is strictly voluntary",
+		// 				"You confirm your child/ward has read or had the",
+		// 			],
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	name: "page2",
+		// 	elements: [
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "lab_test",
+		// 			title:
+		// 				"Have you had a SARS-CoV-2 (coronavirus or COVID-19) laboratory test?",
+		// 			isRequired: true,
+		// 			validators: [
+		// 				{
+		// 					type: "expression",
+		// 					text:
+		// 						"You cannot complete the survey if you haven't been tested!",
+		// 					expression: "{lab_test} = 'Yes'",
+		// 				},
+		// 			],
+		// 			choices: ["Yes", "No", "Unsure"],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "days_ago_since_test_done",
+		// 			title: "How many days ago was your test done?",
+		// 			isRequired: true,
+		// 			visibleIf: "{lab_test} = 'Yes'",
+		// 			enableIf: "{lab_test} = 'Yes'",
+		// 			choices: ["1-3", "4-6", "7-9", "10-12", "13-15", ">15"],
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	name: "page3",
+		// 	elements: [
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "lab_result",
+		// 			title: "My SARS-CoV-2 (Coronavirus or COVID-19 test) result was...",
+		// 			isRequired: true,
+		// 			validators: [
+		// 				{
+		// 					type: "expression",
+		// 					text: "You cannot complete the survey if you are not sure!",
+		// 					expression: "{lab_result} <> 'Unsure'",
+		// 				},
+		// 			],
+		// 			choices: [
+		// 				"Positive (I have COVID-19)",
+		// 				"Negative (I do not have COVID-19)",
+		// 				"Unsure",
+		// 			],
+		// 		},
+		// 		{
+		// 			type: "dropdown",
+		// 			name: "country_tested",
+		// 			title: "In which country were you tested?",
+		// 			defaultValue: "Prefer not to say",
+		// 			isRequired: true,
+		// 			choices: ["Prefer not to say", ...Object.values(isoCountries)],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "contact_with_patient",
+		// 			title:
+		// 				"Have you had direct contact with or are you taking care of a COVID-19 positive patient?",
+		// 			isRequired: true,
+		// 			choices: ["Yes", "No"],
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	name: "page4",
+		// 	elements: [
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "gender",
+		// 			title: "I am:",
+		// 			isRequired: true,
+		// 			choices: ["Male", "Female", "Prefer not to say"],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "age_group_18_and_over",
+		// 			title: "Which of the following age groups do you fall into?",
+		// 			visibleIf: "{user_is_over_18} = 'Yes'",
+		// 			enableIf: "{user_is_over_18} = 'Yes'",
+		// 			isRequired: true,
+		// 			choices: [
+		// 				"18-29",
+		// 				"30-39",
+		// 				"40-49",
+		// 				"50-59",
+		// 				"60-69",
+		// 				"70-79",
+		// 				">79",
+		// 			],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "age_group_under_18",
+		// 			title: "Which of the following age groups do you fall into?",
+		// 			visibleIf: "{user_is_over_18} = 'No'",
+		// 			enableIf: "{user_is_over_18} = 'No'",
+		// 			isRequired: true,
+		// 			choices: ["0-9", "10-17"],
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	name: "page5",
+		// 	elements: [
+		// 		{
+		// 			type: "checkbox",
+		// 			name: "lung_problems",
+		// 			title:
+		// 				"Which, if any, other lung problems do you have? (check all that apply)",
+		// 			hasOther: true,
+		// 			otherPlaceHolder: "Please specify any other lung conditions",
+		// 			choices: [
+		// 				"Lung Cancer",
+		// 				"Chronic Obstructive Pulmonary Disorder (COPD)",
+		// 				"Cystic Fibrosis (CF)",
+		// 				"Tuberculosis (TB)",
+		// 				"Asthma",
+		// 			],
+		// 			otherText: "Other",
+		// 		},
+		// 		{
+		// 			type: "checkbox",
+		// 			name: "symptoms",
+		// 			title:
+		// 				"Tick off all the symptoms that apply to you. I am experiencing:",
+		// 			choices: [
+		// 				"A cold",
+		// 				"A fever",
+		// 				"Diarrhoea",
+		// 				"Sore throat",
+		// 				"Body aches",
+		// 				"Headaches",
+		// 				"Fatigue",
+		// 				"Difficulty in breathing",
+		// 				"Redness of eyes",
+		// 				"Loss of smell",
+		// 				"Loss of taste",
+		// 				"Nausea",
+		// 				"Vomiting",
+		// 				"Weakness",
+		// 			],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "know_temperature",
+		// 			title:
+		// 				"Do you know your temperature or can you take it now?",
+		// 			visibleIf: "{symptoms} contains 'A fever'",
+		// 			enableIf: "{symptoms} contains 'A fever'",
+		// 			isRequired: true,
+		// 			choices: ["Yes", "No"],
+		// 		},
+		// 		{
+		// 			type: "panel",
+		// 			name: "temp_panel",
+		// 			title: "Please adjust the slider to match your current temperature: *",
+		// 			visibleIf: "{know_temperature} = 'Yes'",
+		// 			enableIf: "{know_temperature} = 'Yes'",
+		// 			elements: [
+		// 				{
+		// 					type: "radiogroup",
+		// 					name: "temp_type",
+		// 					title: "Temperature Scale:",
+		// 					defaultValue: "°C",
+		// 					choices: ["°C", "°F"],
+		// 				},
+		// 				{
+		// 					type: "nouislider",
+		// 					name: "temperature_C",
+		// 					title: "Temperature °C",
+		// 					visibleIf: "{temp_type} = '°C'",
+		// 					enableIf: "{temp_type} = '°C'",
+		// 					isRequired: true,
+		// 					step: 0.1,
+		// 					rangeMin: 36,
+		// 					rangeMax: 41,
+		// 					pipsValues: null,
+		// 					pipsText: null,
+		// 					pipsDensity: 15,
+		// 					defaultValue: 38.5,
+		// 				},
+		// 				{
+		// 					type: "nouislider",
+		// 					name: "temperature_F",
+		// 					title: "Temperature °F",
+		// 					visibleIf: "{temp_type} = '°F'",
+		// 					enableIf: "{temp_type} = '°F'",
+		// 					isRequired: true,
+		// 					step: 0.1,
+		// 					rangeMin: 97,
+		// 					rangeMax: 106,
+		// 					pipsValues: null,
+		// 					pipsText: null,
+		// 					pipsDensity: 15,
+		// 					defaultValue: 101.5,
+		// 				},
+		// 			],
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	name: "page6",
+		// 	elements: [
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "smoker",
+		// 			title: "Are you a smoker?",
+		// 			isRequired: true,
+		// 			choices: [
+		// 				"No, I have never smoked.",
+		// 				"Yes, I am a current smoker.",
+		// 				"I have smoked in the past, but I don't smoke anymore.",
+		// 			],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "have_a_cough",
+		// 			title: "Do you have a cough?",
+		// 			isRequired: true,
+		// 			choices: ["Yes", "No"],
+		// 		},
+		// 		{
+		// 			type: "radiogroup",
+		// 			name: "days_coughing",
+		// 			title: "For how many days have you been coughing?",
+		// 			visibleIf: "{have_a_cough} = 'Yes'",
+		// 			enableIf: "{have_a_cough} = 'Yes'",
+		// 			isRequired: true,
+		// 			choices: ["1-3", "4-6", "7-9", "10-12", "13-15", ">15"],
+		// 		},
+		// 	],
+		// },
 		{
 			name: "page7",
 			elements: [
