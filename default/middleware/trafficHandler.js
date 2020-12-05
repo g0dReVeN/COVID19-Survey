@@ -26,6 +26,13 @@ module.exports = (req, res, next) => {
         "Samsung Browser",
         "Huawei Browser",
         "Android Browser",
+        "WhatsApp",
+      ].includes(device.client.name)
+    ) {
+      next();
+    } else if (
+      device.client &&
+      [
         "Facebook",
         "Facebook Messenger",
         "Facebook External Hit",
@@ -33,12 +40,11 @@ module.exports = (req, res, next) => {
         "Google Search App",
         "Google Play Newsstand",
         "Google Search Console",
-        "WhatsApp",
         "YouTube",
-        "Twitter"
+        "Twitter",
       ].includes(device.client.name)
     ) {
-      next();
+      res.redirect(302, "https://coughtest.page.link/native-browser");
     } else {
       res.redirect(303, "/platforms");
     }
