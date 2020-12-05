@@ -274,24 +274,29 @@ input:checked + .slider:before {
   border-radius: 15px;
   max-width: 600px;
   width: 100%;
-  padding: 5px;
   margin: 30px auto 50px auto;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  animation: float 5s infinite;
   text-align: center;
-  vertical-align: middle;
 }
 
 th {
   color: #fff;
   font-size: 23px;
   font-weight: 100;
-  padding: 24px;
+  padding: 18px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 th:first-child {
-  border-right: 1px solid #fff;
+  border: 1px solid #fff;
+  border-bottom: none;
+  border-top-left-radius: 15px;
+}
+
+th:nth-child(2) {
+  border: 1px solid #fff;
+  border-bottom: none;
+  border-top-right-radius: 15px;
 }
 
 tr:nth-child(odd) td {
@@ -311,7 +316,7 @@ tr:last-child td:last-child {
 }
 
 td {
-  padding: 20px;
+  padding: 15px;
   font-weight: 300;
   font-size: 18px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
