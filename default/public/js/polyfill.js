@@ -65,7 +65,7 @@
       key: "start",
       value: function (e) {
         if ("inactive" !== this.state) return this.em.dispatchEvent(d("start"));
-        this.state = "recording", b || (b = new h), this.clone = this.stream.clone(), this.input = b.createMediaStreamSource(this.clone), f || (f = b.createScriptProcessor(2048, 1, 1));
+        this.state = "recording", window.audioContext00 || (window.audioContext00 = new h()), b || (b = window.audioContext00), this.clone = this.stream.clone(), this.input = b.createMediaStreamSource(this.clone), f || (f = b.createScriptProcessor(2048, 1, 1));
         var t = this;
         t.encoder.postMessage(["init", b.sampleRate]), f.onaudioprocess = function (e) {
           "recording" === t.state && t.encoder.postMessage(["encode", e.inputBuffer.getChannelData(0)])

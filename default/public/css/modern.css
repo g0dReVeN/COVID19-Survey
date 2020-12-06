@@ -100,10 +100,20 @@
 }
 
 .sv-container-modern__title {
-  padding-left: 0.55em;
-  color: #1ab394;
-  padding-top: 5em;
-  padding-bottom: 0.9375em;
+  /* color: #1ab394; */
+  color: white;
+  margin-top: 5em;
+  margin-bottom: 0.9375em;
+  background: rgb(26, 179, 148);
+  border: 1px solid rgb(26, 179, 148);
+  border-radius: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  .sv-container-modern__title {
+    padding-top: 0.9375rem;
+    padding-bottom: 0.9375rem;
+  }
 }
 
 .sv-container-modern__title {
@@ -141,6 +151,12 @@
   border: none;
   padding: 0;
   margin: 0;
+}
+
+.sv-body__page {
+  background: #f6fcfb;
+  border: 2px solid rgb(26, 179, 148);
+  border-radius: 15px;
 }
 
 .sv-body__page,
@@ -287,7 +303,6 @@
 }
 
 .sv-paneldynamic__progress-text {
-  color: #9d9d9d;
   font-weight: bold;
   font-size: 0.87em;
   margin-top: 0.69em;
@@ -453,7 +468,6 @@
 
 .sv-progress {
   height: 0.19em;
-  background-color: #e7e7e7;
 }
 
 .sv-progress__bar {
@@ -465,13 +479,10 @@
 .sv-progress__text {
   position: absolute;
   margin-top: 0.69em;
-  color: #9d9d9d;
-  font-size: 0.87em;
+  font-size: 1em;
   font-weight: bold;
   padding-left: 0.6321em;
-}
-
-.sv-progress__text {
+  color: rgb(26, 179, 148);
   margin-left: 0.55rem;
 }
 
@@ -1098,7 +1109,6 @@
   -moz-appearance: none;
   appearance: none;
   border: 0.06em solid #d4d4d4;
-  border-radius: 0;
   box-sizing: border-box;
   padding: 0.25em 0.87em;
   font-family: inherit;
@@ -1106,6 +1116,8 @@
   outline: none;
   width: 100%;
   resize: none;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .sv-comment:focus {
@@ -1214,6 +1226,7 @@
 }
 
 .sv-logo--left {
+  background-color: white;
   display: inline-block;
   vertical-align: top;
   margin-right: 2em;
@@ -1223,6 +1236,15 @@
     display: block;
     width: 100%;
     text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .sv-logo--left {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 }
 
@@ -1248,10 +1270,16 @@
   text-align: center;
 }
 
+.sv-logo__image {
+  width: 200px;
+  height: 100px;
+}
+
 .sv-header__text {
   display: inline-block;
   vertical-align: top;
   height: 100px;
+  color: white;
 }
 @media only screen and (max-width: 1000px) {
   .sv-header__text {
@@ -1261,6 +1289,7 @@
 @media only screen and (max-width: 600px) {
   .sv-header__text {
     padding-bottom: 25px;
+    margin-top: 25px;
   }
 }
 
