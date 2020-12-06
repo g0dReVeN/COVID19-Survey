@@ -45,6 +45,9 @@ let observer = new MutationObserver(function (mutations) {
           var btnStopRecording;
           var btnReleaseMicrophone;
           var inputFileUpload;
+          var startTimer;
+          var stopTimer;
+          var resetTimer;
 
           var otherParentNode = document.querySelector('[title="Record"]').parentNode;
           var audio = document.querySelector('audio');
@@ -190,6 +193,7 @@ let observer = new MutationObserver(function (mutations) {
 
           function recordBtnHandlers() {
             btnStartRecording.addEventListener('click', () => {
+              resetTimer.click();
               navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
                 finishButton.disabled = true;
                 finishButton.style.backgroundColor = "#dddddd";
@@ -216,6 +220,8 @@ let observer = new MutationObserver(function (mutations) {
 
                 recorder.start();
 
+                startTimer.click();
+
                 var harkOptions = {
                   threshold: -40
                 };
@@ -236,6 +242,7 @@ let observer = new MutationObserver(function (mutations) {
             });
 
             btnStopRecording.addEventListener('click', () => {
+              stopTimer.click();
               clearTimeout(timeout);
               clearStreams();
               this.disabled = true;
@@ -304,7 +311,7 @@ let observer = new MutationObserver(function (mutations) {
           function replaceRecordingElements() {
             uploadOrRecordContent.innerHTML = "";
             uploadOrRecordContent.style.textAlign = "center";
-            uploadOrRecordContent.style.height = "50px";
+            uploadOrRecordContent.style.height = "110px";
             uploadOrRecordContent.style.marginTop = "50px";
 
             btnStartRecording = document.createElement('BUTTON');
@@ -320,12 +327,70 @@ let observer = new MutationObserver(function (mutations) {
             btnStartRecording.id = "record";
             btnStopRecording.id = "save";
 
+            startTimer = document.createElement('INPUT');
+            stopTimer = document.createElement('INPUT');
+            resetTimer = document.createElement('INPUT');
+            var stopwatchContainer = document.createElement('DIV');
+            var cell1 = document.createElement('DIV');
+            var cell2 = document.createElement('DIV');
+            var cell3 = document.createElement('DIV');
+            var cell4 = document.createElement('DIV');
+            var cell5 = document.createElement('DIV');
+            var cellSpan1 = document.createElement('SPAN');
+            var cellSpan2 = document.createElement('SPAN');
+            var cellSpan3 = document.createElement('SPAN');
+            var cellSpan4 = document.createElement('SPAN');
+            var cellSpan5 = document.createElement('SPAN');
+
+            startTimer.type = "radio";
+            stopTimer.type = "radio";
+            resetTimer.type = "radio";
+            startTimer.name = "controls";
+            stopTimer.name = "controls";
+            resetTimer.name = "controls";
+            startTimer.id = "startTimer";
+            stopTimer.id = "stopTimer";
+            resetTimer.id = "resetTimer";
+
+            stopwatchContainer.className = "stopwatch";
+            cell1.className = "cell";
+            cell2.className = "cell";
+            cell3.className = "cell";
+            cell4.className = "cell";
+            cell5.className = "cell";
+            cellSpan1.className = "num sex ten_sec";
+            cellSpan2.className = "num ten sec";
+            cellSpan3.className = "num";
+            cellSpan4.className = "num ten hund_mill";
+            cellSpan5.className = "num ten ten_mill";
+
+            cellSpan1.innerText = "0 1 2 3 4 5";
+            cellSpan2.innerText = "0 1 2 3 4 5 6 7 8 9";
+            cellSpan3.innerText = ":";
+            cellSpan4.innerText = "0 1 2 3 4 5 6 7 8 9";
+            cellSpan5.innerText = "0 1 2 3 4 5 6 7 8 9";
+
+            cell1.appendChild(cellSpan1);
+            cell2.appendChild(cellSpan2);
+            cell3.appendChild(cellSpan3);
+            cell4.appendChild(cellSpan4);
+            cell5.appendChild(cellSpan5);
+            stopwatchContainer.appendChild(cell1);
+            stopwatchContainer.appendChild(cell2);
+            stopwatchContainer.appendChild(cell3);
+            stopwatchContainer.appendChild(cell4);
+            stopwatchContainer.appendChild(cell5);
+
+            uploadOrRecordContent.appendChild(startTimer);
+            uploadOrRecordContent.appendChild(stopTimer);
+            uploadOrRecordContent.appendChild(resetTimer);
+            uploadOrRecordContent.appendChild(stopwatchContainer);
             uploadOrRecordContent.appendChild(btnStartRecording);
             uploadOrRecordContent.appendChild(btnStopRecording);
             uploadOrRecordContent.appendChild(btnReleaseMicrophone);
 
             $(".sv-description").css('color', 'rgb(64, 64, 64)');
-            $("#record, #save").css('left', `${$(".footer").width() / 2 - 25}px`);
+            $("#record, #save").css('left', `${$(".footer").width() / 2 - 29}px`);
 
             if (recordBlob) {
               if (heardCough) {
