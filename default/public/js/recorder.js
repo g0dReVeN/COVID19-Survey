@@ -1,3 +1,28 @@
+var stream;
+var harkMicrophone;
+var speech;
+var recorder;
+
+function clearStreams(stopRecoder = false) {
+  if (recorder) {
+    recorder.stop();
+    if (stopRecoder)
+      recorder = null;
+  }
+  if (stream) {
+    stream.stop();
+    stream = null;
+  }
+  if (speech) {
+    speech.stop();
+    speech = null;
+  }
+  if (harkMicrophone) {
+    harkMicrophone.stop();
+    harkMicrophone = null;
+  }
+}
+
 let observer = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
     if (!mutation.addedNodes) return
@@ -24,10 +49,7 @@ let observer = new MutationObserver(function (mutations) {
           var otherParentNode = document.querySelector('[title="Record"]').parentNode;
           var audio = document.querySelector('audio');
           var finishButton = document.getElementsByClassName("sv-btn sv-footer__complete-btn")[0];
-          var recorder;
-          var harkMicrophone;
           var heardCough;
-          var speech;
           var timeout;
           var recordBlob;
           var recordBlobUrl;
@@ -215,13 +237,7 @@ let observer = new MutationObserver(function (mutations) {
 
             btnStopRecording.addEventListener('click', () => {
               clearTimeout(timeout);
-              recorder.stop();
-              if (harkMicrophone) {
-                speech.stop();
-                speech = null;
-                harkMicrophone.stop();
-                harkMicrophone = null;
-              }
+              clearStreams();
               this.disabled = true;
               btnStopRecording.className = "notRec";
               btnStopRecording.style.visibility = "hidden";
@@ -354,6 +370,8 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           replaceRecordingElements();
+        } else {
+          clearStreams(true);
         }
       }
     }
