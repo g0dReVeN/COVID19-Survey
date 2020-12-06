@@ -74,12 +74,13 @@ let observer = new MutationObserver(function (mutations) {
           var startTimer;
           var stopTimer;
           var resetTimer;
+          var stopwatchContainer;
 
           var otherParentNode = document.querySelector('[title="Record"]').parentNode;
           var audio = document.querySelector('audio');
           var heardCough;
           var timeout;
-          var recordBlob;
+          var recordBlob = null;
           var recordBlobUrl;
           var uploadBlob;
           var uploadBlobUrl;
@@ -100,6 +101,7 @@ let observer = new MutationObserver(function (mutations) {
           var audioPlayable = true;
 
           newAudio.style.borderRadius = "15px";
+          newAudio.style.width = "250px";
           otherParentNode.innerHTML = "";
           otherParentNode.style.height = "350px";
           sliderParent.style.textAlign = "center";
@@ -241,10 +243,14 @@ let observer = new MutationObserver(function (mutations) {
 
           function recordBtnHandlers() {
             btnStartRecording.addEventListener('click', () => {
+              if (audio) {
+                audio.hidden = true;
+              }
+
               resetTimer.click();
+              stopwatchContainer.hidden = false;
+
               navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
-                finishButton.disabled = true;
-                finishButton.style.backgroundColor = "#dddddd";
                 btnStartRecording.disabled = true;
                 btnStartRecording.style.border = '';
                 btnStartRecording.style.fontSize = '';
@@ -283,14 +289,15 @@ let observer = new MutationObserver(function (mutations) {
 
                 btnStopRecording.disabled = false;
                 btnStopRecording.className = "Rec";
-                btnStartRecording.style.visibility = "hidden";
-                btnStopRecording.style.visibility = "visible";
+                btnStartRecording.hidden = true;
+                btnStopRecording.hidden = false;
                 timeout = setTimeout(function () { btnStopRecording.click(); }, 15000);
               });
             });
 
             btnStopRecording.addEventListener('click', () => {
               stopTimer.click();
+              stopwatchContainer.hidden = true;
               clearTimeout(timeout);
               clearStreams();
               this.disabled = true;
@@ -298,6 +305,7 @@ let observer = new MutationObserver(function (mutations) {
               btnStopRecording.hidden = true;
               btnStartRecording.hidden = false;
               btnStartRecording.disabled = false;
+              audio.hidden = false;
               // Remove “recording” icon from browser tab
               recorder.stream.getTracks().forEach((i) => i.stop());
             });
@@ -325,7 +333,7 @@ let observer = new MutationObserver(function (mutations) {
             uploadOrRecordContent.style.marginTop = "50px";
 
             inputFileUpload.type = "file";
-            inputFileUpload.accept = "application/octet-stream";
+            inputFileUpload.accept = "audio/*";
             inputFileUpload.className = "inputfile";
             inputFileUpload.id = "inputfile";
 
@@ -369,7 +377,7 @@ let observer = new MutationObserver(function (mutations) {
           function replaceRecordingElements() {
             uploadOrRecordContent.innerHTML = "";
             uploadOrRecordContent.style.textAlign = "center";
-            uploadOrRecordContent.style.height = "110px";
+            uploadOrRecordContent.style.height = "60px";
             uploadOrRecordContent.style.marginTop = "50px";
 
             btnStartRecording = document.createElement("BUTTON");
@@ -388,7 +396,7 @@ let observer = new MutationObserver(function (mutations) {
             startTimer = document.createElement('INPUT');
             stopTimer = document.createElement('INPUT');
             resetTimer = document.createElement('INPUT');
-            var stopwatchContainer = document.createElement('DIV');
+            stopwatchContainer = document.createElement('DIV');
             var cell1 = document.createElement('DIV');
             var cell2 = document.createElement('DIV');
             var cell3 = document.createElement('DIV');
@@ -411,6 +419,7 @@ let observer = new MutationObserver(function (mutations) {
             resetTimer.id = "resetTimer";
 
             stopwatchContainer.className = "stopwatch";
+            stopwatchContainer.hidden = true;
             cell1.className = "cell";
             cell2.className = "cell";
             cell3.className = "cell";
@@ -439,13 +448,13 @@ let observer = new MutationObserver(function (mutations) {
             stopwatchContainer.appendChild(cell4);
             stopwatchContainer.appendChild(cell5);
 
-            uploadOrRecordContent.appendChild(startTimer);
-            uploadOrRecordContent.appendChild(stopTimer);
-            uploadOrRecordContent.appendChild(resetTimer);
-            uploadOrRecordContent.appendChild(stopwatchContainer);
             uploadOrRecordContent.appendChild(btnStartRecording);
             uploadOrRecordContent.appendChild(btnStopRecording);
             uploadOrRecordContent.appendChild(btnReleaseMicrophone);
+            audioParent.appendChild(startTimer);
+            audioParent.appendChild(stopTimer);
+            audioParent.appendChild(resetTimer);
+            audioParent.appendChild(stopwatchContainer);
 
             $(".sv-description").css("color", "rgb(64, 64, 64)");
 
@@ -483,7 +492,7 @@ let observer = new MutationObserver(function (mutations) {
               audioParent.appendChild(newAudio);
               otherParentNode.appendChild(audioParent);
             } else {
-              parentNode.innerHTML = "";
+              document.getElementsByTagName('audio')[0].remove();
               parentNode.appendChild(newAudio);
               playable
                 ? parentNode.contains(notPlayableMessage)
