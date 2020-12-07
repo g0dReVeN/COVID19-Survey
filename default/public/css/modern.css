@@ -482,9 +482,12 @@
   margin-top: 0.69em;
   font-size: 1em;
   font-weight: bold;
-  padding-left: 0.6321em;
+  padding: 0 0.5em;
   color: rgb(26, 179, 148);
   margin-left: 0.55rem;
+  border: 1px solid rgb(26, 179, 148);
+  border-radius: 15px;
+  background-color: white;
 }
 
 @media only screen and (min-width: 768px) {

@@ -25,10 +25,10 @@ app.enable("trust proxy");
 app.use(cors());
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.head("/", async (req, res, next) => {
+app.head("/os", async (req, res, next) => {
   const device = deviceDetector.parse(req.headers["user-agent"]);
 
-  res.set("X-Platform", device.os && device.os.name ? device.os.name : "");
+  res.set("x-platform", device.os && device.os.name ? device.os.name : "").sendStatus(202);
 });
 
 app.get("/", trafficHandler, async (req, res, next) => {
