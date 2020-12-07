@@ -195,6 +195,7 @@ let observer = new MutationObserver(function (mutations) {
             btnStartRecording.addEventListener('click', () => {
               resetTimer.click();
               navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
+                audio.pause();
                 finishButton.disabled = true;
                 finishButton.style.backgroundColor = "#dddddd";
                 btnStartRecording.disabled = true;
