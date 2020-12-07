@@ -4,6 +4,7 @@ const cors = require("cors");
 const Multer = require("multer");
 const fetch = require("node-fetch");
 const { v4 } = require("uuid");
+const DeviceDetector = require("device-detector-js");
 const trafficHandler = require("./middleware/trafficHandler");
 const createTask = require("./events/createTask");
 const uploadFile = require("./events/uploadFile");
@@ -11,6 +12,7 @@ const uploadFile = require("./events/uploadFile");
 const RECAPTCHA_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_V3_SECRET_KEY}&response=`;
 const PORT = process.env.PORT;
 
+const deviceDetector = new DeviceDetector();
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -22,6 +24,12 @@ const app = express();
 app.enable("trust proxy");
 app.use(cors());
 app.use(express.static(path.join(__dirname, "/public")));
+
+app.head("/os", async (req, res, next) => {
+  const device = deviceDetector.parse(req.headers["user-agent"]);
+
+  res.set("x-platform", device.os && device.os.name ? device.os.name : "").sendStatus(202);
+});
 
 app.get("/", trafficHandler, async (req, res, next) => {
   res.sendFile(path.join(__dirname, "/views/index.html"));
