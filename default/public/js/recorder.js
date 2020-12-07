@@ -333,7 +333,7 @@ let observer = new MutationObserver(function (mutations) {
             uploadOrRecordContent.style.marginTop = "50px";
 
             inputFileUpload.type = "file";
-            inputFileUpload.accept = "audio/*";
+            inputFileUpload.accept = "application/octet-stream";
             inputFileUpload.className = "inputfile";
             inputFileUpload.id = "inputfile";
 
