@@ -264,7 +264,8 @@ let observer = new MutationObserver(function (mutations) {
               stopwatchContainer.hidden = false;
 
               navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
-                audio.pause();
+                if (!audio.paused)
+                  audio.pause();
                 btnStartRecording.disabled = true;
                 btnStartRecording.style.border = '';
                 btnStartRecording.style.fontSize = '';
