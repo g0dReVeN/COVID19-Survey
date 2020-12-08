@@ -5,6 +5,7 @@ module.exports = (req, res, next) => {
     const deviceDetector = new DeviceDetector();
     const device = deviceDetector.parse(req.headers["user-agent"]);
 
+    console.log(device);
     if (
       device.os &&
       device.os.name === "iOS" &&

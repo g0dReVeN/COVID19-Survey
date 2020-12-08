@@ -480,7 +480,7 @@
 .sv-progress__text {
   position: absolute;
   margin-top: 0.69em;
-  font-size: 1em;
+  font-size: 0.85em;
   font-weight: bold;
   padding: 0 0.5em;
   color: rgb(26, 179, 148);
