@@ -6,8 +6,7 @@ var recorder;
 function clearStreams(stopRecoder = false) {
   if (recorder) {
     recorder.stop();
-    if (stopRecoder)
-      recorder = null;
+    if (stopRecoder) recorder = null;
   }
   if (stream) {
     stream.stop();
@@ -45,7 +44,7 @@ let observer = new MutationObserver(function (mutations) {
         .find("div.sv-page.sv-body__page")
         .removeClass("sv-body__page")
         .addClass("sv-body__footer");
-        target2Flag = false;
+      target2Flag = false;
     }
 
     const target3 = document.getElementsByClassName(
@@ -58,7 +57,7 @@ let observer = new MutationObserver(function (mutations) {
       $("div.sv-progress.sv-body__progress")
         .find("span")
         .css("color", "rgb(26, 179, 148)");
-        target3Flag = false;
+      target3Flag = false;
     }
 
     for (let i = 0; i < mutation.addedNodes.length; i++) {
@@ -76,8 +75,9 @@ let observer = new MutationObserver(function (mutations) {
           var resetTimer;
           var stopwatchContainer;
 
-          var otherParentNode = document.querySelector('[title="Record"]').parentNode;
-          var audio = document.querySelector('audio');
+          var otherParentNode = document.querySelector('[title="Record"]')
+            .parentNode;
+          var audio = document.querySelector("audio");
           var heardCough;
           var timeout;
           var recordBlob = null;
@@ -132,6 +132,13 @@ let observer = new MutationObserver(function (mutations) {
             if (!sliderInput.checked) replaceRecordingElements();
             else replaceUploadElements();
           });
+
+          (async function () {
+            const deviceOS = await device;
+
+            if (deviceOS.headers.get("x-platform") === "iOS")
+              sliderParent.hidden = true;
+          })();
 
           function convertDataURIToBinary(dataURI) {
             var base64Index =
@@ -242,7 +249,7 @@ let observer = new MutationObserver(function (mutations) {
           }
 
           function recordBtnHandlers() {
-            btnStartRecording.addEventListener('click', () => {
+            btnStartRecording.addEventListener("click", () => {
               if (audio) {
                 audio.hidden = true;
               }
@@ -250,52 +257,61 @@ let observer = new MutationObserver(function (mutations) {
               resetTimer.click();
               stopwatchContainer.hidden = false;
 
-              navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } }).then(stream => {
-                btnStartRecording.disabled = true;
-                btnStartRecording.style.border = '';
-                btnStartRecording.style.fontSize = '';
-                heardCough = false;
+              navigator.mediaDevices
+                .getUserMedia({ audio: { echoCancellation: true } })
+                .then((stream) => {
+                  if (audio && !audio.paused) audio.pause();
 
-                recorder = new MediaRecorder(stream);
+                  btnStartRecording.disabled = true;
+                  btnStartRecording.style.border = "";
+                  btnStartRecording.style.fontSize = "";
+                  heardCough = false;
 
-                recorder.addEventListener('dataavailable', e => {
-                  recordBlob = e.data;
-                  recordBlobUrl = URL.createObjectURL(recordBlob);
-                  replaceAudio(recordBlobUrl);
-                  if (heardCough) {
-                    recorderResult = e.data;
-                    fileName = 'file.wav';
-                    $("#sq_122_ariaTitle").css('background-color', 'rgba(26, 179, 148, 0.2)');
-                  } else {
-                    recorderResult = -1;
-                    fileName = null;
-                  }
+                  recorder = new MediaRecorder(stream);
+
+                  recorder.addEventListener("dataavailable", (e) => {
+                    recordBlob = e.data;
+                    recordBlobUrl = URL.createObjectURL(recordBlob);
+                    replaceAudio(recordBlobUrl);
+                    if (heardCough) {
+                      recorderResult = e.data;
+                      fileName = "file.wav";
+                      $("#sq_122_ariaTitle").css(
+                        "background-color",
+                        "rgba(26, 179, 148, 0.2)"
+                      );
+                    } else {
+                      recorderResult = -1;
+                      fileName = null;
+                    }
+                  });
+
+                  recorder.start();
+
+                  startTimer.click();
+
+                  var harkOptions = {
+                    threshold: -40,
+                  };
+                  harkMicrophone = stream.clone();
+                  speech = hark(harkMicrophone, harkOptions);
+
+                  speech.on("speaking", function () {
+                    console.log("cough detected");
+                    heardCough = true;
+                  });
+
+                  btnStopRecording.disabled = false;
+                  btnStopRecording.className = "Rec";
+                  btnStartRecording.hidden = true;
+                  btnStopRecording.hidden = false;
+                  timeout = setTimeout(function () {
+                    btnStopRecording.click();
+                  }, 15000);
                 });
-
-                recorder.start();
-
-                startTimer.click();
-
-                var harkOptions = {
-                  threshold: -40
-                };
-                harkMicrophone = stream.clone();
-                speech = hark(harkMicrophone, harkOptions);
-
-                speech.on('speaking', function () {
-                  console.log('cough detected');
-                  heardCough = true;
-                });
-
-                btnStopRecording.disabled = false;
-                btnStopRecording.className = "Rec";
-                btnStartRecording.hidden = true;
-                btnStopRecording.hidden = false;
-                timeout = setTimeout(function () { btnStopRecording.click(); }, 15000);
-              });
             });
 
-            btnStopRecording.addEventListener('click', () => {
+            btnStopRecording.addEventListener("click", () => {
               stopTimer.click();
               stopwatchContainer.hidden = true;
               clearTimeout(timeout);
@@ -333,7 +349,7 @@ let observer = new MutationObserver(function (mutations) {
             uploadOrRecordContent.style.marginTop = "50px";
 
             inputFileUpload.type = "file";
-            inputFileUpload.accept = "audio/*";
+            inputFileUpload.accept = "application/octet-stream";
             inputFileUpload.className = "inputfile";
             inputFileUpload.id = "inputfile";
 
@@ -393,20 +409,20 @@ let observer = new MutationObserver(function (mutations) {
             btnStartRecording.id = "record";
             btnStopRecording.id = "save";
 
-            startTimer = document.createElement('INPUT');
-            stopTimer = document.createElement('INPUT');
-            resetTimer = document.createElement('INPUT');
-            stopwatchContainer = document.createElement('DIV');
-            var cell1 = document.createElement('DIV');
-            var cell2 = document.createElement('DIV');
-            var cell3 = document.createElement('DIV');
-            var cell4 = document.createElement('DIV');
-            var cell5 = document.createElement('DIV');
-            var cellSpan1 = document.createElement('SPAN');
-            var cellSpan2 = document.createElement('SPAN');
-            var cellSpan3 = document.createElement('SPAN');
-            var cellSpan4 = document.createElement('SPAN');
-            var cellSpan5 = document.createElement('SPAN');
+            startTimer = document.createElement("INPUT");
+            stopTimer = document.createElement("INPUT");
+            resetTimer = document.createElement("INPUT");
+            stopwatchContainer = document.createElement("DIV");
+            var cell1 = document.createElement("DIV");
+            var cell2 = document.createElement("DIV");
+            var cell3 = document.createElement("DIV");
+            var cell4 = document.createElement("DIV");
+            var cell5 = document.createElement("DIV");
+            var cellSpan1 = document.createElement("SPAN");
+            var cellSpan2 = document.createElement("SPAN");
+            var cellSpan3 = document.createElement("SPAN");
+            var cellSpan4 = document.createElement("SPAN");
+            var cellSpan5 = document.createElement("SPAN");
 
             startTimer.type = "radio";
             stopTimer.type = "radio";
@@ -492,7 +508,7 @@ let observer = new MutationObserver(function (mutations) {
               audioParent.appendChild(newAudio);
               otherParentNode.appendChild(audioParent);
             } else {
-              document.getElementsByTagName('audio')[0].remove();
+              document.getElementsByTagName("audio")[0].remove();
               parentNode.appendChild(newAudio);
               playable
                 ? parentNode.contains(notPlayableMessage)

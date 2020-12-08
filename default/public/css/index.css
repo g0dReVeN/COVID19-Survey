@@ -2,8 +2,8 @@ body {
   width: 100%;
   padding: 0px;
   margin: 0px;
-  background-image: url('../assets/doodle3.png');
-	background-repeat: repeat;
+  background-image: url("../assets/doodle3.png");
+  background-repeat: repeat;
   background-color: #f6fcfb;
 }
 
@@ -232,6 +232,16 @@ input:checked + .slider:before {
 
 .platform {
   margin-top: 2rem;
+  background-color: rgb(26, 179, 148);
+  color: white;
+  border-radius: 15px;
+  margin-left: 0.55rem;
+  margin-right: 0.55rem;
+  padding: 25px;
+  font-size: 2rem;
+  font-weight: 700;
+  max-width: 800px;
+  text-align: center;
 }
 
 @media screen and (min-width: 375px) {
@@ -246,7 +256,7 @@ input:checked + .slider:before {
   }
 
   .platform {
-    padding: 0 30px;
+    margin: 2rem auto
   }
 
   .inputfile + label {
@@ -302,11 +312,11 @@ th:nth-child(2) {
 }
 
 tr:nth-child(odd) td {
-  background: #E8F7F4;
+  background: #e8f7f4;
 }
 
 tr:nth-child(even) td {
-  background: #F8FCFB;
+  background: #f8fcfb;
 }
 
 tr:last-child td:first-child {
